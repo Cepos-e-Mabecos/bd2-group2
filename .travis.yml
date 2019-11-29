@@ -6,8 +6,5 @@ services:
 before_script:
   - docker-compose up --detach --build
 
-script:
-  - docker exec postgres psql database
-
 after_script:
   - docker-compose down
