@@ -48,7 +48,7 @@ LANGUAGE plpgsql
 AS $updateFuncionarios$
 BEGIN
 
-    UPDATE Funcionarios SET (nome, cod_Restaurante) = (SELECT nome, cod_Restaurante FROM JSON_POPULATE_RECORD(NULL::Funcionarios,$2)) WHERE cod_Funcionario = $1;
+    UPDATE Funcionarios SET (nome, cod_Restaurante, cod_LocalConsumo) = (SELECT nome, cod_Restaurante, cod_LocalConsumo FROM JSON_POPULATE_RECORD(NULL::Funcionarios,$2)) WHERE cod_Funcionario = $1;
 
 END
 $updateFuncionarios$;

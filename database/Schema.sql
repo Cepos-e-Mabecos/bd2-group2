@@ -22,17 +22,18 @@ CREATE TABLE Restaurantes (
   cod_Local VARCHAR(10) NOT NULL REFERENCES Locais(cod_Local) ON DELETE CASCADE,
   PRIMARY KEY(cod_Restaurante)
 );
-CREATE TABLE Funcionarios (
-  cod_Funcionario VARCHAR(10) NOT NULL,
-  nome VARCHAR(256) NOT NULL,
-  cod_Restaurante VARCHAR(10) NOT NULL REFERENCES Restaurantes(cod_Restaurante) ON DELETE CASCADE,
-  PRIMARY KEY(cod_Funcionario)
-);
 CREATE TABLE LocaisConsumo (
   cod_LocalConsumo VARCHAR(10) NOT NULL,
   designacao VARCHAR(256) NOT NULL,
   cod_Restaurante VARCHAR(10) NOT NULL REFERENCES Restaurantes(cod_Restaurante) ON DELETE CASCADE,
   PRIMARY KEY(cod_LocalConsumo)
+);
+CREATE TABLE Funcionarios (
+  cod_Funcionario VARCHAR(10) NOT NULL,
+  nome VARCHAR(256) NOT NULL,
+  cod_Restaurante VARCHAR(10) NOT NULL REFERENCES Restaurantes(cod_Restaurante) ON DELETE CASCADE,
+  cod_LocalConsumo VARCHAR(10) NOT NULL REFERENCES LocaisConsumo(cod_LocalConsumo) ON DELETE CASCADE,
+  PRIMARY KEY(cod_Funcionario)
 );
 CREATE TABLE TiposEmenta (
   cod_TipoEmenta VARCHAR(10) NOT NULL,

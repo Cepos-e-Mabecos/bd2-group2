@@ -45,7 +45,7 @@ LANGUAGE plpgsql
 AS $insertFuncionarios$
 DECLARE cod VARCHAR(10) := generate_uid(10);
 BEGIN
-    INSERT INTO Funcionarios SELECT cod, nome, cod_Restaurante FROM JSON_POPULATE_RECORD(NULL::Funcionarios, $1);
+    INSERT INTO Funcionarios SELECT cod, nome, cod_Restaurante, cod_LocalConsumo FROM JSON_POPULATE_RECORD(NULL::Funcionarios, $1);
 END
 $insertFuncionarios$;
 
