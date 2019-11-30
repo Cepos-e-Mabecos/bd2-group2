@@ -1,0 +1,13 @@
+language: python
+
+services:
+  - docker
+
+before_script:
+  - docker-compose up --detach --build
+
+script:
+  - docker ps -a
+
+after_script:
+  - docker-compose down
