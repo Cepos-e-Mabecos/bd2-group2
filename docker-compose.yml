@@ -6,10 +6,12 @@ services:
     restart: on-failure
     image: database
     container_name: database
+    env_file: env.list
   api:
     build: ./api
     restart: on-failure
     image: api
     container_name: api
+    env_file: env.list
     depends_on: 
       - database
