@@ -4,7 +4,7 @@ CREATE EXTENSION pgcrypto;
 -- This will create a random uuid with length=size
 CREATE OR REPLACE FUNCTION generate_uid(size INT) RETURNS TEXT AS $$
 DECLARE
-  characters TEXT := 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
+  characters TEXT := 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_';
   bytes BYTEA := gen_random_bytes(size);
   l INT := length(characters);
   i INT := 0;
