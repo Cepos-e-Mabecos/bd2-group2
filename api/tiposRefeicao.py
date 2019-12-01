@@ -1,28 +1,121 @@
-from flask import Blueprint
+from flask import Blueprint, request, jsonify
+import psycopg2
+import json
 
 tiposRefeicao = Blueprint('tiposRefeicao', __name__)
 
 
 @tiposRefeicao.route('/api/tiposrefeicao', methods=['GET'])
 def get_tiposrefeicao():
-    return 'GET TiposRefeicao'
+    try:
+        connection = psycopg2.connect(
+            user="root", password="root", host="localhost", port="5432", database="bd")
+
+        cursor = connection.cursor()
+        cursor.execute("SELECT * FROM TiposRefeicao;")
+        query_result = cursor.fetchall()
+        connection.commit()
+
+    except (Exception, psycopg2.Error) as error:
+        return jsonify({'message': error}), 400
+
+    finally:
+        # closing database connection.
+        if(connection):
+            cursor.close()
+            connection.close()
+            print("PostgreSQL connection is closed")
+    return jsonify({'message': query_result}), 200
 
 
 @tiposRefeicao.route('/api/tiposrefeicao/<cod_TipoRefeicao>', methods=['GET'])
 def get_tiporefeicao(cod_TipoRefeicao):
-    return 'GET TiposRefeicao'
+    try:
+        connection = psycopg2.connect(
+            user="root", password="root", host="localhost", port="5432", database="bd")
+
+        cursor = connection.cursor()
+        cursor.execute(
+            "SELECT * FROM TiposRefeicao WHERE cod_TipoRefeicao = %s;", (cod_TipoRefeicao,))
+        query_result = cursor.fetchone()
+        connection.commit()
+
+    except (Exception, psycopg2.Error) as error:
+        return jsonify({'message': error}), 400
+
+    finally:
+        # closing database connection.
+        if(connection):
+            cursor.close()
+            connection.close()
+            print("PostgreSQL connection is closed")
+    return jsonify({'message': query_result}), 200
 
 
 @tiposRefeicao.route('/api/tiposrefeicao', methods=['POST'])
 def post_tiporefeicao():
-    return 'POST TiposRefeicao'
+    try:
+        connection = psycopg2.connect(
+            user="root", password="root", host="localhost", port="5432", database="bd")
+
+        cursor = connection.cursor()
+        cursor.execute("call insertTiposRefeicao(%s);",
+                       (json.dumps(request.json),))
+        connection.commit()
+
+    except (Exception, psycopg2.Error) as error:
+        return jsonify({'message': error}), 400
+
+    finally:
+        # closing database connection.
+        if(connection):
+            cursor.close()
+            connection.close()
+            print("PostgreSQL connection is closed")
+    return jsonify({'message': request.json}), 200
 
 
 @tiposRefeicao.route('/api/tiposrefeicao/<cod_TipoRefeicao>', methods=['PUT'])
 def put_tiporefeicao(cod_TipoRefeicao):
-    return 'PUT TiposRefeicao'
+    try:
+        connection = psycopg2.connect(
+            user="root", password="root", host="localhost", port="5432", database="bd")
+
+        cursor = connection.cursor()
+        cursor.execute("call updateTiposRefeicao(%s,%s);",
+                       (cod_TipoRefeicao, json.dumps(request.json)))
+        connection.commit()
+
+    except (Exception, psycopg2.Error) as error:
+        return jsonify({'message': error}), 400
+
+    finally:
+        # closing database connection.
+        if(connection):
+            cursor.close()
+            connection.close()
+            print("PostgreSQL connection is closed")
+    return jsonify({'message': request.json}), 200
 
 
 @tiposRefeicao.route('/api/tiposrefeicao/<cod_TipoRefeicao>', methods=['DELETE'])
 def delete_tiporefeicao(cod_TipoRefeicao):
-    return 'DELETE TiposRefeicao'
+    try:
+        connection = psycopg2.connect(
+            user="root", password="root", host="localhost", port="5432", database="bd")
+
+        cursor = connection.cursor()
+        cursor.execute("call deleteTiposRefeicao(%s);",
+                       (cod_TipoRefeicao,))
+        connection.commit()
+
+    except (Exception, psycopg2.Error) as error:
+        return jsonify({'message': error}), 400
+
+    finally:
+        # closing database connection.
+        if(connection):
+            cursor.close()
+            connection.close()
+            print("PostgreSQL connection is closed")
+    return jsonify({'message': "Success"}), 200

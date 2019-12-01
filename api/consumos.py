@@ -1,28 +1,121 @@
-from flask import Blueprint
+from flask import Blueprint, request, jsonify
+import psycopg2
+import json
 
 consumos = Blueprint('consumos', __name__)
 
 
 @consumos.route('/api/consumos', methods=['GET'])
 def get_consumos():
-    return 'GET Consumos'
+    try:
+        connection = psycopg2.connect(
+            user="root", password="root", host="localhost", port="5432", database="bd")
+
+        cursor = connection.cursor()
+        cursor.execute("SELECT * FROM Consumos;")
+        query_result = cursor.fetchall()
+        connection.commit()
+
+    except (Exception, psycopg2.Error) as error:
+        return jsonify({'message': error}), 400
+
+    finally:
+        # closing database connection.
+        if(connection):
+            cursor.close()
+            connection.close()
+            print("PostgreSQL connection is closed")
+    return jsonify({'message': query_result}), 200
 
 
 @consumos.route('/api/consumos/<cod_Consumo>', methods=['GET'])
 def get_consumo(cod_Consumo):
-    return 'GET Consumos'
+    try:
+        connection = psycopg2.connect(
+            user="root", password="root", host="localhost", port="5432", database="bd")
+
+        cursor = connection.cursor()
+        cursor.execute(
+            "SELECT * FROM Consumos WHERE cod_Consumo = %s;", (cod_Consumo,))
+        query_result = cursor.fetchone()
+        connection.commit()
+
+    except (Exception, psycopg2.Error) as error:
+        return jsonify({'message': error}), 400
+
+    finally:
+        # closing database connection.
+        if(connection):
+            cursor.close()
+            connection.close()
+            print("PostgreSQL connection is closed")
+    return jsonify({'message': query_result}), 200
 
 
 @consumos.route('/api/consumos', methods=['POST'])
 def post_consumo():
-    return 'POST Consumos'
+    try:
+        connection = psycopg2.connect(
+            user="root", password="root", host="localhost", port="5432", database="bd")
+
+        cursor = connection.cursor()
+        cursor.execute("call insertConsumos(%s);",
+                       (json.dumps(request.json),))
+        connection.commit()
+
+    except (Exception, psycopg2.Error) as error:
+        return jsonify({'message': error}), 400
+
+    finally:
+        # closing database connection.
+        if(connection):
+            cursor.close()
+            connection.close()
+            print("PostgreSQL connection is closed")
+    return jsonify({'message': request.json}), 200
 
 
 @consumos.route('/api/consumos/<cod_Consumo>', methods=['PUT'])
 def put_consumo(cod_Consumo):
-    return 'PUT Consumos'
+    try:
+        connection = psycopg2.connect(
+            user="root", password="root", host="localhost", port="5432", database="bd")
+
+        cursor = connection.cursor()
+        cursor.execute("call updateConsumos(%s,%s);",
+                       (cod_Consumo, json.dumps(request.json)))
+        connection.commit()
+
+    except (Exception, psycopg2.Error) as error:
+        return jsonify({'message': error}), 400
+
+    finally:
+        # closing database connection.
+        if(connection):
+            cursor.close()
+            connection.close()
+            print("PostgreSQL connection is closed")
+    return jsonify({'message': request.json}), 200
 
 
 @consumos.route('/api/consumos/<cod_Consumo>', methods=['DELETE'])
 def delete_consumo(cod_Consumo):
-    return 'DELETE Consumos'
+    try:
+        connection = psycopg2.connect(
+            user="root", password="root", host="localhost", port="5432", database="bd")
+
+        cursor = connection.cursor()
+        cursor.execute("call deleteConsumos(%s);",
+                       (cod_Consumo,))
+        connection.commit()
+
+    except (Exception, psycopg2.Error) as error:
+        return jsonify({'message': error}), 400
+
+    finally:
+        # closing database connection.
+        if(connection):
+            cursor.close()
+            connection.close()
+            print("PostgreSQL connection is closed")
+    return jsonify({'message': "Success"}), 200
