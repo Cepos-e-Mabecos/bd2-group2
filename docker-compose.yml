@@ -4,5 +4,11 @@ services:
   database:
     build: ./database
     restart: on-failure
-    image: postgres
-    container_name: postgres
+    image: database
+    container_name: database
+  api:
+    build: ./api
+    restart: on-failure
+    image: api
+    container_name: api
+    depends_on: database
