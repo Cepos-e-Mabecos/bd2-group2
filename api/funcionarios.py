@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify
 import psycopg2
 import json
+import sys
 
 funcionarios = Blueprint('funcionarios', __name__)
 
@@ -8,8 +9,7 @@ funcionarios = Blueprint('funcionarios', __name__)
 @funcionarios.route('/api/funcionarios', methods=['GET'])
 def get_funcionarios():
     try:
-        connection = psycopg2.connect(
-            user="root", password="root", host="localhost", port="5432", database="bd")
+        connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
         cursor.execute("SELECT * FROM Funcionarios;")
@@ -31,8 +31,7 @@ def get_funcionarios():
 @funcionarios.route('/api/funcionarios/<cod_Funcionario>', methods=['GET'])
 def get_funcionario(cod_Funcionario):
     try:
-        connection = psycopg2.connect(
-            user="root", password="root", host="localhost", port="5432", database="bd")
+        connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
         cursor.execute(
@@ -55,8 +54,7 @@ def get_funcionario(cod_Funcionario):
 @funcionarios.route('/api/funcionarios', methods=['POST'])
 def post_funcionario():
     try:
-        connection = psycopg2.connect(
-            user="root", password="root", host="localhost", port="5432", database="bd")
+        connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
         cursor.execute("call insertFuncionarios(%s);",
@@ -78,8 +76,7 @@ def post_funcionario():
 @funcionarios.route('/api/funcionarios/<cod_Funcionario>', methods=['PUT'])
 def put_funcionario(cod_Funcionario):
     try:
-        connection = psycopg2.connect(
-            user="root", password="root", host="localhost", port="5432", database="bd")
+        connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
         cursor.execute("call updateFuncionarios(%s,%s);",
@@ -101,8 +98,7 @@ def put_funcionario(cod_Funcionario):
 @funcionarios.route('/api/funcionarios/<cod_Funcionario>', methods=['DELETE'])
 def delete_funcionario(cod_Funcionario):
     try:
-        connection = psycopg2.connect(
-            user="root", password="root", host="localhost", port="5432", database="bd")
+        connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
         cursor.execute("call deleteFuncionarios(%s);",

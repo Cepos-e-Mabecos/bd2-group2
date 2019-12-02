@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify
 import psycopg2
 import json
+import sys
 
 tiposEmenta = Blueprint('tiposEmenta', __name__)
 
@@ -8,8 +9,7 @@ tiposEmenta = Blueprint('tiposEmenta', __name__)
 @tiposEmenta.route('/api/tiposementa', methods=['GET'])
 def get_tiposementa():
     try:
-        connection = psycopg2.connect(
-            user="root", password="root", host="localhost", port="5432", database="bd")
+        connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
         cursor.execute("SELECT * FROM TiposEmenta;")
@@ -31,8 +31,7 @@ def get_tiposementa():
 @tiposEmenta.route('/api/tiposementa/<cod_TipoEmenta>', methods=['GET'])
 def get_tipoementa(cod_TipoEmenta):
     try:
-        connection = psycopg2.connect(
-            user="root", password="root", host="localhost", port="5432", database="bd")
+        connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
         cursor.execute(
@@ -55,8 +54,7 @@ def get_tipoementa(cod_TipoEmenta):
 @tiposEmenta.route('/api/tiposementa', methods=['POST'])
 def post_tipoementa():
     try:
-        connection = psycopg2.connect(
-            user="root", password="root", host="localhost", port="5432", database="bd")
+        connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
         cursor.execute("call insertTiposEmenta(%s);",
@@ -78,8 +76,7 @@ def post_tipoementa():
 @tiposEmenta.route('/api/tiposementa/<cod_TipoEmenta>', methods=['PUT'])
 def put_tipoementa(cod_TipoEmenta):
     try:
-        connection = psycopg2.connect(
-            user="root", password="root", host="localhost", port="5432", database="bd")
+        connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
         cursor.execute("call updateTiposEmenta(%s,%s);",
@@ -101,8 +98,7 @@ def put_tipoementa(cod_TipoEmenta):
 @tiposEmenta.route('/api/tiposementa/<cod_TipoEmenta>', methods=['DELETE'])
 def delete_tipoementa(cod_TipoEmenta):
     try:
-        connection = psycopg2.connect(
-            user="root", password="root", host="localhost", port="5432", database="bd")
+        connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
         cursor.execute("call deleteTiposEmenta(%s);",

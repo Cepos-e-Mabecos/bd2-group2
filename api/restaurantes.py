@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify
 import psycopg2
 import json
+import sys
 
 restaurantes = Blueprint('restaurantes', __name__)
 
@@ -8,8 +9,7 @@ restaurantes = Blueprint('restaurantes', __name__)
 @restaurantes.route('/api/restaurantes', methods=['GET'])
 def get_restaurantes():
     try:
-        connection = psycopg2.connect(
-            user="root", password="root", host="localhost", port="5432", database="bd")
+        connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
         cursor.execute("SELECT * FROM Restaurantes;")
@@ -31,8 +31,7 @@ def get_restaurantes():
 @restaurantes.route('/api/restaurantes/<cod_Restaurante>', methods=['GET'])
 def get_restaurante(cod_Restaurante):
     try:
-        connection = psycopg2.connect(
-            user="root", password="root", host="localhost", port="5432", database="bd")
+        connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
         cursor.execute(
@@ -55,8 +54,7 @@ def get_restaurante(cod_Restaurante):
 @restaurantes.route('/api/restaurantes', methods=['POST'])
 def post_restaurante():
     try:
-        connection = psycopg2.connect(
-            user="root", password="root", host="localhost", port="5432", database="bd")
+        connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
         cursor.execute("call insertRestaurantes(%s);",
@@ -78,8 +76,7 @@ def post_restaurante():
 @restaurantes.route('/api/restaurantes/<cod_Restaurante>', methods=['PUT'])
 def put_restaurante(cod_Restaurante):
     try:
-        connection = psycopg2.connect(
-            user="root", password="root", host="localhost", port="5432", database="bd")
+        connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
         cursor.execute("call updateRestaurantes(%s,%s);",
@@ -101,8 +98,7 @@ def put_restaurante(cod_Restaurante):
 @restaurantes.route('/api/restaurantes/<cod_Restaurante>', methods=['DELETE'])
 def delete_restaurante(cod_Restaurante):
     try:
-        connection = psycopg2.connect(
-            user="root", password="root", host="localhost", port="5432", database="bd")
+        connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
         cursor.execute("call deleteRestaurantes(%s);",

@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify
 import psycopg2
 import json
+import sys
 
 datas = Blueprint('datas', __name__)
 
@@ -8,8 +9,7 @@ datas = Blueprint('datas', __name__)
 @datas.route('/api/datas', methods=['GET'])
 def get_datas():
     try:
-        connection = psycopg2.connect(
-            user="root", password="root", host="localhost", port="5432", database="bd")
+        connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
         cursor.execute("SELECT * FROM Datas;")
@@ -31,8 +31,7 @@ def get_datas():
 @datas.route('/api/datas/<cod_Data>', methods=['GET'])
 def get_data(cod_Data):
     try:
-        connection = psycopg2.connect(
-            user="root", password="root", host="localhost", port="5432", database="bd")
+        connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
         cursor.execute(
@@ -55,8 +54,7 @@ def get_data(cod_Data):
 @datas.route('/api/datas', methods=['POST'])
 def post_data():
     try:
-        connection = psycopg2.connect(
-            user="root", password="root", host="localhost", port="5432", database="bd")
+        connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
         cursor.execute("call insertDatas(%s);",
@@ -78,8 +76,7 @@ def post_data():
 @datas.route('/api/datas/<cod_Data>', methods=['PUT'])
 def put_data(cod_Data):
     try:
-        connection = psycopg2.connect(
-            user="root", password="root", host="localhost", port="5432", database="bd")
+        connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
         cursor.execute("call updateDatas(%s,%s);",
@@ -101,8 +98,7 @@ def put_data(cod_Data):
 @datas.route('/api/datas/<cod_Data>', methods=['DELETE'])
 def delete_data(cod_Data):
     try:
-        connection = psycopg2.connect(
-            user="root", password="root", host="localhost", port="5432", database="bd")
+        connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
         cursor.execute("call deleteDatas(%s);",

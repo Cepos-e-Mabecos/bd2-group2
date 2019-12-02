@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify
 import psycopg2
 import json
+import sys
 
 tiposRefeicao = Blueprint('tiposRefeicao', __name__)
 
@@ -8,8 +9,7 @@ tiposRefeicao = Blueprint('tiposRefeicao', __name__)
 @tiposRefeicao.route('/api/tiposrefeicao', methods=['GET'])
 def get_tiposrefeicao():
     try:
-        connection = psycopg2.connect(
-            user="root", password="root", host="localhost", port="5432", database="bd")
+        connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
         cursor.execute("SELECT * FROM TiposRefeicao;")
@@ -31,8 +31,7 @@ def get_tiposrefeicao():
 @tiposRefeicao.route('/api/tiposrefeicao/<cod_TipoRefeicao>', methods=['GET'])
 def get_tiporefeicao(cod_TipoRefeicao):
     try:
-        connection = psycopg2.connect(
-            user="root", password="root", host="localhost", port="5432", database="bd")
+        connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
         cursor.execute(
@@ -55,8 +54,7 @@ def get_tiporefeicao(cod_TipoRefeicao):
 @tiposRefeicao.route('/api/tiposrefeicao', methods=['POST'])
 def post_tiporefeicao():
     try:
-        connection = psycopg2.connect(
-            user="root", password="root", host="localhost", port="5432", database="bd")
+        connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
         cursor.execute("call insertTiposRefeicao(%s);",
@@ -78,8 +76,7 @@ def post_tiporefeicao():
 @tiposRefeicao.route('/api/tiposrefeicao/<cod_TipoRefeicao>', methods=['PUT'])
 def put_tiporefeicao(cod_TipoRefeicao):
     try:
-        connection = psycopg2.connect(
-            user="root", password="root", host="localhost", port="5432", database="bd")
+        connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
         cursor.execute("call updateTiposRefeicao(%s,%s);",
@@ -101,8 +98,7 @@ def put_tiporefeicao(cod_TipoRefeicao):
 @tiposRefeicao.route('/api/tiposrefeicao/<cod_TipoRefeicao>', methods=['DELETE'])
 def delete_tiporefeicao(cod_TipoRefeicao):
     try:
-        connection = psycopg2.connect(
-            user="root", password="root", host="localhost", port="5432", database="bd")
+        connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
         cursor.execute("call deleteTiposRefeicao(%s);",
