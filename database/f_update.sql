@@ -117,7 +117,7 @@ BEGIN
     UPDATE TiposRefeicao SET (designacao) = (SELECT designacao FROM JSON_POPULATE_RECORD(NULL::TiposRefeicao,$2)) WHERE cod_TipoRefeicao = $1;
 
 END
-$updateDatasEmenta$;
+$updateTiposRefeicao$;
 
 -- Update Ementas
 CREATE OR REPLACE PROCEDURE updateEmentas(VARCHAR(10), JSON)
@@ -161,4 +161,4 @@ BEGIN
     UPDATE ItensAlergias SET (cod_Item, cod_Alergia) = (SELECT cod_Item, cod_Alergia FROM JSON_POPULATE_RECORD(NULL::ItensAlergias,$3)) WHERE cod_Item = $1 AND cod_Alergia = $2;
 
 END
-$updateEmentasItens$;
+$updateItensAlergias$;
