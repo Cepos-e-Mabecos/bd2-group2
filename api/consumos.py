@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify
 import psycopg2
 import json
+import sys
 
 consumos = Blueprint('consumos', __name__)
 
@@ -8,8 +9,7 @@ consumos = Blueprint('consumos', __name__)
 @consumos.route('/api/consumos', methods=['GET'])
 def get_consumos():
     try:
-        connection = psycopg2.connect(
-            user="root", password="root", host="localhost", port="5432", database="bd")
+        connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
         cursor.execute("SELECT * FROM Consumos;")
@@ -31,8 +31,7 @@ def get_consumos():
 @consumos.route('/api/consumos/<cod_Consumo>', methods=['GET'])
 def get_consumo(cod_Consumo):
     try:
-        connection = psycopg2.connect(
-            user="root", password="root", host="localhost", port="5432", database="bd")
+        connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
         cursor.execute(
@@ -55,8 +54,7 @@ def get_consumo(cod_Consumo):
 @consumos.route('/api/consumos', methods=['POST'])
 def post_consumo():
     try:
-        connection = psycopg2.connect(
-            user="root", password="root", host="localhost", port="5432", database="bd")
+        connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
         cursor.execute("call insertConsumos(%s);",
@@ -78,8 +76,7 @@ def post_consumo():
 @consumos.route('/api/consumos/<cod_Consumo>', methods=['PUT'])
 def put_consumo(cod_Consumo):
     try:
-        connection = psycopg2.connect(
-            user="root", password="root", host="localhost", port="5432", database="bd")
+        connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
         cursor.execute("call updateConsumos(%s,%s);",
@@ -101,8 +98,7 @@ def put_consumo(cod_Consumo):
 @consumos.route('/api/consumos/<cod_Consumo>', methods=['DELETE'])
 def delete_consumo(cod_Consumo):
     try:
-        connection = psycopg2.connect(
-            user="root", password="root", host="localhost", port="5432", database="bd")
+        connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
         cursor.execute("call deleteConsumos(%s);",

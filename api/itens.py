@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify
 import psycopg2
 import json
+import sys
 
 itens = Blueprint('itens', __name__)
 
@@ -8,8 +9,7 @@ itens = Blueprint('itens', __name__)
 @itens.route('/api/itens', methods=['GET'])
 def get_itens():
     try:
-        connection = psycopg2.connect(
-            user="root", password="root", host="localhost", port="5432", database="bd")
+        connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
         cursor.execute("SELECT * FROM Itens;")
@@ -31,8 +31,7 @@ def get_itens():
 @itens.route('/api/itens/<cod_Item>', methods=['GET'])
 def get_item(cod_Item):
     try:
-        connection = psycopg2.connect(
-            user="root", password="root", host="localhost", port="5432", database="bd")
+        connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
         cursor.execute(
@@ -55,8 +54,7 @@ def get_item(cod_Item):
 @itens.route('/api/itens', methods=['POST'])
 def post_item():
     try:
-        connection = psycopg2.connect(
-            user="root", password="root", host="localhost", port="5432", database="bd")
+        connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
         cursor.execute("call insertItens(%s);",
@@ -78,8 +76,7 @@ def post_item():
 @itens.route('/api/itens/<cod_Item>', methods=['PUT'])
 def put_item(cod_Item):
     try:
-        connection = psycopg2.connect(
-            user="root", password="root", host="localhost", port="5432", database="bd")
+        connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
         cursor.execute("call updateItens(%s,%s);",
@@ -101,8 +98,7 @@ def put_item(cod_Item):
 @itens.route('/api/itens/<cod_Item>', methods=['DELETE'])
 def delete_item(cod_Item):
     try:
-        connection = psycopg2.connect(
-            user="root", password="root", host="localhost", port="5432", database="bd")
+        connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
         cursor.execute("call deleteItens(%s);",
