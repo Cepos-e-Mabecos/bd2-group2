@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify
 import psycopg2
 import json
+import sys
 
 locaisConsumo = Blueprint('locaisConsumo', __name__)
 
@@ -8,8 +9,7 @@ locaisConsumo = Blueprint('locaisConsumo', __name__)
 @locaisConsumo.route('/api/locaisconsumo', methods=['GET'])
 def get_locaisconsumo():
     try:
-        connection = psycopg2.connect(
-            user="root", password="root", host="localhost", port="5432", database="bd")
+        connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
         cursor.execute("SELECT * FROM LocaisConsumo;")
@@ -31,8 +31,7 @@ def get_locaisconsumo():
 @locaisConsumo.route('/api/locaisconsumo/<cod_LocalConsumo>', methods=['GET'])
 def get_localconsumo(cod_LocalConsumo):
     try:
-        connection = psycopg2.connect(
-            user="root", password="root", host="localhost", port="5432", database="bd")
+        connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
         cursor.execute(
@@ -55,8 +54,7 @@ def get_localconsumo(cod_LocalConsumo):
 @locaisConsumo.route('/api/locaisconsumo', methods=['POST'])
 def post_localconsumo():
     try:
-        connection = psycopg2.connect(
-            user="root", password="root", host="localhost", port="5432", database="bd")
+        connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
         cursor.execute("call insertLocaisConsumo(%s);",
@@ -78,8 +76,7 @@ def post_localconsumo():
 @locaisConsumo.route('/api/locaisconsumo/<cod_LocalConsumo>', methods=['PUT'])
 def put_localconsumo(cod_LocalConsumo):
     try:
-        connection = psycopg2.connect(
-            user="root", password="root", host="localhost", port="5432", database="bd")
+        connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
         cursor.execute("call updateLocaisConsumo(%s,%s);",
@@ -101,8 +98,7 @@ def put_localconsumo(cod_LocalConsumo):
 @locaisConsumo.route('/api/locaisconsumo/<cod_LocalConsumo>', methods=['DELETE'])
 def delete_localconsumo(cod_LocalConsumo):
     try:
-        connection = psycopg2.connect(
-            user="root", password="root", host="localhost", port="5432", database="bd")
+        connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
         cursor.execute("call deleteLocaisConsumo(%s);",

@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify
 import psycopg2
 import json
+import sys
 
 alergias = Blueprint('alergias', __name__)
 
@@ -8,8 +9,7 @@ alergias = Blueprint('alergias', __name__)
 @alergias.route('/api/alergias', methods=['GET'])
 def get_alergias():
     try:
-        connection = psycopg2.connect(
-            user="root", password="root", host="localhost", port="5432", database="bd")
+        connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
         cursor.execute("SELECT * FROM Alergias;")
@@ -31,8 +31,7 @@ def get_alergias():
 @alergias.route('/api/alergias/<cod_Alergia>', methods=['GET'])
 def get_alergia(cod_Alergia):
     try:
-        connection = psycopg2.connect(
-            user="root", password="root", host="localhost", port="5432", database="bd")
+        connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
         cursor.execute(
@@ -55,8 +54,7 @@ def get_alergia(cod_Alergia):
 @alergias.route('/api/alergias', methods=['POST'])
 def post_alergia():
     try:
-        connection = psycopg2.connect(
-            user="root", password="root", host="localhost", port="5432", database="bd")
+        connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
         cursor.execute("call insertAlergias(%s);",
@@ -78,8 +76,7 @@ def post_alergia():
 @alergias.route('/api/alergias/<cod_Alergia>', methods=['PUT'])
 def put_alergia(cod_Alergia):
     try:
-        connection = psycopg2.connect(
-            user="root", password="root", host="localhost", port="5432", database="bd")
+        connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
         cursor.execute("call updateAlergias(%s,%s);",
@@ -101,8 +98,7 @@ def put_alergia(cod_Alergia):
 @alergias.route('/api/alergias/<cod_Alergia>', methods=['DELETE'])
 def delete_alergia(cod_Alergia):
     try:
-        connection = psycopg2.connect(
-            user="root", password="root", host="localhost", port="5432", database="bd")
+        connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
         cursor.execute("call deleteAlergias(%s);",

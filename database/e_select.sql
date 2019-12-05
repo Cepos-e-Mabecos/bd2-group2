@@ -315,7 +315,7 @@ $selectDatasEmenta$;
 
 -- Select DataEmenta
 CREATE OR REPLACE FUNCTION selectDataEmenta(VARCHAR(10))
-RETURNS TABLE (cod_DataEmenta VARCHAR(10), TIMESTAMP)
+RETURNS TABLE (cod_DataEmenta VARCHAR(10), data_Ementa TIMESTAMP)
 LANGUAGE plpgsql
 AS $selectDataEmenta$
 BEGIN
@@ -435,7 +435,7 @@ AS SELECT * FROM EmentasItens;
 CREATE OR REPLACE FUNCTION selectEmentasItens()
 RETURNS TABLE (cod_Ementa VARCHAR(10), cod_Item VARCHAR(10))
 LANGUAGE plpgsql
-AS $selectAlergias$
+AS $selectEmentasItens$
 BEGIN
 
 RETURN QUERY
@@ -491,4 +491,4 @@ RETURN QUERY
     WHERE getItensAlergias.cod_Item = $1 AND getItensAlergias.cod_Alergia = $2;
 
 END
-$selectItensAlergias$;
+$selectItemAlergia$;

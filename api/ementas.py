@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify
 import psycopg2
 import json
+import sys
 
 ementas = Blueprint('ementas', __name__)
 
@@ -8,8 +9,7 @@ ementas = Blueprint('ementas', __name__)
 @ementas.route('/api/ementas', methods=['GET'])
 def get_ementas():
     try:
-        connection = psycopg2.connect(
-            user="root", password="root", host="localhost", port="5432", database="bd")
+        connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
         cursor.execute("SELECT * FROM Ementas;")
@@ -31,8 +31,7 @@ def get_ementas():
 @ementas.route('/api/ementas/<cod_Ementa>', methods=['GET'])
 def get_ementa(cod_Ementa):
     try:
-        connection = psycopg2.connect(
-            user="root", password="root", host="localhost", port="5432", database="bd")
+        connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
         cursor.execute(
@@ -55,8 +54,7 @@ def get_ementa(cod_Ementa):
 @ementas.route('/api/ementas', methods=['POST'])
 def post_ementa():
     try:
-        connection = psycopg2.connect(
-            user="root", password="root", host="localhost", port="5432", database="bd")
+        connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
         cursor.execute("call insertEmentas(%s);",
@@ -78,8 +76,7 @@ def post_ementa():
 @ementas.route('/api/ementas/<cod_Ementa>', methods=['PUT'])
 def put_ementa(cod_Ementa):
     try:
-        connection = psycopg2.connect(
-            user="root", password="root", host="localhost", port="5432", database="bd")
+        connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
         cursor.execute("call updateEmentas(%s,%s);",
@@ -101,8 +98,7 @@ def put_ementa(cod_Ementa):
 @ementas.route('/api/ementas/<cod_Ementa>', methods=['DELETE'])
 def delete_ementa(cod_Ementa):
     try:
-        connection = psycopg2.connect(
-            user="root", password="root", host="localhost", port="5432", database="bd")
+        connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
         cursor.execute("call deleteEmentas(%s);",

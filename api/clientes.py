@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify
 import psycopg2
 import json
+import sys
 
 clientes = Blueprint('clientes', __name__)
 
@@ -8,8 +9,7 @@ clientes = Blueprint('clientes', __name__)
 @clientes.route('/api/clientes', methods=['GET'])
 def get_clientes():
     try:
-        connection = psycopg2.connect(
-            user="root", password="root", host="localhost", port="5432", database="bd")
+        connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
         cursor.execute("SELECT * FROM Clientes;")
@@ -31,8 +31,7 @@ def get_clientes():
 @clientes.route('/api/clientes/<cod_Cliente>', methods=['GET'])
 def get_cliente(cod_Cliente):
     try:
-        connection = psycopg2.connect(
-            user="root", password="root", host="localhost", port="5432", database="bd")
+        connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
         cursor.execute(
@@ -55,8 +54,7 @@ def get_cliente(cod_Cliente):
 @clientes.route('/api/clientes', methods=['POST'])
 def post_cliente():
     try:
-        connection = psycopg2.connect(
-            user="root", password="root", host="localhost", port="5432", database="bd")
+        connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
         cursor.execute("call insertClientes(%s);",
@@ -78,8 +76,7 @@ def post_cliente():
 @clientes.route('/api/clientes/<cod_Cliente>', methods=['PUT'])
 def put_cliente(cod_Cliente):
     try:
-        connection = psycopg2.connect(
-            user="root", password="root", host="localhost", port="5432", database="bd")
+        connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
         cursor.execute("call updateClientes(%s,%s);",
@@ -101,8 +98,7 @@ def put_cliente(cod_Cliente):
 @clientes.route('/api/clientes/<cod_Cliente>', methods=['DELETE'])
 def delete_cliente(cod_Cliente):
     try:
-        connection = psycopg2.connect(
-            user="root", password="root", host="localhost", port="5432", database="bd")
+        connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
         cursor.execute("call deleteClientes(%s);",
