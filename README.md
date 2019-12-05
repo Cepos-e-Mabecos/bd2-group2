@@ -3,6 +3,7 @@ This repository contains our practical project for the class of distributed syst
 ## Table of Contents
 - [Status](#status)
 - [Contributing](#contributing)
+- [Database](#database)
 - [License](#license)
 
 ## Status
@@ -42,6 +43,9 @@ git push origin <topic-branch-name>
 
 #### Code guidelines
 - Code should follow all [Google Style](https://google.github.io/styleguide/javaguide.html) guidelines.
+
+## Database
+![implementation](implementation.png)
 
 ## License
 By contributing your code, you agree to license your contribution under the [MIT License](https://github.com/Cepos-e-Mabecos/bd2-group2/blob/master/LICENSE).
