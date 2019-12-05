@@ -12,7 +12,7 @@ def get_locais():
         connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
-        cursor.execute("SELECT * FROM Locais;")
+        cursor.execute("call selectlocais();")
         query_result = cursor.fetchall()
         connection.commit()
 
@@ -35,7 +35,7 @@ def get_local(cod_Local):
 
         cursor = connection.cursor()
         cursor.execute(
-            "SELECT * FROM Locais WHERE cod_Local = %s;", (cod_Local,))
+            "call selectlocal(%s);", (cod_Local,))
         query_result = cursor.fetchone()
         connection.commit()
 
@@ -57,7 +57,7 @@ def post_local():
         connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
-        cursor.execute("call insertLocais(%s);",
+        cursor.execute("call insertlocais(%s);",
                        (json.dumps(request.json),))
         connection.commit()
 
@@ -79,7 +79,7 @@ def put_local(cod_Local):
         connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
-        cursor.execute("call updateLocais(%s,%s);",
+        cursor.execute("call updatelocais(%s,%s);",
                        (cod_Local, json.dumps(request.json)))
         connection.commit()
 
@@ -101,7 +101,7 @@ def delete_local(cod_Local):
         connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
-        cursor.execute("call deleteLocais(%s);",
+        cursor.execute("call deletelocais(%s);",
                        (cod_Local,))
         connection.commit()
 

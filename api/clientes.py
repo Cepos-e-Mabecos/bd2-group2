@@ -12,7 +12,7 @@ def get_clientes():
         connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
-        cursor.execute("SELECT * FROM Clientes;")
+        cursor.execute("call selectclientes();")
         query_result = cursor.fetchall()
         connection.commit()
 
@@ -35,7 +35,7 @@ def get_cliente(cod_Cliente):
 
         cursor = connection.cursor()
         cursor.execute(
-            "SELECT * FROM Clientes WHERE cod_Cliente = %s;", (cod_Cliente,))
+            "call selectcliente(%s);", (cod_Cliente,))
         query_result = cursor.fetchone()
         connection.commit()
 
@@ -57,7 +57,7 @@ def post_cliente():
         connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
-        cursor.execute("call insertClientes(%s);",
+        cursor.execute("call insertclientes(%s);",
                        (json.dumps(request.json),))
         connection.commit()
 
@@ -79,7 +79,7 @@ def put_cliente(cod_Cliente):
         connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
-        cursor.execute("call updateClientes(%s,%s);",
+        cursor.execute("call updateclientes(%s,%s);",
                        (cod_Cliente, json.dumps(request.json)))
         connection.commit()
 
@@ -101,7 +101,7 @@ def delete_cliente(cod_Cliente):
         connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
-        cursor.execute("call deleteClientes(%s);",
+        cursor.execute("call deleteclientes(%s);",
                        (cod_Cliente,))
         connection.commit()
 

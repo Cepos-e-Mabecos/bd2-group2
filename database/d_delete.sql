@@ -1,164 +1,175 @@
 -- Delete Clientes
-CREATE OR REPLACE PROCEDURE deleteClientes(VARCHAR(10))
+CREATE OR REPLACE PROCEDURE deleteclientes(VARCHAR(10))
 LANGUAGE plpgsql
-AS $deleteClientes$
+AS $deleteclientes$
 BEGIN
 
-    DELETE FROM Clientes WHERE cod_Cliente = $1;
+    DELETE FROM clientes WHERE cod_cliente = $1;
 
 END
-$deleteClientes$;
+$deleteclientes$;
 
 -- Delete Consumos
-CREATE OR REPLACE PROCEDURE deleteClientes(VARCHAR(10))
+CREATE OR REPLACE PROCEDURE deleteclientes(VARCHAR(10))
 LANGUAGE plpgsql
-AS $deleteConsumos$
+AS $deleteconsumos$
 BEGIN
 
-    DELETE FROM Consumos WHERE cod_Consumo = $1;
+    DELETE FROM consumos WHERE cod_consumo = $1;
 
 END
-$deleteConsumos$;
+$deleteconsumos$;
 
 -- Delete Locais
-CREATE OR REPLACE PROCEDURE deleteLocais(VARCHAR(10))
+CREATE OR REPLACE PROCEDURE deletelocais(VARCHAR(10))
 LANGUAGE plpgsql
-AS $deleteLocais$
+AS $deletelocais$
 BEGIN
 
-    DELETE FROM Locais WHERE cod_Local = $1;
+    DELETE FROM locais WHERE cod_local = $1;
 
 END
-$deleteLocais$;
+$deletelocais$;
 
 -- Delete Restaurantes
-CREATE OR REPLACE PROCEDURE deleteRestaurantes(VARCHAR(10))
+CREATE OR REPLACE PROCEDURE deleterestaurantes(VARCHAR(10))
 LANGUAGE plpgsql
-AS $deleteRestaurantes$
+AS $deleterestaurantes$
 BEGIN
 
-    DELETE FROM Restaurantes WHERE cod_Restaurante = $1;
+    DELETE FROM restaurantes WHERE cod_restaurante = $1;
 
 END
-$deleteRestaurantes$;
+$deleterestaurantes$;
 
 -- Delete Funcionarios
-CREATE OR REPLACE PROCEDURE deleteFuncionarios(VARCHAR(10))
+CREATE OR REPLACE PROCEDURE deletefuncionarios(VARCHAR(10))
 LANGUAGE plpgsql
-AS $deleteFuncionarios$
+AS $deletefuncionarios$
 BEGIN
 
-    DELETE FROM Funcionarios WHERE cod_Funcionario = $1;
+    DELETE FROM funcionarios WHERE cod_funcionario = $1;
 
 END
-$deleteFuncionarios$;
+$deletefuncionarios$;
 
 -- Delete LocaisConsumo
-CREATE OR REPLACE PROCEDURE deleteLocaisConsumo(VARCHAR(10))
+CREATE OR REPLACE PROCEDURE deletelocaisconsumo(VARCHAR(10))
 LANGUAGE plpgsql
-AS $deleteLocaisConsumo$
+AS $deletelocaisconsumo$
 BEGIN
 
-    DELETE FROM LocaisConsumo WHERE cod_LocalConsumo = $1;
+    DELETE FROM locaisconsumo WHERE cod_localconsumo = $1;
 
 END
-$deleteLocaisConsumo$;
+$deletelocaisconsumo$;
 
 -- Delete TiposEmenta
-CREATE OR REPLACE PROCEDURE deleteTiposEmenta(VARCHAR(10))
+CREATE OR REPLACE PROCEDURE deletetiposementa(VARCHAR(10))
 LANGUAGE plpgsql
-AS $deleteTiposEmenta$
+AS $deletetiposementa$
 BEGIN
 
-    DELETE FROM TiposEmenta WHERE cod_TipoEmenta = $1;
+    DELETE FROM tiposementa WHERE cod_tipoementa = $1;
 
 END
-$deleteTiposEmenta$;
+$deletetiposementa$;
 
 -- Delete TiposItem
-CREATE OR REPLACE PROCEDURE deleteTiposItem(VARCHAR(10))
+CREATE OR REPLACE PROCEDURE deletetipositem(VARCHAR(10))
 LANGUAGE plpgsql
-AS $deleteTiposItem$
+AS $deletetipositem$
 BEGIN
 
-    DELETE FROM TiposItem WHERE cod_TipoItem = $1;
+    DELETE FROM tipositem WHERE cod_tipoitem = $1;
 
 END
-$deleteTiposItem$;
+$deletetipositem$;
 
 -- Delete Itens
-CREATE OR REPLACE PROCEDURE deleteItens(VARCHAR(10))
+CREATE OR REPLACE PROCEDURE deleteitens(VARCHAR(10))
 LANGUAGE plpgsql
-AS $deleteItens$
+AS $deleteitens$
 BEGIN
 
-    DELETE FROM Itens WHERE cod_Item = $1;
+    DELETE FROM itens WHERE cod_item = $1;
 
 END
-$deleteItens$;
+$deleteitens$;
 
 -- Delete DatasEmenta
-CREATE OR REPLACE PROCEDURE deleteDatasEmenta(VARCHAR(10))
+CREATE OR REPLACE PROCEDURE deletedatasementa(VARCHAR(10))
 LANGUAGE plpgsql
-AS $deleteDatasEmenta$
+AS $deletedatasementa$
 BEGIN
 
-    DELETE FROM DatasEmenta WHERE cod_DataEmenta = $1;
+    DELETE FROM datasementa WHERE cod_dataementa = $1;
 
 END
-$deleteDatasEmenta$;
+$deletedatasementa$;
 
 -- Delete TiposRefeicao
-CREATE OR REPLACE PROCEDURE deleteTiposRefeicao(VARCHAR(10))
+CREATE OR REPLACE PROCEDURE deletetiposrefeicao(VARCHAR(10))
 LANGUAGE plpgsql
-AS $deleteTiposRefeicao$
+AS $deletetiposrefeicao$
 BEGIN
 
-    DELETE FROM TiposRefeicao WHERE cod_TipoRefeicao = $1;
+    DELETE FROM tiposrefeicao WHERE cod_tiporefeicao = $1;
 
 END
-$deleteTiposRefeicao$;
+$deletetiposrefeicao$;
 
 -- Delete Ementas
-CREATE OR REPLACE PROCEDURE deleteEmentas(VARCHAR(10))
+CREATE OR REPLACE PROCEDURE deleteementas(VARCHAR(10))
 LANGUAGE plpgsql
-AS $deleteEmentas$
+AS $deleteementas$
 BEGIN
 
-    DELETE FROM Ementas WHERE cod_Ementa = $1;
+    DELETE FROM ementas WHERE cod_ementa = $1;
 
 END
-$deleteEmentas$;
+$deleteementas$;
 
 -- Delete Alergias
-CREATE OR REPLACE PROCEDURE deleteAlergias(VARCHAR(10))
+CREATE OR REPLACE PROCEDURE deletealergias(VARCHAR(10))
 LANGUAGE plpgsql
-AS $deleteAlergias$
+AS $deletealergias$
 BEGIN
 
-    DELETE FROM Alergias WHERE cod_Alergia = $1;
+    DELETE FROM alergias WHERE cod_alergia = $1;
 
 END
-$deleteAlergias$;
+$deletealergias$;
 
 -- Delete EmentasItens
-CREATE OR REPLACE PROCEDURE deleteEmentasItens(VARCHAR(10), VARCHAR(10))
+CREATE OR REPLACE PROCEDURE deleteementasitens(VARCHAR(10), VARCHAR(10))
 LANGUAGE plpgsql
-AS $deleteEmentasItens$
+AS $deleteementasitens$
 BEGIN
 
-    DELETE FROM EmentasItens WHERE cod_Ementa = $1 AND cod_Item = $1;
+    DELETE FROM ementasitens WHERE cod_ementa = $1 AND cod_item = $1;
 
 END
-$deleteEmentasItens$;
+$deleteementasitens$;
 
 -- Delete ItensAlergias
-CREATE OR REPLACE PROCEDURE deleteItensAlergias(VARCHAR(10), VARCHAR(10))
+CREATE OR REPLACE PROCEDURE deleteitensalergias(VARCHAR(10), VARCHAR(10))
 LANGUAGE plpgsql
-AS $deleteItensAlergias$
+AS $deleteitensalergias$
 BEGIN
 
-    DELETE FROM ItensAlergias WHERE cod_Item = $1 AND cod_Alergia = $2;
+    DELETE FROM itensalergias WHERE cod_item = $1 AND cod_alergia = $2;
 
 END
-$deleteItensAlergias$;
+$deleteitensalergias$;
+
+-- Delete ItensAlergias
+CREATE OR REPLACE PROCEDURE deleteconsumosementas(VARCHAR(10), VARCHAR(10))
+LANGUAGE plpgsql
+AS $deleteconsumosementas$
+BEGIN
+
+    DELETE FROM consumosementas WHERE cod_consumo = $1 AND cod_ementa = $2;
+
+END
+$deleteconsumosementas$;

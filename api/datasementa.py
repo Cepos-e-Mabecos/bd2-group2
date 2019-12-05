@@ -12,7 +12,7 @@ def get_datas():
         connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
-        cursor.execute("SELECT * FROM Datas;")
+        cursor.execute("call selectdatasementa();")
         query_result = cursor.fetchall()
         connection.commit()
 
@@ -35,7 +35,7 @@ def get_data(cod_Data):
 
         cursor = connection.cursor()
         cursor.execute(
-            "SELECT * FROM Datas WHERE cod_Data = %s;", (cod_Data,))
+            "call selectdataementa(%s);", (cod_Data,))
         query_result = cursor.fetchone()
         connection.commit()
 
@@ -57,7 +57,7 @@ def post_data():
         connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
-        cursor.execute("call insertDatas(%s);",
+        cursor.execute("call insertdatasementa(%s);",
                        (json.dumps(request.json),))
         connection.commit()
 
@@ -79,7 +79,7 @@ def put_data(cod_Data):
         connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
-        cursor.execute("call updateDatas(%s,%s);",
+        cursor.execute("call updatedatasementa(%s,%s);",
                        (cod_Data, json.dumps(request.json)))
         connection.commit()
 
@@ -101,7 +101,7 @@ def delete_data(cod_Data):
         connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
-        cursor.execute("call deleteDatas(%s);",
+        cursor.execute("call deletedatasementa(%s);",
                        (cod_Data,))
         connection.commit()
 

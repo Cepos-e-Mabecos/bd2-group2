@@ -1,494 +1,526 @@
 -- View Clientes
-CREATE OR REPLACE VIEW getClientes
-AS SELECT * FROM Clientes;
+CREATE OR REPLACE VIEW getclientes
+AS SELECT * FROM clientes;
 
 -- Select Clientes
 CREATE OR REPLACE FUNCTION selectClientes()
-RETURNS TABLE (cod_Cliente VARCHAR(10), nome VARCHAR(256), nif VARCHAR(10))
+RETURNS TABLE (cod_cliente VARCHAR(10), nome VARCHAR(256), nif VARCHAR(10))
 LANGUAGE plpgsql
-AS $selectClientes$
+AS $selectclientes$
 BEGIN
 
 RETURN QUERY
     SELECT *
-    FROM getClientes;
+    FROM getclientes;
 
 END
-$selectClientes$;
+$selectclientes$;
 
 -- Select Cliente
-CREATE OR REPLACE FUNCTION selectCliente(VARCHAR(10))
-RETURNS TABLE (cod_Cliente VARCHAR(10), nome VARCHAR(256), nif VARCHAR(10))
+CREATE OR REPLACE FUNCTION selectcliente(VARCHAR(10))
+RETURNS TABLE (cod_cliente VARCHAR(10), nome VARCHAR(256), nif VARCHAR(10))
 LANGUAGE plpgsql
-AS $selectCliente$
+AS $selectcliente$
 BEGIN
 
 RETURN QUERY
     SELECT *
-    FROM getClientes
-    WHERE getClientes.cod_Cliente = $1;
+    FROM getclientes
+    WHERE getclientes.cod_cliente = $1;
 
 END
-$selectCliente$;
+$selectcliente$;
 
 -- View Consumos
-CREATE OR REPLACE VIEW getConsumos
-AS SELECT * FROM Consumos;
+CREATE OR REPLACE VIEW getconsumos
+AS SELECT * FROM consumos;
 
 -- Select Consumos
-CREATE OR REPLACE FUNCTION selectConsumos()
-RETURNS TABLE (cod_Consumo VARCHAR(10), data_Consumo TIMESTAMP, cod_Cliente VARCHAR(10))
+CREATE OR REPLACE FUNCTION selectconsumos()
+RETURNS TABLE (cod_consumo VARCHAR(10), data_consumo TIMESTAMP, cod_cliente VARCHAR(10), cod_funcionario VARCHAR(10))
 LANGUAGE plpgsql
-AS $selectConsumos$
+AS $selectconsumos$
 BEGIN
 
 RETURN QUERY
     SELECT *
-    FROM getConsumos;
+    FROM getconsumos;
 
 END
-$selectConsumos$;
+$selectconsumos$;
 
 -- Select Consumo
-CREATE OR REPLACE FUNCTION selectConsumo(VARCHAR(10))
-RETURNS TABLE (cod_Consumo VARCHAR(10), data_Consumo TIMESTAMP, cod_Cliente VARCHAR(10))
+CREATE OR REPLACE FUNCTION selectconsumo(VARCHAR(10))
+RETURNS TABLE (cod_consumo VARCHAR(10), data_consumo TIMESTAMP, cod_cliente VARCHAR(10), cod_funcionario VARCHAR(10))
 LANGUAGE plpgsql
-AS $selectConsumo$
+AS $selectconsumo$
 BEGIN
 
 RETURN QUERY
     SELECT *
-    FROM getConsumos
-    WHERE getConsumos.cod_Consumo = $1;
+    FROM getconsumos
+    WHERE getconsumos.cod_consumo = $1;
 
 END
-$selectConsumo$;
+$selectconsumo$;
 
 -- View Locais
-CREATE OR REPLACE VIEW getLocais
-AS SELECT * FROM Locais;
+CREATE OR REPLACE VIEW getlocais
+AS SELECT * FROM locais;
 
 -- Select Locais
-CREATE OR REPLACE FUNCTION selectLocais()
-RETURNS TABLE (cod_Local VARCHAR(10), designacao VARCHAR(256))
+CREATE OR REPLACE FUNCTION selectlocais()
+RETURNS TABLE (cod_local VARCHAR(10), designacao VARCHAR(256))
 LANGUAGE plpgsql
-AS $selectLocais$
+AS $selectlocais$
 BEGIN
 
 RETURN QUERY
     SELECT *
-    FROM getLocais;
+    FROM getlocais;
 
 END
-$selectLocais$;
+$selectlocais$;
 
 -- Select Local
-CREATE OR REPLACE FUNCTION selectLocal(VARCHAR(10))
-RETURNS TABLE (cod_Local VARCHAR(10), designacao VARCHAR(256))
+CREATE OR REPLACE FUNCTION selectlocal(VARCHAR(10))
+RETURNS TABLE (cod_local VARCHAR(10), designacao VARCHAR(256))
 LANGUAGE plpgsql
-AS $selectLocal$
+AS $selectlocal$
 BEGIN
 
 RETURN QUERY
     SELECT *
-    FROM getLocais
-    WHERE getLocais.cod_Local = $1;
+    FROM getlocais
+    WHERE getlocais.cod_local = $1;
 
 END
-$selectLocal$;
+$selectlocal$;
 
 -- View Restaurantes
-CREATE OR REPLACE VIEW getRestaurantes
-AS SELECT * FROM Restaurantes;
+CREATE OR REPLACE VIEW getrestaurantes
+AS SELECT * FROM restaurantes;
 
 -- Select Restaurantes
-CREATE OR REPLACE FUNCTION selectRestaurantes()
-RETURNS TABLE (cod_Restaurante VARCHAR(10), designacao VARCHAR(256), cod_Local VARCHAR(10))
+CREATE OR REPLACE FUNCTION selectrestaurantes()
+RETURNS TABLE (cod_restaurante VARCHAR(10), designacao VARCHAR(256), cod_local VARCHAR(10))
 LANGUAGE plpgsql
-AS $selectRestaurantes$
+AS $selectrestaurantes$
 BEGIN
 
 RETURN QUERY
     SELECT *
-    FROM getRestaurantes;
+    FROM getrestaurantes;
 
 END
-$selectRestaurantes$;
+$selectrestaurantes$;
 
 -- Select Restaurante
-CREATE OR REPLACE FUNCTION selectRestaurante(VARCHAR(10))
-RETURNS TABLE (cod_Restaurante VARCHAR(10), designacao VARCHAR(256), cod_Local VARCHAR(10))
+CREATE OR REPLACE FUNCTION selectrestaurante(VARCHAR(10))
+RETURNS TABLE (cod_restaurante VARCHAR(10), designacao VARCHAR(256), cod_local VARCHAR(10))
 LANGUAGE plpgsql
-AS $selectRestaurante$
+AS $selectrestaurante$
 BEGIN
 
 RETURN QUERY
     SELECT *
-    FROM getRestaurantes
-    WHERE getRestaurantes.cod_Restaurante = $1;
+    FROM getrestaurantes
+    WHERE getrestaurantes.cod_restaurante = $1;
 
 END
-$selectRestaurante$;
+$selectrestaurante$;
 
 -- View LocaisConsumo
-CREATE OR REPLACE VIEW getLocaisConsumo
-AS SELECT * FROM LocaisConsumo;
+CREATE OR REPLACE VIEW getlocaisconsumo
+AS SELECT * FROM locaisconsumo;
 
 -- Select LocaisConsumo
-CREATE OR REPLACE FUNCTION selectLocaisConsumo()
-RETURNS TABLE (cod_LocalConsumo VARCHAR(10), designacao VARCHAR(256), cod_Restaurante VARCHAR(10))
+CREATE OR REPLACE FUNCTION selectlocaisconsumo()
+RETURNS TABLE (cod_localconsumo VARCHAR(10), designacao VARCHAR(256), cod_restaurante VARCHAR(10))
 LANGUAGE plpgsql
-AS $selectLocaisConsumo$
+AS $selectlocaisconsumo$
 BEGIN
 
 RETURN QUERY
     SELECT *
-    FROM getLocaisConsumo;
+    FROM getlocaisconsumo;
 
 END
-$selectLocaisConsumo$;
+$selectlocaisconsumo$;
 
 -- Select LocalConsumo
-CREATE OR REPLACE FUNCTION selectLocalConsumo(VARCHAR(10))
-RETURNS TABLE (cod_LocalConsumo VARCHAR(10), designacao VARCHAR(256), cod_Restaurante VARCHAR(10))
+CREATE OR REPLACE FUNCTION selectlocalconsumo(VARCHAR(10))
+RETURNS TABLE (cod_localconsumo VARCHAR(10), designacao VARCHAR(256), cod_restaurante VARCHAR(10))
 LANGUAGE plpgsql
-AS $selectLocalConsumo$
+AS $selectlocalconsumo$
 BEGIN
 
 RETURN QUERY
     SELECT *
-    FROM getLocaisConsumo
-    WHERE getLocaisConsumo.cod_LocalConsumo = $1;
+    FROM getlocaisconsumo
+    WHERE getlocaisconsumo.cod_localconsumo = $1;
 
 END
-$selectLocalConsumo$;
+$selectlocalconsumo$;
 
 -- View Funcionarios
-CREATE OR REPLACE VIEW getFuncionarios
-AS SELECT * FROM Funcionarios;
+CREATE OR REPLACE VIEW getfuncionarios
+AS SELECT * FROM funcionarios;
 
 -- Select Funcionarios
-CREATE OR REPLACE FUNCTION selectFuncionarios()
-RETURNS TABLE (cod_Funcionario VARCHAR(10), nome VARCHAR(256), cod_Restaurante VARCHAR(10), cod_LocalConsumo VARCHAR(10))
+CREATE OR REPLACE FUNCTION selectfuncionarios()
+RETURNS TABLE (cod_funcionario VARCHAR(10), nome VARCHAR(256), cod_localconsumo VARCHAR(10))
 LANGUAGE plpgsql
-AS $selectFuncionarios$
+AS $selectfuncionarios$
 BEGIN
 
 RETURN QUERY
     SELECT *
-    FROM getFuncionarios;
+    FROM getfuncionarios;
 
 END
-$selectFuncionarios$;
+$selectfuncionarios$;
 
 -- Select Funcionario
-CREATE OR REPLACE FUNCTION selectFuncionario(VARCHAR(10))
-RETURNS TABLE (cod_Funcionario VARCHAR(10), nome VARCHAR(256), cod_Restaurante VARCHAR(10), cod_LocalConsumo VARCHAR(10))
+CREATE OR REPLACE FUNCTION selectfuncionario(VARCHAR(10))
+RETURNS TABLE (cod_funcionario VARCHAR(10), nome VARCHAR(256), cod_localconsumo VARCHAR(10))
 LANGUAGE plpgsql
-AS $selectFuncionario$
+AS $selectfuncionario$
 BEGIN
 
 RETURN QUERY
     SELECT *
-    FROM getFuncionarios
-    WHERE getFuncionarios.cod_Funcionario = $1;
+    FROM getfuncionarios
+    WHERE getfuncionarios.cod_funcionario = $1;
 
 END
-$selectFuncionario$;
+$selectfuncionario$;
 
--- View TiposEmenta
-CREATE OR REPLACE VIEW getTiposEmenta
-AS SELECT * FROM TiposEmenta;
+-- View Tiposementa
+CREATE OR REPLACE VIEW gettiposementa
+AS SELECT * FROM tiposementa;
 
--- Select TiposEmenta
-CREATE OR REPLACE FUNCTION selectTiposEmenta()
-RETURNS TABLE (cod_TipoEmenta VARCHAR(10), designacao VARCHAR(256))
+-- Select Tiposementa
+CREATE OR REPLACE FUNCTION selecttiposementa()
+RETURNS TABLE (cod_tipoementa VARCHAR(10), designacao VARCHAR(256))
 LANGUAGE plpgsql
-AS $selectTiposEmenta$
+AS $selecttiposementa$
 BEGIN
 
 RETURN QUERY
     SELECT *
-    FROM getTiposEmenta;
+    FROM gettiposementa;
 
 END
-$selectTiposEmenta$;
+$selecttiposementa$;
 
--- Select TipoEmenta
-CREATE OR REPLACE FUNCTION selectTipoEmenta(VARCHAR(10))
-RETURNS TABLE (cod_TipoEmenta VARCHAR(10), designacao VARCHAR(256))
+-- Select Tipoementa
+CREATE OR REPLACE FUNCTION selecttipoementa(VARCHAR(10))
+RETURNS TABLE (cod_tipoementa VARCHAR(10), designacao VARCHAR(256))
 LANGUAGE plpgsql
-AS $selectTipoEmenta$
+AS $selecttipoementa$
+BEGIN
+RETURN QUERY
+    SELECT *
+    FROM gettiposementa
+    WHERE gettiposementa.cod_tipoementa = $1;
+
+END
+$selecttipoementa$;
+
+-- View Tipositens
+CREATE OR REPLACE VIEW gettipositem
+AS SELECT * FROM tipositem;
+
+-- Select Tipositens
+CREATE OR REPLACE FUNCTION selecttipositem()
+RETURNS TABLE (cod_tipoitem VARCHAR(10), designacao VARCHAR(256))
+LANGUAGE plpgsql
+AS $selecttipositem$
 BEGIN
 
 RETURN QUERY
     SELECT *
-    FROM getTiposEmenta
-    WHERE getTiposEmenta.cod_TipoEmenta = $1;
+    FROM gettipositem;
 
 END
-$selectTipoEmenta$;
+$selecttipositem$;
 
--- View TiposItem
-CREATE OR REPLACE VIEW getTiposItem
-AS SELECT * FROM TiposItem;
-
--- Select TiposItem
-CREATE OR REPLACE FUNCTION selectTiposItem()
-RETURNS TABLE (cod_TipoItem VARCHAR(10), designacao VARCHAR(256))
+-- Select Tipoitens
+CREATE OR REPLACE FUNCTION selecttipoitem(VARCHAR(10))
+RETURNS TABLE (cod_tipoitem VARCHAR(10), designacao VARCHAR(256))
 LANGUAGE plpgsql
-AS $selectTiposItem$
+AS $selecttipoitem$
 BEGIN
 
 RETURN QUERY
     SELECT *
-    FROM getTiposItem;
+    FROM gettipositem
+    WHERE gettipositem.cod_tipoitem = $1;
 
 END
-$selectTiposItem$;
+$selecttipoitem$;
 
--- Select TipoItem
-CREATE OR REPLACE FUNCTION selectTipoItem(VARCHAR(10))
-RETURNS TABLE (cod_TipoItem VARCHAR(10), designacao VARCHAR(256))
+-- View itens
+CREATE OR REPLACE VIEW getitens
+AS SELECT * FROM itens;
+
+-- Select itens
+CREATE OR REPLACE FUNCTION selectitens()
+RETURNS TABLE (cod_item VARCHAR(10), designacao VARCHAR(256), custo MONEY, cod_tipoitem VARCHAR(10))
 LANGUAGE plpgsql
-AS $selectTipoItem$
+AS $selectitens$
 BEGIN
 
 RETURN QUERY
     SELECT *
-    FROM getTiposItem
-    WHERE getTiposItem.cod_TipoItem = $1;
+    FROM getitens;
 
 END
-$selectTipoItem$;
+$selectitens$;
 
--- View Itens
-CREATE OR REPLACE VIEW getItens
-AS SELECT * FROM Itens;
-
--- Select Itens
-CREATE OR REPLACE FUNCTION selectItens()
-RETURNS TABLE (cod_Item VARCHAR(10), designacao VARCHAR(256), custo MONEY, cod_TipoItem VARCHAR(10))
+-- Select itens
+CREATE OR REPLACE FUNCTION selectitem(VARCHAR(10))
+RETURNS TABLE (cod_item VARCHAR(10), designacao VARCHAR(256), custo MONEY, cod_tipoitem VARCHAR(10))
 LANGUAGE plpgsql
-AS $selectItens$
+AS $selectitem$
 BEGIN
 
 RETURN QUERY
     SELECT *
-    FROM getItens;
+    FROM getitens
+    WHERE getitens.cod_item = $1;
 
 END
-$selectItens$;
+$selectitem$;
 
--- Select Item
-CREATE OR REPLACE FUNCTION selectItem(VARCHAR(10))
-RETURNS TABLE (cod_Item VARCHAR(10), designacao VARCHAR(256), custo MONEY, cod_TipoItem VARCHAR(10))
+-- View Datasementa
+CREATE OR REPLACE VIEW getdatasementa
+AS SELECT * FROM datasementa;
+
+-- Select Datasementa
+CREATE OR REPLACE FUNCTION selectdatasementa()
+RETURNS TABLE (cod_dataementa VARCHAR(10), data_ementa TIMESTAMP)
 LANGUAGE plpgsql
-AS $selectItem$
+AS $selectdatasementa$
 BEGIN
 
 RETURN QUERY
     SELECT *
-    FROM getItens
-    WHERE getItens.cod_Item = $1;
+    FROM getdatasementa;
 
 END
-$selectItem$;
+$selectdatasementa$;
 
--- View DatasEmenta
-CREATE OR REPLACE VIEW getDatasEmenta
-AS SELECT * FROM DatasEmenta;
-
--- Select DatasEmenta
-CREATE OR REPLACE FUNCTION selectDatasEmenta()
-RETURNS TABLE (cod_DataEmenta VARCHAR(10), data_Ementa TIMESTAMP)
+-- Select Dataementa
+CREATE OR REPLACE FUNCTION selectdataementa(VARCHAR(10))
+RETURNS TABLE (cod_dataementa VARCHAR(10), data_ementa TIMESTAMP)
 LANGUAGE plpgsql
-AS $selectDatasEmenta$
+AS $selectdataementa$
 BEGIN
 
 RETURN QUERY
     SELECT *
-    FROM getDatasEmenta;
+    FROM getdatasementa
+    WHERE getdatasementa.cod_dataementa = $1;
 
 END
-$selectDatasEmenta$;
-
--- Select DataEmenta
-CREATE OR REPLACE FUNCTION selectDataEmenta(VARCHAR(10))
-RETURNS TABLE (cod_DataEmenta VARCHAR(10), data_Ementa TIMESTAMP)
-LANGUAGE plpgsql
-AS $selectDataEmenta$
-BEGIN
-
-RETURN QUERY
-    SELECT *
-    FROM getDatasEmenta
-    WHERE getDatasEmenta.cod_DataEmenta = $1;
-
-END
-$selectDataEmenta$;
+$selectdataementa$;
 
 -- View TiposRefeicao
-CREATE OR REPLACE VIEW getTiposRefeicao
-AS SELECT * FROM TiposRefeicao;
+CREATE OR REPLACE VIEW gettiposrefeicao
+AS SELECT * FROM tiposrefeicao;
 
 -- Select TiposRefeicao
-CREATE OR REPLACE FUNCTION selectTiposRefeicao()
-RETURNS TABLE (cod_TipoRefeicao VARCHAR(10), designacao VARCHAR(256))
+CREATE OR REPLACE FUNCTION selecttiposrefeicao()
+RETURNS TABLE (cod_tiporefeicao VARCHAR(10), designacao VARCHAR(256))
 LANGUAGE plpgsql
-AS $selectTiposRefeicao$
+AS $selecttiposrefeicao$
 BEGIN
 
 RETURN QUERY
     SELECT *
-    FROM getTiposRefeicao;
+    FROM gettiposrefeicao;
 
 END
-$selectTiposRefeicao$;
+$selecttiposrefeicao$;
 
 -- Select TipoRefeicao
-CREATE OR REPLACE FUNCTION selectTipoRefeicao(VARCHAR(10))
-RETURNS TABLE (cod_TipoRefeicao VARCHAR(10), designacao VARCHAR(256))
+CREATE OR REPLACE FUNCTION selecttiporefeicao(VARCHAR(10))
+RETURNS TABLE (cod_tiporefeicao VARCHAR(10), designacao VARCHAR(256))
 LANGUAGE plpgsql
-AS $selectTipoRefeicao$
+AS $selecttiporefeicao$
 BEGIN
 
 RETURN QUERY
     SELECT *
-    FROM getTiposRefeicao
-    WHERE getTiposRefeicao.cod_TipoRefeicao = $1;
+    FROM gettiposrefeicao
+    WHERE gettiposrefeicao.cod_tiporefeicao = $1;
 
 END
-$selectTipoRefeicao$;
+$selecttiporefeicao$;
 
--- View Ementas
-CREATE OR REPLACE VIEW getEmentas
-AS SELECT * FROM Ementas;
+-- View ementas
+CREATE OR REPLACE VIEW getementas
+AS SELECT * FROM ementas;
 
--- Select Ementas
-CREATE OR REPLACE FUNCTION selectEmentas()
-RETURNS TABLE (cod_Ementa VARCHAR(10), cod_TipoEmenta VARCHAR(10), cod_DataEmenta VARCHAR(10), cod_TipoRefeicao VARCHAR(10), cod_Restaurante VARCHAR(10))
+-- Select ementas
+CREATE OR REPLACE FUNCTION selectementas()
+RETURNS TABLE (cod_ementa VARCHAR(10), cod_tipoementa VARCHAR(10), cod_dataementa VARCHAR(10), cod_tiporefeicao VARCHAR(10), cod_Restaurante VARCHAR(10))
 LANGUAGE plpgsql
-AS $selectEmentas$
+AS $selectementas$
 BEGIN
 
 RETURN QUERY
     SELECT *
-    FROM getEmentas;
+    FROM getementas;
 
 END
-$selectEmentas$;
+$selectementas$;
 
--- Select Ementas
-CREATE OR REPLACE FUNCTION selectEmenta(VARCHAR(10))
-RETURNS TABLE (cod_Ementa VARCHAR(10), cod_TipoEmenta VARCHAR(10), cod_DataEmenta VARCHAR(10), cod_TipoRefeicao VARCHAR(10), cod_Restaurante VARCHAR(10))
+-- Select ementas
+CREATE OR REPLACE FUNCTION selectementa(VARCHAR(10))
+RETURNS TABLE (cod_ementa VARCHAR(10), cod_tipoementa VARCHAR(10), cod_dataementa VARCHAR(10), cod_tiporefeicao VARCHAR(10), cod_Restaurante VARCHAR(10))
 LANGUAGE plpgsql
-AS $selectEmenta$
+AS $selectementa$
 BEGIN
 
 RETURN QUERY
     SELECT *
-    FROM getEmentas
-    WHERE getEmentas.cod_Ementa = $1;
+    FROM getementas
+    WHERE getementas.cod_ementa = $1;
 
 END
-$selectEmenta$;
+$selectementa$;
 
--- View Alergias
-CREATE OR REPLACE VIEW getAlergias
-AS SELECT * FROM Alergias;
+-- View alergias
+CREATE OR REPLACE VIEW getalergias
+AS SELECT * FROM alergias;
 
--- Select Alergias
-CREATE OR REPLACE FUNCTION selectAlergias()
-RETURNS TABLE (cod_Alergia VARCHAR(10), designacao VARCHAR(256))
+-- Select alergias
+CREATE OR REPLACE FUNCTION selectalergias()
+RETURNS TABLE (cod_alergia VARCHAR(10), designacao VARCHAR(256))
 LANGUAGE plpgsql
-AS $selectAlergias$
+AS $selectalergias$
 BEGIN
 
 RETURN QUERY
     SELECT *
-    FROM getAlergias;
+    FROM getalergias;
 
 END
-$selectAlergias$;
+$selectalergias$;
 
--- Select Alergia
-CREATE OR REPLACE FUNCTION selectAlergia(VARCHAR(10))
-RETURNS TABLE (cod_Alergia VARCHAR(10), designacao VARCHAR(256))
+-- Select alergia
+CREATE OR REPLACE FUNCTION selectalergia(VARCHAR(10))
+RETURNS TABLE (cod_alergia VARCHAR(10), designacao VARCHAR(256))
 LANGUAGE plpgsql
-AS $selectAlergia$
+AS $selectalergia$
 BEGIN
 
 RETURN QUERY
     SELECT *
-    FROM getAlergias
-    WHERE getAlergias.cod_Alergia = $1;
+    FROM getalergias
+    WHERE getalergias.cod_alergia = $1;
 
 END
-$selectAlergia$;
+$selectalergia$;
 
--- View EmentasItens
-CREATE OR REPLACE VIEW getEmentasItens
-AS SELECT * FROM EmentasItens;
+-- View ementasitens
+CREATE OR REPLACE VIEW getementasitens
+AS SELECT * FROM ementasitens;
 
--- Select EmentasItens
-CREATE OR REPLACE FUNCTION selectEmentasItens()
-RETURNS TABLE (cod_Ementa VARCHAR(10), cod_Item VARCHAR(10))
+-- Select ementasitens
+CREATE OR REPLACE FUNCTION selectementasitens()
+RETURNS TABLE (cod_ementa VARCHAR(10), cod_item VARCHAR(10))
 LANGUAGE plpgsql
-AS $selectEmentasItens$
+AS $selectementasitens$
 BEGIN
 
 RETURN QUERY
     SELECT *
-    FROM getEmentasItens;
+    FROM getementasitens;
 
 END
-$selectEmentasItens$;
+$selectementasitens$;
 
--- Select EmentaItem
-CREATE OR REPLACE FUNCTION selectEmentaItem(VARCHAR(10), VARCHAR(10))
-RETURNS TABLE (cod_Ementa VARCHAR(10), cod_Item VARCHAR(10))
+-- Select ementaitem
+CREATE OR REPLACE FUNCTION selectementaitem(VARCHAR(10), VARCHAR(10))
+RETURNS TABLE (cod_ementa VARCHAR(10), cod_item VARCHAR(10))
 LANGUAGE plpgsql
-AS $selectEmentaItem$
+AS $selectementaitem$
 BEGIN
 
 RETURN QUERY
     SELECT *
-    FROM getEmentasItens
-    WHERE getEmentasItens.cod_Ementa = $1 AND getEmentasItens.cod_Item = $2;
+    FROM getementasitens
+    WHERE getementasitens.cod_ementa = $1 AND getementasitens.cod_item = $2;
 
 END
-$selectEmentaItem$;
+$selectementaitem$;
 
--- View ItensAlergias
-CREATE OR REPLACE VIEW getItensAlergias
-AS SELECT * FROM ItensAlergias;
+-- View itensalergias
+CREATE OR REPLACE VIEW getitensalergias
+AS SELECT * FROM itensalergias;
 
--- Select ItensAlergias
-CREATE OR REPLACE FUNCTION selectItensAlergias()
-RETURNS TABLE (cod_Item VARCHAR(10), cod_Alergia VARCHAR(10))
+-- Select itensalergias
+CREATE OR REPLACE FUNCTION selectitensalergias()
+RETURNS TABLE (cod_item VARCHAR(10), cod_alergia VARCHAR(10))
 LANGUAGE plpgsql
-AS $selectItensAlergias$
+AS $selectitensalergias$
 BEGIN
 
 RETURN QUERY
     SELECT *
-    FROM getItensAlergias;
+    FROM getitensalergias;
 
 END
-$selectItensAlergias$;
+$selectitensalergias$;
 
--- Select ItemAlergia
-CREATE OR REPLACE FUNCTION selectItemAlergia(VARCHAR(10), VARCHAR(10))
-RETURNS TABLE (cod_Item VARCHAR(10), cod_Alergia VARCHAR(10))
+-- Select itemsalergia
+CREATE OR REPLACE FUNCTION selectitemalergia(VARCHAR(10), VARCHAR(10))
+RETURNS TABLE (cod_item VARCHAR(10), cod_alergia VARCHAR(10))
 LANGUAGE plpgsql
-AS $selectItemAlergia$
+AS $selectitemalergia$
 BEGIN
 
 RETURN QUERY
     SELECT *
-    FROM getItensAlergias
-    WHERE getItensAlergias.cod_Item = $1 AND getItensAlergias.cod_Alergia = $2;
+    FROM getitensalergias
+    WHERE getitensalergias.cod_item = $1 AND getitensalergias.cod_alergia = $2;
 
 END
-$selectItemAlergia$;
+$selectitemalergia$;
+
+-- View consumosementas
+CREATE OR REPLACE VIEW getconsumosementas
+AS SELECT * FROM consumosementas;
+
+-- Select consumosementas
+CREATE OR REPLACE FUNCTION selectconsumosementas()
+RETURNS TABLE (cod_consumo VARCHAR(10), cod_ementa VARCHAR(10))
+LANGUAGE plpgsql
+AS $selectconsumosementas$
+BEGIN
+
+RETURN QUERY
+    SELECT *
+    FROM getconsumosementas;
+
+END
+$selectconsumosementas$;
+
+-- Select consumoementa
+CREATE OR REPLACE FUNCTION selectconsumoementa(VARCHAR(10), VARCHAR(10))
+RETURNS TABLE (cod_consumo VARCHAR(10), cod_ementa VARCHAR(10))
+LANGUAGE plpgsql
+AS $selectconsumoementa$
+BEGIN
+
+RETURN QUERY
+    SELECT *
+    FROM getconsumosementas
+    WHERE getconsumosementas.cod_consumo = $1 AND getconsumosementas.cod_consumo = $2;
+
+END
+$selectconsumoementa$;

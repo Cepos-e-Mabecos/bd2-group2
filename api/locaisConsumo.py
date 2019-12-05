@@ -12,7 +12,7 @@ def get_locaisconsumo():
         connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
-        cursor.execute("SELECT * FROM LocaisConsumo;")
+        cursor.execute("call selectlocaisconsumo();")
         query_result = cursor.fetchall()
         connection.commit()
 
@@ -35,7 +35,7 @@ def get_localconsumo(cod_LocalConsumo):
 
         cursor = connection.cursor()
         cursor.execute(
-            "SELECT * FROM LocaisConsumo WHERE cod_LocalConsumo = %s;", (cod_LocalConsumo,))
+            "call selectlocalconsumo(%s);", (cod_LocalConsumo,))
         query_result = cursor.fetchone()
         connection.commit()
 
@@ -57,7 +57,7 @@ def post_localconsumo():
         connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
-        cursor.execute("call insertLocaisConsumo(%s);",
+        cursor.execute("call insertlocaisconsumo(%s);",
                        (json.dumps(request.json),))
         connection.commit()
 
@@ -79,7 +79,7 @@ def put_localconsumo(cod_LocalConsumo):
         connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
-        cursor.execute("call updateLocaisConsumo(%s,%s);",
+        cursor.execute("call updatelocaisconsumo(%s,%s);",
                        (cod_LocalConsumo, json.dumps(request.json)))
         connection.commit()
 
@@ -101,7 +101,7 @@ def delete_localconsumo(cod_LocalConsumo):
         connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
-        cursor.execute("call deleteLocaisConsumo(%s);",
+        cursor.execute("call deletelocaisconsumo(%s);",
                        (cod_LocalConsumo,))
         connection.commit()
 

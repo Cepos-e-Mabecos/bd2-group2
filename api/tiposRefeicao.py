@@ -12,7 +12,7 @@ def get_tiposrefeicao():
         connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
-        cursor.execute("SELECT * FROM TiposRefeicao;")
+        cursor.execute("call selecttiposrefeicao();")
         query_result = cursor.fetchall()
         connection.commit()
 
@@ -35,7 +35,7 @@ def get_tiporefeicao(cod_TipoRefeicao):
 
         cursor = connection.cursor()
         cursor.execute(
-            "SELECT * FROM TiposRefeicao WHERE cod_TipoRefeicao = %s;", (cod_TipoRefeicao,))
+            "call selecttiporefeicao(%s);", (cod_TipoRefeicao,))
         query_result = cursor.fetchone()
         connection.commit()
 
@@ -57,7 +57,7 @@ def post_tiporefeicao():
         connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
-        cursor.execute("call insertTiposRefeicao(%s);",
+        cursor.execute("call inserttiposrefeicao(%s);",
                        (json.dumps(request.json),))
         connection.commit()
 
@@ -79,7 +79,7 @@ def put_tiporefeicao(cod_TipoRefeicao):
         connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
-        cursor.execute("call updateTiposRefeicao(%s,%s);",
+        cursor.execute("call updatetiposrefeicao(%s,%s);",
                        (cod_TipoRefeicao, json.dumps(request.json)))
         connection.commit()
 
@@ -101,7 +101,7 @@ def delete_tiporefeicao(cod_TipoRefeicao):
         connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
-        cursor.execute("call deleteTiposRefeicao(%s);",
+        cursor.execute("call deletetiposrefeicao(%s);",
                        (cod_TipoRefeicao,))
         connection.commit()
 
