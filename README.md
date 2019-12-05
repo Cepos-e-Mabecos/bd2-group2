@@ -3,7 +3,7 @@ This repository contains our practical project for the class of distributed syst
 ## Table of Contents
 - [Status](#status)
 - [Contributing](#contributing)
-- [Database](#database)
+- [Implementation](#implementation)
 - [License](#license)
 
 ## Status
@@ -44,7 +44,7 @@ git push origin <topic-branch-name>
 #### Code guidelines
 - Code should follow all [Google Style](https://google.github.io/styleguide/javaguide.html) guidelines.
 
-## Database
+## Implementation
 ![implementation](implementation.png)
 
 ## License
