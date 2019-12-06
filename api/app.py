@@ -2,7 +2,7 @@ import flask
 from alergias import alergias
 from clientes import clientes
 from consumos import consumos
-from datas import datas
+from datasementa import datasementa
 from ementas import ementas
 from funcionarios import funcionarios
 from itens import itens
@@ -19,7 +19,7 @@ app = flask.Flask(__name__)
 app.register_blueprint(alergias)
 app.register_blueprint(clientes)
 app.register_blueprint(consumos)
-app.register_blueprint(datas)
+app.register_blueprint(datasementa)
 app.register_blueprint(ementas)
 app.register_blueprint(funcionarios)
 app.register_blueprint(itens)

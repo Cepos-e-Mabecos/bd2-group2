@@ -12,7 +12,7 @@ services:
     image: api
     container_name: api
     env_file: env.list
-    depends_on: 
+    depends_on:
       - database
   web:
     build: ./web
