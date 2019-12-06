@@ -1,87 +1,92 @@
 -- Tables creation
-CREATE TABLE Clientes (
-  cod_Cliente VARCHAR(10) NOT NULL,
+CREATE TABLE locais (
+  cod_local VARCHAR(10) NOT NULL,
+  designacao VARCHAR(256) NOT NULL,
+  PRIMARY KEY(cod_local)
+);
+CREATE TABLE restaurantes (
+  cod_restaurante VARCHAR(10) NOT NULL,
+  designacao VARCHAR(256) NOT NULL,
+  cod_local VARCHAR(10) NOT NULL REFERENCES locais(cod_local) ON DELETE CASCADE,
+  PRIMARY KEY(cod_restaurante)
+);
+CREATE TABLE locaisconsumo (
+  cod_localconsumo VARCHAR(10) NOT NULL,
+  designacao VARCHAR(256) NOT NULL,
+  cod_restaurante VARCHAR(10) NOT NULL REFERENCES restaurantes(cod_restaurante) ON DELETE CASCADE,
+  PRIMARY KEY(cod_localconsumo)
+);
+CREATE TABLE funcionarios (
+  cod_funcionario VARCHAR(10) NOT NULL,
+  nome VARCHAR(256) NOT NULL,
+  cod_localconsumo VARCHAR(10) NOT NULL REFERENCES locaisconsumo(cod_localconsumo) ON DELETE CASCADE,
+  PRIMARY KEY(cod_funcionario)
+);
+CREATE TABLE clientes (
+  cod_cliente VARCHAR(10) NOT NULL,
   nome VARCHAR(256) NOT NULL,
   nif VARCHAR(10) NOT NULL,
-  PRIMARY KEY(cod_Cliente)
+  PRIMARY KEY(cod_cliente)
 );
-CREATE TABLE Consumos (
-  cod_Consumo VARCHAR(10) NOT NULL,
-  data_Consumo TIMESTAMP NOT NULL,
-  cod_Cliente VARCHAR(10) NOT NULL REFERENCES Clientes(cod_Cliente) ON DELETE CASCADE,
-  PRIMARY KEY(cod_Consumo)
+CREATE TABLE consumos (
+  cod_consumo VARCHAR(10) NOT NULL,
+  data_consumo TIMESTAMP NOT NULL,
+  cod_cliente VARCHAR(10) NOT NULL REFERENCES clientes(cod_cliente) ON DELETE CASCADE,
+  cod_funcionario VARCHAR(10) NOT NULL REFERENCES funcionarios(cod_funcionario) ON DELETE CASCADE,
+  PRIMARY KEY(cod_consumo)
 );
-CREATE TABLE Locais (
-  cod_Local VARCHAR(10) NOT NULL,
+CREATE TABLE alergias (
+  cod_alergia VARCHAR(10) NOT NULL,
   designacao VARCHAR(256) NOT NULL,
-  PRIMARY KEY(cod_Local)
+  PRIMARY KEY(cod_alergia)
 );
-CREATE TABLE Restaurantes (
-  cod_Restaurante VARCHAR(10) NOT NULL,
+CREATE TABLE tipositem (
+  cod_tipoitem VARCHAR(10) NOT NULL,
   designacao VARCHAR(256) NOT NULL,
-  cod_Local VARCHAR(10) NOT NULL REFERENCES Locais(cod_Local) ON DELETE CASCADE,
-  PRIMARY KEY(cod_Restaurante)
+  PRIMARY KEY(cod_tipoitem)
 );
-CREATE TABLE LocaisConsumo (
-  cod_LocalConsumo VARCHAR(10) NOT NULL,
-  designacao VARCHAR(256) NOT NULL,
-  cod_Restaurante VARCHAR(10) NOT NULL REFERENCES Restaurantes(cod_Restaurante) ON DELETE CASCADE,
-  PRIMARY KEY(cod_LocalConsumo)
-);
-CREATE TABLE Funcionarios (
-  cod_Funcionario VARCHAR(10) NOT NULL,
-  nome VARCHAR(256) NOT NULL,
-  cod_Restaurante VARCHAR(10) NOT NULL REFERENCES Restaurantes(cod_Restaurante) ON DELETE CASCADE,
-  cod_LocalConsumo VARCHAR(10) NOT NULL REFERENCES LocaisConsumo(cod_LocalConsumo) ON DELETE CASCADE,
-  PRIMARY KEY(cod_Funcionario)
-);
-CREATE TABLE TiposEmenta (
-  cod_TipoEmenta VARCHAR(10) NOT NULL,
-  designacao VARCHAR(256) NOT NULL,
-  PRIMARY KEY(cod_TipoEmenta)
-);
-CREATE TABLE TiposItem (
-  cod_TipoItem VARCHAR(10) NOT NULL,
-  designacao VARCHAR(256) NOT NULL,
-  PRIMARY KEY(cod_TipoItem)
-);
-CREATE TABLE Itens (
-  cod_Item VARCHAR(10) NOT NULL,
+CREATE TABLE itens (
+  cod_item VARCHAR(10) NOT NULL,
   designacao VARCHAR(256) NOT NULL,
   custo MONEY NOT NULL,
-  cod_TipoItem VARCHAR(10) NOT NULL REFERENCES TiposItem(cod_TipoItem) ON DELETE CASCADE,
-  PRIMARY KEY(cod_Item)
+  cod_tipoitem VARCHAR(10) NOT NULL REFERENCES tipositem(cod_tipoitem) ON DELETE CASCADE,
+  PRIMARY KEY(cod_item)
 );
-CREATE TABLE DatasEmenta (
-  cod_DataEmenta VARCHAR(10) NOT NULL,
-  data_Ementa TIMESTAMP NOT NULL,
-  PRIMARY KEY(cod_DataEmenta)
+CREATE TABLE itensalergias (
+  cod_item VARCHAR(10) NOT NULL REFERENCES itens(cod_item) ON DELETE CASCADE,
+  cod_alergia VARCHAR(10) NOT NULL REFERENCES alergias(cod_alergia) ON DELETE CASCADE,
+  PRIMARY KEY(cod_item, cod_alergia)
 );
-CREATE TABLE TiposRefeicao (
-  cod_TipoRefeicao VARCHAR(10) NOT NULL,
+CREATE TABLE datasementa (
+  cod_dataementa VARCHAR(10) NOT NULL,
+  data_ementa TIMESTAMP NOT NULL,
+  PRIMARY KEY(cod_dataementa)
+);
+CREATE TABLE tiposementa (
+  cod_tipoementa VARCHAR(10) NOT NULL,
   designacao VARCHAR(256) NOT NULL,
-  PRIMARY KEY(cod_TipoRefeicao)
+  PRIMARY KEY(cod_tipoementa)
 );
-CREATE TABLE Ementas (
-  cod_Ementa VARCHAR(10) NOT NULL,
-  cod_TipoEmenta VARCHAR(10) NOT NULL REFERENCES TiposEmenta(cod_TipoEmenta) ON DELETE CASCADE,
-  cod_DataEmenta VARCHAR(10) NOT NULL REFERENCES DatasEmenta(cod_DataEmenta) ON DELETE CASCADE,
-  cod_TipoRefeicao VARCHAR(10) NOT NULL REFERENCES TiposRefeicao(cod_TipoRefeicao) ON DELETE CASCADE,
-  cod_Restaurante VARCHAR(10) NOT NULL REFERENCES Restaurantes(cod_Restaurante) ON DELETE CASCADE,
-  PRIMARY KEY(cod_Ementa)
-);
-CREATE TABLE Alergias (
-  cod_Alergia VARCHAR(10) NOT NULL,
+CREATE TABLE tiposrefeicao (
+  cod_tiporefeicao VARCHAR(10) NOT NULL,
   designacao VARCHAR(256) NOT NULL,
-  PRIMARY KEY(cod_Alergia)
+  PRIMARY KEY(cod_tiporefeicao)
 );
-CREATE TABLE EmentasItens (
-  cod_Ementa VARCHAR(10) NOT NULL REFERENCES Ementas(cod_Ementa) ON DELETE CASCADE,
-  cod_Item VARCHAR(10) NOT NULL REFERENCES Itens(cod_Item) ON DELETE CASCADE,
-  PRIMARY KEY(cod_Ementa, cod_Item)
+CREATE TABLE ementas (
+  cod_ementa VARCHAR(10) NOT NULL,
+  cod_tipoementa VARCHAR(10) NOT NULL REFERENCES tiposementa(cod_tipoementa) ON DELETE CASCADE,
+  cod_dataementa VARCHAR(10) NOT NULL REFERENCES datasementa(cod_dataementa) ON DELETE CASCADE,
+  cod_tiporefeicao VARCHAR(10) NOT NULL REFERENCES tiposrefeicao(cod_tiporefeicao) ON DELETE CASCADE,
+  cod_restaurante VARCHAR(10) NOT NULL REFERENCES restaurantes(cod_restaurante) ON DELETE CASCADE,
+  PRIMARY KEY(cod_ementa)
 );
-CREATE TABLE ItensAlergias (
-  cod_Item VARCHAR(10) NOT NULL REFERENCES Itens(cod_Item) ON DELETE CASCADE,
-  cod_Alergia VARCHAR(10) NOT NULL REFERENCES Alergias(cod_Alergia) ON DELETE CASCADE,
-  PRIMARY KEY(cod_Item, cod_Alergia)
+CREATE TABLE ementasitens (
+  cod_ementa VARCHAR(10) NOT NULL REFERENCES ementas(cod_ementa) ON DELETE CASCADE,
+  cod_item VARCHAR(10) NOT NULL REFERENCES itens(cod_item) ON DELETE CASCADE,
+  PRIMARY KEY(cod_ementa, cod_item)
+);
+CREATE TABLE consumosementas (
+  cod_consumo VARCHAR(10) NOT NULL REFERENCES consumos(cod_consumo) ON DELETE CASCADE,
+  cod_ementa VARCHAR(10) NOT NULL REFERENCES ementas(cod_ementa) ON DELETE CASCADE,
+  PRIMARY KEY(cod_consumo, cod_ementa)
 );

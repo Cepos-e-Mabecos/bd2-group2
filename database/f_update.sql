@@ -1,164 +1,175 @@
--- Update Clientes
-CREATE OR REPLACE PROCEDURE updateClientes(VARCHAR(10), JSON)
+-- Update clientes
+CREATE OR REPLACE PROCEDURE updateclientes(VARCHAR(10), JSON)
 LANGUAGE plpgsql
-AS $updateClientes$
+AS $updateclientes$
 BEGIN
 
-    UPDATE Clientes SET (nome, nif) = (SELECT nome, nif FROM JSON_POPULATE_RECORD(NULL::Clientes,$2)) WHERE cod_Cliente = $1;
+    UPDATE clientes SET (nome, nif) = (SELECT nome, nif FROM JSON_POPULATE_RECORD(NULL::clientes,$2)) WHERE cod_cliente = $1;
 
 END
-$updateClientes$;
+$updateclientes$;
 
--- Update Consumos
-CREATE OR REPLACE PROCEDURE updateConsumos(VARCHAR(10), JSON)
+-- Update consumos
+CREATE OR REPLACE PROCEDURE updateconsumos(VARCHAR(10), JSON)
 LANGUAGE plpgsql
-AS $updateConsumos$
+AS $updateconsumos$
 BEGIN
 
-    UPDATE Consumos SET (data_Consumo, cod_Cliente) = (SELECT dataConsumo, cod_Cliente FROM JSON_POPULATE_RECORD(NULL::Consumos,$2)) WHERE cod_Consumo = $1;
+    UPDATE consumos SET (data_consumo, cod_cliente, cod_funcionario) = (SELECT dataconsumo, cod_cliente, cod_funcionario FROM JSON_POPULATE_RECORD(NULL::consumos,$2)) WHERE cod_consumo = $1;
 
 END
-$updateConsumos$;
+$updateconsumos$;
 
--- Update Locais
-CREATE OR REPLACE PROCEDURE updateLocais(VARCHAR(10), JSON)
+-- Update locais
+CREATE OR REPLACE PROCEDURE updatelocais(VARCHAR(10), JSON)
 LANGUAGE plpgsql
-AS $updateLocais$
+AS $updatelocais$
 BEGIN
 
-    UPDATE Locais SET (designacao) = (SELECT designacao FROM JSON_POPULATE_RECORD(NULL::Locais,$2)) WHERE cod_Local = $1;
+    UPDATE locais SET (designacao) = (SELECT designacao FROM JSON_POPULATE_RECORD(NULL::locais,$2)) WHERE cod_local = $1;
 
 END
-$updateLocais$;
+$updatelocais$;
 
--- Update Restaurantes
-CREATE OR REPLACE PROCEDURE updateRestaurantes(VARCHAR(10), JSON)
+-- Update restaurantes
+CREATE OR REPLACE PROCEDURE updaterestaurantes(VARCHAR(10), JSON)
 LANGUAGE plpgsql
-AS $updateRestaurantes$
+AS $updaterestaurantes$
 BEGIN
 
-    UPDATE Restaurantes SET (designacao, cod_Local) = (SELECT designacao, cod_Local FROM JSON_POPULATE_RECORD(NULL::Restaurantes,$2)) WHERE cod_Restaurante = $1;
+    UPDATE restaurantes SET (designacao, cod_local) = (SELECT designacao, cod_local FROM JSON_POPULATE_RECORD(NULL::restaurantes,$2)) WHERE cod_restaurante = $1;
 
 END
-$updateRestaurantes$;
+$updaterestaurantes$;
 
--- Update Funcionarios
-CREATE OR REPLACE PROCEDURE updateFuncionarios(VARCHAR(10), JSON)
+-- Update funcionarios
+CREATE OR REPLACE PROCEDURE updatefuncionarios(VARCHAR(10), JSON)
 LANGUAGE plpgsql
-AS $updateFuncionarios$
+AS $updatefuncionarios$
 BEGIN
 
-    UPDATE Funcionarios SET (nome, cod_Restaurante, cod_LocalConsumo) = (SELECT nome, cod_Restaurante, cod_LocalConsumo FROM JSON_POPULATE_RECORD(NULL::Funcionarios,$2)) WHERE cod_Funcionario = $1;
+    UPDATE funcionarios SET (nome, cod_localconsumo) = (SELECT nome, cod_localconsumo FROM JSON_POPULATE_RECORD(NULL::funcionarios,$2)) WHERE cod_funcionario = $1;
 
 END
-$updateFuncionarios$;
+$updatefuncionarios$;
 
--- Update LocaisConsumo
-CREATE OR REPLACE PROCEDURE updateLocaisConsumo(VARCHAR(10), JSON)
+-- Update locaisconsumo
+CREATE OR REPLACE PROCEDURE updatelocaisconsumo(VARCHAR(10), JSON)
 LANGUAGE plpgsql
-AS $updateLocaisConsumo$
+AS $updatelocaisconsumo$
 BEGIN
 
-    UPDATE LocaisConsumo SET (designacao, cod_Restaurante) = (SELECT designacao, cod_Restaurante FROM JSON_POPULATE_RECORD(NULL::LocaisConsumo,$2)) WHERE cod_LocalConsumo = $1;
+    UPDATE locaisconsumo SET (designacao, cod_restaurante) = (SELECT designacao, cod_restaurante FROM JSON_POPULATE_RECORD(NULL::locaisconsumo,$2)) WHERE cod_localconsumo = $1;
 
 END
-$updateLocaisConsumo$;
+$updatelocaisconsumo$;
 
--- Update TiposEmenta
-CREATE OR REPLACE PROCEDURE updateTiposEmenta(VARCHAR(10), JSON)
+-- Update tiposementa
+CREATE OR REPLACE PROCEDURE updatetiposementa(VARCHAR(10), JSON)
 LANGUAGE plpgsql
-AS $updateTiposEmenta$
+AS $updatetiposementa$
 BEGIN
 
-    UPDATE TiposEmenta SET (designacao) = (SELECT designacao FROM JSON_POPULATE_RECORD(NULL::TiposEmenta,$2)) WHERE cod_TipoEmenta = $1;
+    UPDATE tiposementa SET (designacao) = (SELECT designacao FROM JSON_POPULATE_RECORD(NULL::tiposementa,$2)) WHERE cod_tipoementa = $1;
 
 END
-$updateTiposEmenta$;
+$updatetiposementa$;
 
--- Update TiposItem
-CREATE OR REPLACE PROCEDURE updateTiposItem(VARCHAR(10), JSON)
+-- Update tipositem
+CREATE OR REPLACE PROCEDURE updatetipositem(VARCHAR(10), JSON)
 LANGUAGE plpgsql
-AS $updateTiposItem$
+AS $updatetipositem$
 BEGIN
 
-    UPDATE TiposItem SET (designacao) = (SELECT designacao FROM JSON_POPULATE_RECORD(NULL::TiposItem,$2)) WHERE cod_TipoItem = $1;
+    UPDATE tipositem SET (designacao) = (SELECT designacao FROM JSON_POPULATE_RECORD(NULL::tipositem,$2)) WHERE cod_tipoitem = $1;
 
 END
-$updateTiposItem$;
+$updatetipositem$;
 
--- Update Itens
-CREATE OR REPLACE PROCEDURE updateItens(VARCHAR(10), JSON)
+-- Update itens
+CREATE OR REPLACE PROCEDURE updateitens(VARCHAR(10), JSON)
 LANGUAGE plpgsql
-AS $updateItens$
+AS $updateitens$
 BEGIN
 
-    UPDATE Itens SET (designacao, custo, cod_TipoItem) = (SELECT designacao, custo, cod_TipoItem FROM JSON_POPULATE_RECORD(NULL::Itens,$2)) WHERE cod_Item = $1;
+    UPDATE itens SET (designacao, custo, cod_tipoitem) = (SELECT designacao, custo, cod_tipoitem FROM JSON_POPULATE_RECORD(NULL::itens,$2)) WHERE cod_item = $1;
 
 END
-$updateItens$;
+$updateitens$;
 
--- Update DatasEmenta
-CREATE OR REPLACE PROCEDURE updateDatasEmenta(VARCHAR(10), JSON)
+-- Update datasementa
+CREATE OR REPLACE PROCEDURE updatedatasementa(VARCHAR(10), JSON)
 LANGUAGE plpgsql
-AS $updateDatasEmenta$
+AS $updatedatasementa$
 BEGIN
 
-    UPDATE DatasEmenta SET (data_Ementa) = (SELECT data_Ementa FROM JSON_POPULATE_RECORD(NULL::DatasEmenta,$2)) WHERE cod_DataEmenta = $1;
+    UPDATE datasementa SET (data_ementa) = (SELECT data_ementa FROM JSON_POPULATE_RECORD(NULL::datasementa,$2)) WHERE cod_dataementa = $1;
 
 END
-$updateDatasEmenta$;
+$updatedatasementa$;
 
--- Update TiposRefeicao
-CREATE OR REPLACE PROCEDURE updateTiposRefeicao(VARCHAR(10), JSON)
+-- Update tiposrefeicao
+CREATE OR REPLACE PROCEDURE updatetiposrefeicao(VARCHAR(10), JSON)
 LANGUAGE plpgsql
-AS $updateTiposRefeicao$
+AS $updatetiposrefeicao$
 BEGIN
 
-    UPDATE TiposRefeicao SET (designacao) = (SELECT designacao FROM JSON_POPULATE_RECORD(NULL::TiposRefeicao,$2)) WHERE cod_TipoRefeicao = $1;
+    UPDATE tiposrefeicao SET (designacao) = (SELECT designacao FROM JSON_POPULATE_RECORD(NULL::tiposrefeicao,$2)) WHERE cod_tiporefeicao = $1;
 
 END
-$updateTiposRefeicao$;
+$updatetiposrefeicao$;
 
--- Update Ementas
-CREATE OR REPLACE PROCEDURE updateEmentas(VARCHAR(10), JSON)
+-- Update ementas
+CREATE OR REPLACE PROCEDURE updateementas(VARCHAR(10), JSON)
 LANGUAGE plpgsql
-AS $updateEmentas$
+AS $updateementas$
 BEGIN
 
-    UPDATE Ementas SET (cod_TipoEmenta, cod_DataEmenta, cod_TipoRefeicao, cod_Restaurante) = (SELECT cod_TipoEmenta, cod_DataEmenta, cod_TipoRefeicao, cod_Restaurante FROM JSON_POPULATE_RECORD(NULL::Ementas,$2)) WHERE cod_Ementa = $1;
+    UPDATE ementas SET (cod_tipoementa, cod_dataementa, cod_tiporefeicao, cod_restaurante) = (SELECT cod_tipoementa, cod_dataementa, cod_tiporefeicao, cod_restaurante FROM JSON_POPULATE_RECORD(NULL::ementas,$2)) WHERE cod_ementa = $1;
 
 END
-$updateEmentas$;
+$updateementas$;
 
--- Update Alergias
-CREATE OR REPLACE PROCEDURE updateAlergias(VARCHAR(10), JSON)
+-- Update alergias
+CREATE OR REPLACE PROCEDURE updatealergias(VARCHAR(10), JSON)
 LANGUAGE plpgsql
-AS $updateAlergias$
+AS $updatealergias$
 BEGIN
 
-    UPDATE Alergias SET (designacao) = (SELECT designacao FROM JSON_POPULATE_RECORD(NULL::Alergias,$2)) WHERE cod_Alergia = $1;
+    UPDATE alergias SET (designacao) = (SELECT designacao FROM JSON_POPULATE_RECORD(NULL::alergias,$2)) WHERE cod_alergia = $1;
 
 END
-$updateAlergias$;
+$updatealergias$;
 
--- Update EmentasItens
-CREATE OR REPLACE PROCEDURE updateEmentasItens(VARCHAR(10), VARCHAR(10), JSON)
+-- Update ementasitens
+CREATE OR REPLACE PROCEDURE updateementasitens(VARCHAR(10), VARCHAR(10), JSON)
 LANGUAGE plpgsql
-AS $updateEmentasItens$
+AS $updateementasitens$
 BEGIN
 
-    UPDATE EmentasItens SET (cod_Ementa, cod_Item) = (SELECT cod_Ementa, cod_Item FROM JSON_POPULATE_RECORD(NULL::EmentasItens,$3)) WHERE cod_Alergia = $1 AND cod_Item = $2;
+    UPDATE ementasitens SET (cod_ementa, cod_item) = (SELECT cod_ementa, cod_item FROM JSON_POPULATE_RECORD(NULL::ementasitens,$3)) WHERE cod_alergia = $1 AND cod_item = $2;
 
 END
-$updateEmentasItens$;
+$updateementasitens$;
 
--- Update ItensAlergias
-CREATE OR REPLACE PROCEDURE updateItensAlergias(VARCHAR(10), VARCHAR(10), JSON)
+-- Update itensalergias
+CREATE OR REPLACE PROCEDURE updateitensalergias(VARCHAR(10), VARCHAR(10), JSON)
 LANGUAGE plpgsql
-AS $updateItensAlergias$
+AS $updateitensalergias$
 BEGIN
 
-    UPDATE ItensAlergias SET (cod_Item, cod_Alergia) = (SELECT cod_Item, cod_Alergia FROM JSON_POPULATE_RECORD(NULL::ItensAlergias,$3)) WHERE cod_Item = $1 AND cod_Alergia = $2;
+    UPDATE itensalergias SET (cod_item, cod_alergia) = (SELECT cod_item, cod_alergia FROM JSON_POPULATE_RECORD(NULL::itensalergias,$3)) WHERE cod_item = $1 AND cod_alergia = $2;
 
 END
-$updateItensAlergias$;
+$updateitensalergias$;
+
+-- Update consumosementas
+CREATE OR REPLACE PROCEDURE updateconsumosementas(VARCHAR(10), VARCHAR(10), JSON)
+LANGUAGE plpgsql
+AS $updateconsumosementas$
+BEGIN
+
+    UPDATE consumosementas SET (cod_consumo, cod_ementa) = (SELECT cod_consumo, cod_ementa FROM JSON_POPULATE_RECORD(NULL::consumosementas,$3)) WHERE cod_consumo = $1 AND cod_ementa = $2;
+
+END
+$updateconsumosementas$;

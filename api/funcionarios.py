@@ -12,7 +12,7 @@ def get_funcionarios():
         connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
-        cursor.execute("SELECT * FROM Funcionarios;")
+        cursor.execute("call selectfuncionarios();")
         query_result = cursor.fetchall()
         connection.commit()
 
@@ -35,7 +35,7 @@ def get_funcionario(cod_Funcionario):
 
         cursor = connection.cursor()
         cursor.execute(
-            "SELECT * FROM Funcionarios WHERE cod_Funcionario = %s;", (cod_Funcionario,))
+            "call selectfuncionario(%s);", (cod_Funcionario,))
         query_result = cursor.fetchone()
         connection.commit()
 
@@ -57,7 +57,7 @@ def post_funcionario():
         connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
-        cursor.execute("call insertFuncionarios(%s);",
+        cursor.execute("call insertfuncionarios(%s);",
                        (json.dumps(request.json),))
         connection.commit()
 
@@ -79,7 +79,7 @@ def put_funcionario(cod_Funcionario):
         connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
-        cursor.execute("call updateFuncionarios(%s,%s);",
+        cursor.execute("call updatefuncionarios(%s,%s);",
                        (cod_Funcionario, json.dumps(request.json)))
         connection.commit()
 
@@ -101,7 +101,7 @@ def delete_funcionario(cod_Funcionario):
         connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
-        cursor.execute("call deleteFuncionarios(%s);",
+        cursor.execute("call deletefuncionarios(%s);",
                        (cod_Funcionario,))
         connection.commit()
 

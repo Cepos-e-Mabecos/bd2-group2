@@ -12,7 +12,7 @@ def get_tipositens():
         connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
-        cursor.execute("SELECT * FROM TiposItens;")
+        cursor.execute("call selecttipositens();")
         query_result = cursor.fetchall()
         connection.commit()
 
@@ -35,7 +35,7 @@ def get_tipoitem(cod_TipoItem):
 
         cursor = connection.cursor()
         cursor.execute(
-            "SELECT * FROM TiposItens WHERE cod_TipoItem = %s;", (cod_TipoItem,))
+            "call selecttipoitem(%s);", (cod_TipoItem,))
         query_result = cursor.fetchone()
         connection.commit()
 
@@ -57,7 +57,7 @@ def post_tipoitem():
         connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
-        cursor.execute("call insertTiposItens(%s);",
+        cursor.execute("call inserttipositens(%s);",
                        (json.dumps(request.json),))
         connection.commit()
 
@@ -79,7 +79,7 @@ def put_tipoitem(cod_TipoItem):
         connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
-        cursor.execute("call updateTiposItens(%s,%s);",
+        cursor.execute("call updatetipositens(%s,%s);",
                        (cod_TipoItem, json.dumps(request.json)))
         connection.commit()
 
@@ -101,7 +101,7 @@ def delete_tipoitem(cod_TipoItem):
         connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
-        cursor.execute("call deleteTiposItens(%s);",
+        cursor.execute("call deletetipositens(%s);",
                        (cod_TipoItem,))
         connection.commit()
 

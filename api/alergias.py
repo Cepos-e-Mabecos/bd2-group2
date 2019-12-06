@@ -12,7 +12,7 @@ def get_alergias():
         connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
-        cursor.execute("SELECT * FROM Alergias;")
+        cursor.execute("call selectalergias();")
         query_result = cursor.fetchall()
         connection.commit()
 
@@ -34,8 +34,7 @@ def get_alergia(cod_Alergia):
         connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
-        cursor.execute(
-            "SELECT * FROM Alergias WHERE cod_alergia = %s;", (cod_Alergia,))
+        cursor.execute("call selectalergia(%s);", (cod_Alergia,))
         query_result = cursor.fetchone()
         connection.commit()
 
@@ -57,8 +56,7 @@ def post_alergia():
         connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
-        cursor.execute("call insertAlergias(%s);",
-                       (json.dumps(request.json),))
+        cursor.execute("call insertalergias(%s);", (json.dumps(request.json),))
         connection.commit()
 
     except (Exception, psycopg2.Error) as error:
@@ -79,8 +77,7 @@ def put_alergia(cod_Alergia):
         connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
-        cursor.execute("call updateAlergias(%s,%s);",
-                       (cod_Alergia, json.dumps(request.json)))
+        cursor.execute("call updatealergias(%s,%s);", (cod_Alergia, json.dumps(request.json)))
         connection.commit()
 
     except (Exception, psycopg2.Error) as error:
@@ -101,8 +98,7 @@ def delete_alergia(cod_Alergia):
         connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
-        cursor.execute("call deleteAlergias(%s);",
-                       (cod_Alergia,))
+        cursor.execute("call deletealergias(%s);", (cod_Alergia,))
         connection.commit()
 
     except (Exception, psycopg2.Error) as error:

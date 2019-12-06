@@ -12,7 +12,7 @@ def get_restaurantes():
         connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
-        cursor.execute("SELECT * FROM Restaurantes;")
+        cursor.execute("call selectrestaurantes();")
         query_result = cursor.fetchall()
         connection.commit()
 
@@ -35,7 +35,7 @@ def get_restaurante(cod_Restaurante):
 
         cursor = connection.cursor()
         cursor.execute(
-            "SELECT * FROM Restaurantes WHERE cod_Restaurante = %s;", (cod_Restaurante,))
+            "call selectrestaurante(%s);", (cod_Restaurante,))
         query_result = cursor.fetchone()
         connection.commit()
 
@@ -57,7 +57,7 @@ def post_restaurante():
         connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
-        cursor.execute("call insertRestaurantes(%s);",
+        cursor.execute("call insertrestaurantes(%s);",
                        (json.dumps(request.json),))
         connection.commit()
 
@@ -79,7 +79,7 @@ def put_restaurante(cod_Restaurante):
         connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
-        cursor.execute("call updateRestaurantes(%s,%s);",
+        cursor.execute("call updaterestaurantes(%s,%s);",
                        (cod_Restaurante, json.dumps(request.json)))
         connection.commit()
 
@@ -101,7 +101,7 @@ def delete_restaurante(cod_Restaurante):
         connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
-        cursor.execute("call deleteRestaurantes(%s);",
+        cursor.execute("call deleterestaurantes(%s);",
                        (cod_Restaurante,))
         connection.commit()
 

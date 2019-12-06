@@ -3,16 +3,16 @@ import psycopg2
 import json
 import sys
 
-datas = Blueprint('datas', __name__)
+datasementa = Blueprint('datasementa', __name__)
 
 
-@datas.route('/api/datas', methods=['GET'])
-def get_datas():
+@datasementa.route('/api/datasementa', methods=['GET'])
+def get_datasementa():
     try:
         connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
-        cursor.execute("SELECT * FROM Datas;")
+        cursor.execute("call selectdatasementa();")
         query_result = cursor.fetchall()
         connection.commit()
 
@@ -28,14 +28,14 @@ def get_datas():
     return jsonify({'message': query_result}), 200
 
 
-@datas.route('/api/datas/<cod_Data>', methods=['GET'])
-def get_data(cod_Data):
+@datasementa.route('/api/datasementa/<cod_Data>', methods=['GET'])
+def get_dataementa(cod_Data):
     try:
         connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
         cursor.execute(
-            "SELECT * FROM Datas WHERE cod_Data = %s;", (cod_Data,))
+            "call selectdataementa(%s);", (cod_Data,))
         query_result = cursor.fetchone()
         connection.commit()
 
@@ -51,13 +51,13 @@ def get_data(cod_Data):
     return jsonify({'message': query_result}), 200
 
 
-@datas.route('/api/datas', methods=['POST'])
-def post_data():
+@datasementa.route('/api/datasementa', methods=['POST'])
+def post_dataementa():
     try:
         connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
-        cursor.execute("call insertDatas(%s);",
+        cursor.execute("call insertdatasementa(%s);",
                        (json.dumps(request.json),))
         connection.commit()
 
@@ -73,13 +73,13 @@ def post_data():
     return jsonify({'message': request.json}), 200
 
 
-@datas.route('/api/datas/<cod_Data>', methods=['PUT'])
-def put_data(cod_Data):
+@datasementa.route('/api/datasementa/<cod_Data>', methods=['PUT'])
+def put_dataementa(cod_Data):
     try:
         connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
-        cursor.execute("call updateDatas(%s,%s);",
+        cursor.execute("call updatedatasementa(%s,%s);",
                        (cod_Data, json.dumps(request.json)))
         connection.commit()
 
@@ -95,13 +95,13 @@ def put_data(cod_Data):
     return jsonify({'message': request.json}), 200
 
 
-@datas.route('/api/datas/<cod_Data>', methods=['DELETE'])
-def delete_data(cod_Data):
+@datasementa.route('/api/datasementa/<cod_Data>', methods=['DELETE'])
+def delete_dataementa(cod_Data):
     try:
         connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
-        cursor.execute("call deleteDatas(%s);",
+        cursor.execute("call deletedatasementa(%s);",
                        (cod_Data,))
         connection.commit()
 

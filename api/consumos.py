@@ -12,7 +12,7 @@ def get_consumos():
         connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
-        cursor.execute("SELECT * FROM Consumos;")
+        cursor.execute("call selectconsumos();")
         query_result = cursor.fetchall()
         connection.commit()
 
@@ -35,7 +35,7 @@ def get_consumo(cod_Consumo):
 
         cursor = connection.cursor()
         cursor.execute(
-            "SELECT * FROM Consumos WHERE cod_Consumo = %s;", (cod_Consumo,))
+            "call selectconsumo(%s);", (cod_Consumo,))
         query_result = cursor.fetchone()
         connection.commit()
 
@@ -57,7 +57,7 @@ def post_consumo():
         connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
-        cursor.execute("call insertConsumos(%s);",
+        cursor.execute("call insertconsumos(%s);",
                        (json.dumps(request.json),))
         connection.commit()
 
@@ -79,7 +79,7 @@ def put_consumo(cod_Consumo):
         connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
-        cursor.execute("call updateConsumos(%s,%s);",
+        cursor.execute("call updateconsumos(%s,%s);",
                        (cod_Consumo, json.dumps(request.json)))
         connection.commit()
 
@@ -101,7 +101,7 @@ def delete_consumo(cod_Consumo):
         connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
-        cursor.execute("call deleteConsumos(%s);",
+        cursor.execute("call deleteconsumos(%s);",
                        (cod_Consumo,))
         connection.commit()
 
