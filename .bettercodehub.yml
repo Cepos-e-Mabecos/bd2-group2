@@ -1,0 +1,6 @@
+component_depth: 15
+languages:
+- python
+- php
+exclude:
+- ./database/.*

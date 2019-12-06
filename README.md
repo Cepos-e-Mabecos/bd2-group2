@@ -3,11 +3,13 @@ This repository contains our practical project for the class of distributed syst
 ## Table of Contents
 - [Status](#status)
 - [Contributing](#contributing)
+- [Implementation](#implementation)
 - [License](#license)
 
 ## Status
 [![Build Status](https://travis-ci.com/Cepos-e-Mabecos/bd2-group2.svg?branch=master)](https://travis-ci.com/Cepos-e-Mabecos/bd2-group2)
 [![CodeFactor](https://www.codefactor.io/repository/github/cepos-e-mabecos/bd2-group2/badge/master)](https://www.codefactor.io/repository/github/cepos-e-mabecos/bd2-group2/overview/master)
+[![BCH compliance](https://bettercodehub.com/edge/badge/Cepos-e-Mabecos/bd2-group2?branch=master)](https://bettercodehub.com/)
 
 It will always be kept updated.
 ## Contributing
@@ -42,6 +44,9 @@ git push origin <topic-branch-name>
 
 #### Code guidelines
 - Code should follow all [Google Style](https://google.github.io/styleguide/javaguide.html) guidelines.
+
+## Implementation
+![implementation](implementation.png)
 
 ## License
 By contributing your code, you agree to license your contribution under the [MIT License](https://github.com/Cepos-e-Mabecos/bd2-group2/blob/master/LICENSE).
