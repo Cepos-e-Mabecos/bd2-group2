@@ -10,7 +10,7 @@ END
 $deleteclientes$;
 
 -- Delete Consumos
-CREATE OR REPLACE PROCEDURE deleteclientes(VARCHAR(10))
+CREATE OR REPLACE PROCEDURE deleteconsumos(VARCHAR(10))
 LANGUAGE plpgsql
 AS $deleteconsumos$
 BEGIN
