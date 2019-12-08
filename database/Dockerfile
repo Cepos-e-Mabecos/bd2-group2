@@ -1,5 +1,4 @@
 FROM postgres:12
-COPY ./data /var/lib/postgresql/data
 # Loads scripts in alphabetic order.
 ADD ./a_schema.sql /docker-entrypoint-initdb.d/
 ADD ./b_uuid_generator.sql /docker-entrypoint-initdb.d/
