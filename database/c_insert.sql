@@ -30,7 +30,7 @@ END
 $insertlocais$;
 
 -- Insert Restaurantes 
-CREATE OR REPLACE PROCEDURE insertcestaurantes(JSON)
+CREATE OR REPLACE PROCEDURE insertrestaurantes(JSON)
 LANGUAGE plpgsql
 AS $insertrestaurantes$
 DECLARE cod VARCHAR(10) := generate_uid(10);

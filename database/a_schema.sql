@@ -25,7 +25,7 @@ CREATE TABLE funcionarios (
 CREATE TABLE clientes (
   cod_cliente VARCHAR(10) NOT NULL,
   nome VARCHAR(256) NOT NULL,
-  nif VARCHAR(10) NOT NULL,
+  nif VARCHAR(9) NOT NULL,
   PRIMARY KEY(cod_cliente)
 );
 CREATE TABLE consumos (
