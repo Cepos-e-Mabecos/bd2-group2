@@ -12,7 +12,7 @@ def get_restaurantes():
         connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
-        cursor.execute("call selectrestaurantes();")
+        cursor.execute("SELECT * FROM selectrestaurantes();")
         query_result = cursor.fetchall()
         connection.commit()
 
@@ -35,7 +35,7 @@ def get_restaurante(cod_Restaurante):
 
         cursor = connection.cursor()
         cursor.execute(
-            "call selectrestaurante(%s);", (cod_Restaurante,))
+            "SELECT * FROM selectrestaurante(%s);", (cod_Restaurante,))
         query_result = cursor.fetchone()
         connection.commit()
 

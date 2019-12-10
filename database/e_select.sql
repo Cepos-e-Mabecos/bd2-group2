@@ -3,8 +3,8 @@ CREATE OR REPLACE VIEW getclientes
 AS SELECT * FROM clientes;
 
 -- Select Clientes
-CREATE OR REPLACE FUNCTION selectClientes()
-RETURNS TABLE (cod_cliente VARCHAR(10), nome VARCHAR(256), nif VARCHAR(10))
+CREATE OR REPLACE FUNCTION selectclientes()
+RETURNS TABLE (cod_cliente VARCHAR(10), nome VARCHAR(256), nif VARCHAR(9))
 LANGUAGE plpgsql
 AS $selectclientes$
 BEGIN
@@ -18,7 +18,7 @@ $selectclientes$;
 
 -- Select Cliente
 CREATE OR REPLACE FUNCTION selectcliente(VARCHAR(10))
-RETURNS TABLE (cod_cliente VARCHAR(10), nome VARCHAR(256), nif VARCHAR(10))
+RETURNS TABLE (cod_cliente VARCHAR(10), nome VARCHAR(256), nif VARCHAR(9))
 LANGUAGE plpgsql
 AS $selectcliente$
 BEGIN

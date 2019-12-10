@@ -12,6 +12,8 @@ services:
     image: api
     container_name: api
     env_file: env.list
+    volumes:
+      - ./api:/usr/src/app
     depends_on:
       - database
   web:
@@ -19,6 +21,8 @@ services:
     restart: on-failure
     image: web
     container_name: web
+    volumes:
+      - ./web:/var/www/html
     depends_on:
       - api
     ports:
