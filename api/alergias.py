@@ -49,7 +49,7 @@ def get_alergia(cod_Alergia):
             cursor.close()
             connection.close()
             print("PostgreSQL connection is closed")
-    return jsonify({'message': beautifyFetchOne(alergiasColumns, query_result)}), 200
+    return jsonify({'message': utils.beautifyFetchOne(alergiasColumns, query_result)}), 200
 
 
 @alergias.route('/api/alergias', methods=['POST'])
