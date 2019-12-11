@@ -19,7 +19,7 @@ It will always be kept updated.
 # Clone your fork of the repo into the current directory
 git clone https://github.com/<your-username>/bd2-group2.git
 # Navigate to the newly cloned directory
-cd distributed-systems-2019
+cd bd2-group2
 # Assign the original repo to a remote called "upstream"
 git remote add upstream https://github.com/Cepos-e-Mabecos/bd2-group2.git
 ```
