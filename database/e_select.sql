@@ -31,10 +31,6 @@ RETURN QUERY
 END
 $selectcliente$;
 
--- View Consumos
-CREATE OR REPLACE VIEW getconsumos
-AS SELECT * FROM consumos;
-
 -- Select Consumos
 CREATE OR REPLACE FUNCTION selectconsumos()
 RETURNS TABLE (cod_consumo VARCHAR(10), data_consumo TIMESTAMP, cod_cliente VARCHAR(10), cod_funcionario VARCHAR(10))
@@ -362,11 +358,31 @@ $selecttiporefeicao$;
 
 -- View ementas
 CREATE OR REPLACE VIEW getementas
-AS SELECT * FROM ementas;
+AS
+SELECT
+    cod_ementa,
+    cod_tipoementa,
+    cod_dataementa,
+    cod_tiporefeicao,
+    cod_restaurante,
+    (SELECT total
+    FROM
+    (
+        SELECT 
+            ementasitens.cod_ementa,
+            SUM(itens.custo) AS total
+        FROM ementasitens
+            INNER JOIN itens
+            ON ementasitens.cod_item = itens.cod_item
+        WHERE ementasitens.cod_ementa = ementas.cod_ementa
+        GROUP BY ementasitens.cod_ementa
+    ) AS totalementa
+    ) AS preco
+FROM ementas;
 
 -- Select ementas
 CREATE OR REPLACE FUNCTION selectementas()
-RETURNS TABLE (cod_ementa VARCHAR(10), cod_tipoementa VARCHAR(10), cod_dataementa VARCHAR(10), cod_tiporefeicao VARCHAR(10), cod_Restaurante VARCHAR(10))
+RETURNS TABLE (cod_ementa VARCHAR(10), cod_tipoementa VARCHAR(10), cod_dataementa VARCHAR(10), cod_tiporefeicao VARCHAR(10), cod_restaurante VARCHAR(10))
 LANGUAGE plpgsql
 AS $selectementas$
 BEGIN
@@ -378,9 +394,9 @@ RETURN QUERY
 END
 $selectementas$;
 
--- Select ementas
+-- Select ementa
 CREATE OR REPLACE FUNCTION selectementa(VARCHAR(10))
-RETURNS TABLE (cod_ementa VARCHAR(10), cod_tipoementa VARCHAR(10), cod_dataementa VARCHAR(10), cod_tiporefeicao VARCHAR(10), cod_Restaurante VARCHAR(10))
+RETURNS TABLE (cod_ementa VARCHAR(10), cod_tipoementa VARCHAR(10), cod_dataementa VARCHAR(10), cod_tiporefeicao VARCHAR(10), cod_restaurante VARCHAR(10))
 LANGUAGE plpgsql
 AS $selectementa$
 BEGIN
@@ -392,6 +408,34 @@ RETURN QUERY
 
 END
 $selectementa$;
+
+-- View Consumos
+CREATE OR REPLACE VIEW getconsumos
+AS 
+SELECT
+    consumos.cod_consumo,
+    consumos.data_consumo,
+    consumos.cod_cliente,
+    consumos.cod_funcionario,
+    (
+        SELECT count(*)
+        FROM consumosementas
+        WHERE consumos.cod_consumo = consumosementas.cod_consumo
+    ) AS n_ementas_consumidas,
+    (SELECT preco
+    FROM
+    (
+        SELECT 
+            consumosementas.cod_consumo,
+            SUM(getementas.preco) AS preco
+        FROM consumosementas
+            INNER JOIN getementas
+            ON consumosementas.cod_ementa = getementas.cod_ementa
+        WHERE consumosementas.cod_consumo = consumos.cod_consumo
+        GROUP BY consumosementas.cod_consumo
+    ) AS totalementa
+    ) AS total
+FROM consumos;
 
 -- View alergias
 CREATE OR REPLACE VIEW getalergias
