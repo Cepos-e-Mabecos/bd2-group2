@@ -8,7 +8,7 @@
 </head>
 <body>
     <?php
-        echo file_get_contents("http://api/api/clientes");
+        echo file_get_contents("http://api/api/clientes/1gN48rD50g");
     ?>
 </body>
 </html>

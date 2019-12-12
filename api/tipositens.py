@@ -2,17 +2,19 @@ from flask import Blueprint, request, jsonify
 import psycopg2
 import json
 import sys
+import databaseutils as utils
 
-tiposItens = Blueprint('tiposItens', __name__)
+tipositens = Blueprint('tipositens', __name__)
 
+tipositensColumns = ["cod_tipoitem", "designacao"]
 
-@tiposItens.route('/api/tipositens', methods=['GET'])
+@tipositens.route('/api/tipositens', methods=['GET'])
 def get_tipositens():
     try:
         connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
-        cursor.execute("call selecttipositens();")
+        cursor.execute("SELECT * FROM selecttipositens();")
         query_result = cursor.fetchall()
         connection.commit()
 
@@ -25,17 +27,17 @@ def get_tipositens():
             cursor.close()
             connection.close()
             print("PostgreSQL connection is closed")
-    return jsonify({'message': query_result}), 200
+    return jsonify({'message': utils.beautifyFetchAll(tipositensColumns, query_result)}), 200
 
 
-@tiposItens.route('/api/tipositens/<cod_TipoItem>', methods=['GET'])
+@tipositens.route('/api/tipositens/<cod_TipoItem>', methods=['GET'])
 def get_tipoitem(cod_TipoItem):
     try:
         connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
         cursor.execute(
-            "call selecttipoitem(%s);", (cod_TipoItem,))
+            "SELECT * FROM selecttipoitem(%s);", (cod_TipoItem,))
         query_result = cursor.fetchone()
         connection.commit()
 
@@ -48,10 +50,10 @@ def get_tipoitem(cod_TipoItem):
             cursor.close()
             connection.close()
             print("PostgreSQL connection is closed")
-    return jsonify({'message': query_result}), 200
+    return jsonify({'message': utils.beautifyFetchOne(tipositensColumns, query_result)}), 200
 
 
-@tiposItens.route('/api/tipositens', methods=['POST'])
+@tipositens.route('/api/tipositens', methods=['POST'])
 def post_tipoitem():
     try:
         connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
@@ -73,7 +75,7 @@ def post_tipoitem():
     return jsonify({'message': request.json}), 200
 
 
-@tiposItens.route('/api/tipositens/<cod_TipoItem>', methods=['PUT'])
+@tipositens.route('/api/tipositens/<cod_TipoItem>', methods=['PUT'])
 def put_tipoitem(cod_TipoItem):
     try:
         connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
@@ -95,7 +97,7 @@ def put_tipoitem(cod_TipoItem):
     return jsonify({'message': request.json}), 200
 
 
-@tiposItens.route('/api/tipositens/<cod_TipoItem>', methods=['DELETE'])
+@tipositens.route('/api/tipositens/<cod_TipoItem>', methods=['DELETE'])
 def delete_tipoitem(cod_TipoItem):
     try:
         connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])

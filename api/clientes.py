@@ -2,9 +2,11 @@ from flask import Blueprint, request, jsonify
 import psycopg2
 import json
 import sys
+import databaseutils as utils
 
 clientes = Blueprint('clientes', __name__)
 
+clientesColumns = ["cod_cliente", "nome", "nif"]
 
 @clientes.route('/api/clientes', methods=['GET'])
 def get_clientes():
@@ -12,7 +14,7 @@ def get_clientes():
         connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
-        cursor.execute("call selectclientes();")
+        cursor.execute("SELECT * FROM selectclientes();")
         query_result = cursor.fetchall()
         connection.commit()
 
@@ -25,7 +27,7 @@ def get_clientes():
             cursor.close()
             connection.close()
             print("PostgreSQL connection is closed")
-    return jsonify({'message': query_result}), 200
+    return jsonify({'message': utils.beautifyFetchAll(clientesColumns, query_result)}), 200
 
 
 @clientes.route('/api/clientes/<cod_Cliente>', methods=['GET'])
@@ -35,7 +37,7 @@ def get_cliente(cod_Cliente):
 
         cursor = connection.cursor()
         cursor.execute(
-            "call selectcliente(%s);", (cod_Cliente,))
+            "SELECT * FROM selectcliente(%s);", (cod_Cliente,))
         query_result = cursor.fetchone()
         connection.commit()
 
@@ -48,10 +50,11 @@ def get_cliente(cod_Cliente):
             cursor.close()
             connection.close()
             print("PostgreSQL connection is closed")
-    return jsonify({'message': query_result}), 200
+    
+    return jsonify({'message': utils.beautifyFetchOne(clientesColumns, query_result)}), 200
 
 
-@clientes.route('/api/clientes', methods=['POST'])
+clientes.route('/api/clientes', methods=['POST'])
 def post_cliente():
     try:
         connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])

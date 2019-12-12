@@ -6,12 +6,12 @@ from datasementa import datasementa
 from ementas import ementas
 from funcionarios import funcionarios
 from itens import itens
-from locaisConsumo import locaisConsumo
+from locaisconsumo import locaisconsumo
 from locais import locais
 from restaurantes import restaurantes
-from tiposEmenta import tiposEmenta
-from tiposItens import tiposItens
-from tiposRefeicao import tiposRefeicao
+from tiposementa import tiposementa
+from tipositens import tipositens
+from tiposrefeicao import tiposrefeicao
 
 
 app = flask.Flask(__name__)
@@ -23,11 +23,11 @@ app.register_blueprint(datasementa)
 app.register_blueprint(ementas)
 app.register_blueprint(funcionarios)
 app.register_blueprint(itens)
-app.register_blueprint(locaisConsumo)
+app.register_blueprint(locaisconsumo)
 app.register_blueprint(locais)
 app.register_blueprint(restaurantes)
-app.register_blueprint(tiposEmenta)
-app.register_blueprint(tiposItens)
-app.register_blueprint(tiposRefeicao)
+app.register_blueprint(tiposementa)
+app.register_blueprint(tipositens)
+app.register_blueprint(tiposrefeicao)
 
-app.run(host="0.0.0.0", port=80)
+app.run(host="0.0.0.0", port=80, debug=True)

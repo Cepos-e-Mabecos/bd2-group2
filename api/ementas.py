@@ -12,7 +12,7 @@ def get_ementas():
         connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
-        cursor.execute("call selectementas();")
+        cursor.execute("SELECT * FROM selectementas();")
         query_result = cursor.fetchall()
         connection.commit()
 
@@ -35,7 +35,7 @@ def get_ementa(cod_Ementa):
 
         cursor = connection.cursor()
         cursor.execute(
-            "call selectementa(%s);", (cod_Ementa,))
+            "SELECT * FROM selectementa(%s);", (cod_Ementa,))
         query_result = cursor.fetchone()
         connection.commit()
 
