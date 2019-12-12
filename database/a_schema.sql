@@ -19,6 +19,7 @@ CREATE TABLE locaisconsumo (
 CREATE TABLE funcionarios (
   cod_funcionario VARCHAR(10) NOT NULL,
   nome VARCHAR(256) NOT NULL,
+  ativo BOOLEAN NOT NULL DEFAULT TRUE, 
   cod_localconsumo VARCHAR(10) NOT NULL REFERENCES locaisconsumo(cod_localconsumo) ON DELETE CASCADE,
   PRIMARY KEY(cod_funcionario)
 );
