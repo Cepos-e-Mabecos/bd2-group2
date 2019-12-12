@@ -4,11 +4,11 @@ import json
 import sys
 import databaseutils as utils
 
-clientes = Blueprint('clientes', __name__)
+clientes = Blueprint("clientes", __name__)
 
 clientesColumns = ["cod_cliente", "nome", "nif"]
 
-@clientes.route('/api/clientes', methods=['GET'])
+@clientes.route("/api/clientes", methods=["GET"])
 def get_clientes():
     try:
         connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
@@ -19,7 +19,7 @@ def get_clientes():
         connection.commit()
 
     except (Exception, psycopg2.Error) as error:
-        return jsonify({'message': error}), 400
+        return jsonify({"message": error}), 400
 
     finally:
         # closing database connection.
@@ -27,10 +27,10 @@ def get_clientes():
             cursor.close()
             connection.close()
             print("PostgreSQL connection is closed")
-    return jsonify({'message': utils.beautifyFetchAll(clientesColumns, query_result)}), 200
+    return jsonify({"message": utils.beautifyFetchAll(clientesColumns, query_result)}), 200
 
 
-@clientes.route('/api/clientes/<cod_Cliente>', methods=['GET'])
+@clientes.route("/api/clientes/<cod_Cliente>", methods=["GET"])
 def get_cliente(cod_Cliente):
     try:
         connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
@@ -42,7 +42,7 @@ def get_cliente(cod_Cliente):
         connection.commit()
 
     except (Exception, psycopg2.Error) as error:
-        return jsonify({'message': error}), 400
+        return jsonify({"message": error}), 400
 
     finally:
         # closing database connection.
@@ -51,10 +51,10 @@ def get_cliente(cod_Cliente):
             connection.close()
             print("PostgreSQL connection is closed")
     
-    return jsonify({'message': utils.beautifyFetchOne(clientesColumns, query_result)}), 200
+    return jsonify({"message": utils.beautifyFetchOne(clientesColumns, query_result)}), 200
 
 
-clientes.route('/api/clientes', methods=['POST'])
+@clientes.route("/api/clientes", methods=["POST"])
 def post_cliente():
     try:
         connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
@@ -65,7 +65,7 @@ def post_cliente():
         connection.commit()
 
     except (Exception, psycopg2.Error) as error:
-        return jsonify({'message': error}), 400
+        return jsonify({"message": error}), 400
 
     finally:
         # closing database connection.
@@ -73,10 +73,10 @@ def post_cliente():
             cursor.close()
             connection.close()
             print("PostgreSQL connection is closed")
-    return jsonify({'message': request.json}), 200
+    return jsonify({"message": request.json}), 200
 
 
-@clientes.route('/api/clientes/<cod_Cliente>', methods=['PUT'])
+@clientes.route("/api/clientes/<cod_Cliente>", methods=["PUT"])
 def put_cliente(cod_Cliente):
     try:
         connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
@@ -87,7 +87,7 @@ def put_cliente(cod_Cliente):
         connection.commit()
 
     except (Exception, psycopg2.Error) as error:
-        return jsonify({'message': error}), 400
+        return jsonify({"message": error}), 400
 
     finally:
         # closing database connection.
@@ -95,10 +95,10 @@ def put_cliente(cod_Cliente):
             cursor.close()
             connection.close()
             print("PostgreSQL connection is closed")
-    return jsonify({'message': request.json}), 200
+    return jsonify({"message": request.json}), 200
 
 
-@clientes.route('/api/clientes/<cod_Cliente>', methods=['DELETE'])
+@clientes.route("/api/clientes/<cod_Cliente>", methods=["DELETE"])
 def delete_cliente(cod_Cliente):
     try:
         connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
@@ -109,7 +109,7 @@ def delete_cliente(cod_Cliente):
         connection.commit()
 
     except (Exception, psycopg2.Error) as error:
-        return jsonify({'message': error}), 400
+        return jsonify({"message": error}), 400
 
     finally:
         # closing database connection.
@@ -117,4 +117,4 @@ def delete_cliente(cod_Cliente):
             cursor.close()
             connection.close()
             print("PostgreSQL connection is closed")
-    return jsonify({'message': "Success"}), 200
+    return jsonify({"message": "Success"}), 200
