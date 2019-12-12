@@ -31,35 +31,6 @@ RETURN QUERY
 END
 $selectcliente$;
 
--- Select Consumos
-CREATE OR REPLACE FUNCTION selectconsumos()
-RETURNS TABLE (cod_consumo VARCHAR(10), data_consumo TIMESTAMP, cod_cliente VARCHAR(10), cod_funcionario VARCHAR(10))
-LANGUAGE plpgsql
-AS $selectconsumos$
-BEGIN
-
-RETURN QUERY
-    SELECT *
-    FROM getconsumos;
-
-END
-$selectconsumos$;
-
--- Select Consumo
-CREATE OR REPLACE FUNCTION selectconsumo(VARCHAR(10))
-RETURNS TABLE (cod_consumo VARCHAR(10), data_consumo TIMESTAMP, cod_cliente VARCHAR(10), cod_funcionario VARCHAR(10))
-LANGUAGE plpgsql
-AS $selectconsumo$
-BEGIN
-
-RETURN QUERY
-    SELECT *
-    FROM getconsumos
-    WHERE getconsumos.cod_consumo = $1;
-
-END
-$selectconsumo$;
-
 -- View Locais
 CREATE OR REPLACE VIEW getlocais
 AS SELECT * FROM locais;
@@ -436,6 +407,36 @@ SELECT
     ) AS totalementa
     ) AS total
 FROM consumos;
+
+-- Select Consumos
+CREATE OR REPLACE FUNCTION selectconsumos()
+RETURNS TABLE (cod_consumo VARCHAR(10), data_consumo TIMESTAMP, cod_cliente VARCHAR(10), cod_funcionario VARCHAR(10))
+LANGUAGE plpgsql
+AS $selectconsumos$
+BEGIN
+
+RETURN QUERY
+    SELECT *
+    FROM getconsumos;
+
+END
+$selectconsumos$;
+
+-- Select Consumo
+CREATE OR REPLACE FUNCTION selectconsumo(VARCHAR(10))
+RETURNS TABLE (cod_consumo VARCHAR(10), data_consumo TIMESTAMP, cod_cliente VARCHAR(10), cod_funcionario VARCHAR(10))
+LANGUAGE plpgsql
+AS $selectconsumo$
+BEGIN
+
+RETURN QUERY
+    SELECT *
+    FROM getconsumos
+    WHERE getconsumos.cod_consumo = $1;
+
+END
+$selectconsumo$;
+
 
 -- View alergias
 CREATE OR REPLACE VIEW getalergias
