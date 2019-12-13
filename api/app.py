@@ -1,4 +1,5 @@
 import flask
+from flask_cors import CORS
 from alergias import alergias
 from clientes import clientes
 from consumos import consumos
@@ -29,5 +30,7 @@ app.register_blueprint(restaurantes)
 app.register_blueprint(tiposementa)
 app.register_blueprint(tipositens)
 app.register_blueprint(tiposrefeicao)
+
+CORS(app)
 
 app.run(host="0.0.0.0", port=80, debug=True)
