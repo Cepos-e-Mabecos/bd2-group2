@@ -2,17 +2,19 @@ from flask import Blueprint, request, jsonify
 import psycopg2
 import json
 import sys
+import databaseutils as utils
 
-tiposItens = Blueprint('tiposItens', __name__)
+tiposementa = Blueprint('tiposementa', __name__)
 
+tiposementaColumns = ["cod_tipoementa", "designacao"]
 
-@tiposItens.route('/api/tipositens', methods=['GET'])
-def get_tipositens():
+@tiposementa.route('/api/tiposementa', methods=['GET'])
+def get_tiposementa():
     try:
         connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
-        cursor.execute("call selecttipositens();")
+        cursor.execute("SELECT * FROM selecttiposementa();")
         query_result = cursor.fetchall()
         connection.commit()
 
@@ -25,17 +27,17 @@ def get_tipositens():
             cursor.close()
             connection.close()
             print("PostgreSQL connection is closed")
-    return jsonify({'message': query_result}), 200
+    return jsonify({'message': utils.beautifyFetchAll(tiposementaColumns, query_result)}), 200
 
 
-@tiposItens.route('/api/tipositens/<cod_TipoItem>', methods=['GET'])
-def get_tipoitem(cod_TipoItem):
+@tiposementa.route('/api/tiposementa/<cod_TipoEmenta>', methods=['GET'])
+def get_tipoementa(cod_TipoEmenta):
     try:
         connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
         cursor.execute(
-            "call selecttipoitem(%s);", (cod_TipoItem,))
+            "SELECT * FROM selecttipoementa(%s);", (cod_TipoEmenta,))
         query_result = cursor.fetchone()
         connection.commit()
 
@@ -48,16 +50,16 @@ def get_tipoitem(cod_TipoItem):
             cursor.close()
             connection.close()
             print("PostgreSQL connection is closed")
-    return jsonify({'message': query_result}), 200
+    return jsonify({'message': utils.beautifyFetchOne(tiposementaColumns, query_result)}), 200
 
 
-@tiposItens.route('/api/tipositens', methods=['POST'])
-def post_tipoitem():
+@tiposementa.route('/api/tiposementa', methods=['POST'])
+def post_tipoementa():
     try:
         connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
-        cursor.execute("call inserttipositens(%s);",
+        cursor.execute("call inserttiposementa(%s);",
                        (json.dumps(request.json),))
         connection.commit()
 
@@ -73,14 +75,14 @@ def post_tipoitem():
     return jsonify({'message': request.json}), 200
 
 
-@tiposItens.route('/api/tipositens/<cod_TipoItem>', methods=['PUT'])
-def put_tipoitem(cod_TipoItem):
+@tiposementa.route('/api/tiposementa/<cod_TipoEmenta>', methods=['PUT'])
+def put_tipoementa(cod_TipoEmenta):
     try:
         connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
-        cursor.execute("call updatetipositens(%s,%s);",
-                       (cod_TipoItem, json.dumps(request.json)))
+        cursor.execute("call updatetiposementa(%s,%s);",
+                       (cod_TipoEmenta, json.dumps(request.json)))
         connection.commit()
 
     except (Exception, psycopg2.Error) as error:
@@ -95,14 +97,14 @@ def put_tipoitem(cod_TipoItem):
     return jsonify({'message': request.json}), 200
 
 
-@tiposItens.route('/api/tipositens/<cod_TipoItem>', methods=['DELETE'])
-def delete_tipoitem(cod_TipoItem):
+@tiposementa.route('/api/tiposementa/<cod_TipoEmenta>', methods=['DELETE'])
+def delete_tipoementa(cod_TipoEmenta):
     try:
         connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
-        cursor.execute("call deletetipositens(%s);",
-                       (cod_TipoItem,))
+        cursor.execute("call deletetiposementa(%s);",
+                       (cod_TipoEmenta,))
         connection.commit()
 
     except (Exception, psycopg2.Error) as error:

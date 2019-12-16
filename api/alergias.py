@@ -2,9 +2,11 @@ from flask import Blueprint, request, jsonify
 import psycopg2
 import json
 import sys
+import databaseutils as utils
 
 alergias = Blueprint('alergias', __name__)
 
+alergiasColumns = ["cod_alergia", "designacao"]
 
 @alergias.route('/api/alergias', methods=['GET'])
 def get_alergias():
@@ -12,7 +14,7 @@ def get_alergias():
         connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
-        cursor.execute("call selectalergias();")
+        cursor.execute("SELECT * FROM selectalergias();")
         query_result = cursor.fetchall()
         connection.commit()
 
@@ -25,7 +27,7 @@ def get_alergias():
             cursor.close()
             connection.close()
             print("PostgreSQL connection is closed")
-    return jsonify({'message': query_result}), 200
+    return jsonify({'message': utils.beautifyFetchAll(alergiasColumns, query_result)}), 200
 
 
 @alergias.route('/api/alergias/<cod_Alergia>', methods=['GET'])
@@ -34,7 +36,7 @@ def get_alergia(cod_Alergia):
         connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
-        cursor.execute("call selectalergia(%s);", (cod_Alergia,))
+        cursor.execute("SELECT * FROM selectalergia(%s);", (cod_Alergia,))
         query_result = cursor.fetchone()
         connection.commit()
 
@@ -47,7 +49,7 @@ def get_alergia(cod_Alergia):
             cursor.close()
             connection.close()
             print("PostgreSQL connection is closed")
-    return jsonify({'message': query_result}), 200
+    return jsonify({'message': utils.beautifyFetchOne(alergiasColumns, query_result)}), 200
 
 
 @alergias.route('/api/alergias', methods=['POST'])

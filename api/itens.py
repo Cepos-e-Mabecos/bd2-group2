@@ -12,7 +12,7 @@ def get_itens():
         connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
-        cursor.execute("call selectItens();")
+        cursor.execute("SELECT * FROM selectItens();")
         query_result = cursor.fetchall()
         connection.commit()
 
@@ -35,7 +35,7 @@ def get_item(cod_Item):
 
         cursor = connection.cursor()
         cursor.execute(
-            "call selectItem(%s);", (cod_Item,))
+            "SELECT * FROM selectItem(%s);", (cod_Item,))
         query_result = cursor.fetchone()
         connection.commit()
 

@@ -2,17 +2,19 @@ from flask import Blueprint, request, jsonify
 import psycopg2
 import json
 import sys
+import databaseutils as utils
 
-tiposRefeicao = Blueprint('tiposRefeicao', __name__)
+tiposrefeicao = Blueprint('tiposrefeicao', __name__)
 
+tiposrefeicaoColumns = ["cod_tiporefeicao", "designacao"]
 
-@tiposRefeicao.route('/api/tiposrefeicao', methods=['GET'])
+@tiposrefeicao.route('/api/tiposrefeicao', methods=['GET'])
 def get_tiposrefeicao():
     try:
         connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
-        cursor.execute("call selecttiposrefeicao();")
+        cursor.execute("SELECT * FROM selecttiposrefeicao();")
         query_result = cursor.fetchall()
         connection.commit()
 
@@ -25,17 +27,17 @@ def get_tiposrefeicao():
             cursor.close()
             connection.close()
             print("PostgreSQL connection is closed")
-    return jsonify({'message': query_result}), 200
+    return jsonify({'message': utils.beautifyFetchAll(tiposrefeicaoColumns, query_result)}), 200
 
 
-@tiposRefeicao.route('/api/tiposrefeicao/<cod_TipoRefeicao>', methods=['GET'])
+@tiposrefeicao.route('/api/tiposrefeicao/<cod_TipoRefeicao>', methods=['GET'])
 def get_tiporefeicao(cod_TipoRefeicao):
     try:
         connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
         cursor.execute(
-            "call selecttiporefeicao(%s);", (cod_TipoRefeicao,))
+            "SELECT * FROM selecttiporefeicao(%s);", (cod_TipoRefeicao,))
         query_result = cursor.fetchone()
         connection.commit()
 
@@ -48,10 +50,10 @@ def get_tiporefeicao(cod_TipoRefeicao):
             cursor.close()
             connection.close()
             print("PostgreSQL connection is closed")
-    return jsonify({'message': query_result}), 200
+    return jsonify({'message': utils.beautifyFetchOne(tiposrefeicaoColumns, query_result)}), 200
 
 
-@tiposRefeicao.route('/api/tiposrefeicao', methods=['POST'])
+@tiposrefeicao.route('/api/tiposrefeicao', methods=['POST'])
 def post_tiporefeicao():
     try:
         connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
@@ -73,7 +75,7 @@ def post_tiporefeicao():
     return jsonify({'message': request.json}), 200
 
 
-@tiposRefeicao.route('/api/tiposrefeicao/<cod_TipoRefeicao>', methods=['PUT'])
+@tiposrefeicao.route('/api/tiposrefeicao/<cod_TipoRefeicao>', methods=['PUT'])
 def put_tiporefeicao(cod_TipoRefeicao):
     try:
         connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
@@ -95,7 +97,7 @@ def put_tiporefeicao(cod_TipoRefeicao):
     return jsonify({'message': request.json}), 200
 
 
-@tiposRefeicao.route('/api/tiposrefeicao/<cod_TipoRefeicao>', methods=['DELETE'])
+@tiposrefeicao.route('/api/tiposrefeicao/<cod_TipoRefeicao>', methods=['DELETE'])
 def delete_tiporefeicao(cod_TipoRefeicao):
     try:
         connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])

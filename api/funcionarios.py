@@ -12,7 +12,7 @@ def get_funcionarios():
         connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
-        cursor.execute("call selectfuncionarios();")
+        cursor.execute("SELECT * FROM selectfuncionarios();")
         query_result = cursor.fetchall()
         connection.commit()
 
@@ -35,7 +35,7 @@ def get_funcionario(cod_Funcionario):
 
         cursor = connection.cursor()
         cursor.execute(
-            "call selectfuncionario(%s);", (cod_Funcionario,))
+            "SELECT * FROM selectfuncionario(%s);", (cod_Funcionario,))
         query_result = cursor.fetchone()
         connection.commit()
 

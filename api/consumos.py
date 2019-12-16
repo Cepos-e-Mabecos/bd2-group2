@@ -12,7 +12,7 @@ def get_consumos():
         connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
-        cursor.execute("call selectconsumos();")
+        cursor.execute("SELECT * FROM selectconsumos();")
         query_result = cursor.fetchall()
         connection.commit()
 
@@ -35,7 +35,7 @@ def get_consumo(cod_Consumo):
 
         cursor = connection.cursor()
         cursor.execute(
-            "call selectconsumo(%s);", (cod_Consumo,))
+            "SELECT * FROM selectconsumo(%s);", (cod_Consumo,))
         query_result = cursor.fetchone()
         connection.commit()
 

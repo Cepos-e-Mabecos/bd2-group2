@@ -2,9 +2,11 @@ from flask import Blueprint, request, jsonify
 import psycopg2
 import json
 import sys
+import databaseutils as utils
 
 datasementa = Blueprint('datasementa', __name__)
 
+datasementaColumns = ["cod_dataementa", "data_ementa"]
 
 @datasementa.route('/api/datasementa', methods=['GET'])
 def get_datasementa():
@@ -12,7 +14,7 @@ def get_datasementa():
         connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
 
         cursor = connection.cursor()
-        cursor.execute("call selectdatasementa();")
+        cursor.execute("SELECT * FROM selectdatasementa();")
         query_result = cursor.fetchall()
         connection.commit()
 
@@ -25,7 +27,7 @@ def get_datasementa():
             cursor.close()
             connection.close()
             print("PostgreSQL connection is closed")
-    return jsonify({'message': query_result}), 200
+    return jsonify({'message': utils.beautifyFetchAll(datasementaColumns, query_result)}), 200
 
 
 @datasementa.route('/api/datasementa/<cod_Data>', methods=['GET'])
@@ -35,7 +37,7 @@ def get_dataementa(cod_Data):
 
         cursor = connection.cursor()
         cursor.execute(
-            "call selectdataementa(%s);", (cod_Data,))
+            "SELECT * FROM selectdataementa(%s);", (cod_Data,))
         query_result = cursor.fetchone()
         connection.commit()
 
@@ -48,7 +50,7 @@ def get_dataementa(cod_Data):
             cursor.close()
             connection.close()
             print("PostgreSQL connection is closed")
-    return jsonify({'message': query_result}), 200
+    return jsonify({'message': utils.beautifyFetchOne(datasementaColumns, query_result)}), 200
 
 
 @datasementa.route('/api/datasementa', methods=['POST'])
