@@ -1,6 +1,16 @@
 -- View Clientes
 CREATE OR REPLACE VIEW getclientes
-AS SELECT * FROM clientes;
+AS
+SELECT
+    cod_cliente,
+    nome,
+    nif,
+    (
+        SELECT count(*)
+        FROM consumos
+        WHERE consumos.cod_cliente = clientes.cod_cliente
+    ) AS n_consumos
+FROM clientes;
 
 -- Select Clientes
 CREATE OR REPLACE FUNCTION selectclientes()
@@ -33,7 +43,16 @@ $selectcliente$;
 
 -- View Locais
 CREATE OR REPLACE VIEW getlocais
-AS SELECT * FROM locais;
+AS
+SELECT
+    cod_local,
+    designacao,
+    (
+        SELECT count(*)
+        FROM restaurantes
+        WHERE restaurantes.cod_local = locais.cod_local
+    ) AS n_restaurantes
+FROM locais;
 
 -- Select Locais
 CREATE OR REPLACE FUNCTION selectlocais()
@@ -66,7 +85,22 @@ $selectlocal$;
 
 -- View Restaurantes
 CREATE OR REPLACE VIEW getrestaurantes
-AS SELECT * FROM restaurantes;
+AS
+SELECT
+    cod_restaurante,
+    designacao,
+    cod_local,
+    (
+        SELECT count(*)
+        FROM ementas
+        WHERE ementas.cod_restaurante = restaurantes.cod_restaurante
+    ) AS n_ementas,
+    (
+        SELECT count(*)
+        FROM locaisconsumo
+        WHERE locaisconsumo.cod_restaurante = restaurantes.cod_restaurante
+    ) AS n_locaisconsumo
+FROM restaurantes;
 
 -- Select Restaurantes
 CREATE OR REPLACE FUNCTION selectrestaurantes()
@@ -99,7 +133,17 @@ $selectrestaurante$;
 
 -- View LocaisConsumo
 CREATE OR REPLACE VIEW getlocaisconsumo
-AS SELECT * FROM locaisconsumo;
+AS
+SELECT
+    cod_localconsumo,
+    designacao,
+    cod_restaurante,
+    (
+        SELECT count(*)
+        FROM funcionarios
+        WHERE funcionarios.cod_localconsumo = locaisconsumo.cod_localconsumo
+    ) AS n_funcionarios
+FROM locaisconsumo;
 
 -- Select LocaisConsumo
 CREATE OR REPLACE FUNCTION selectlocaisconsumo()
@@ -132,7 +176,17 @@ $selectlocalconsumo$;
 
 -- View Funcionarios
 CREATE OR REPLACE VIEW getfuncionarios
-AS SELECT * FROM funcionarios;
+AS
+SELECT
+    cod_funcionario,
+    nome,
+    cod_localconsumo,
+    (
+        SELECT count(*)
+        FROM consumos
+        WHERE consumos.cod_funcionario = funcionarios.cod_funcionario
+    ) AS n_consumos
+FROM funcionarios;
 
 -- Select Funcionarios
 CREATE OR REPLACE FUNCTION selectfuncionarios()
