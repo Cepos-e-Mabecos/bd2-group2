@@ -2,9 +2,11 @@ from flask import Blueprint, request, jsonify
 import psycopg2
 import json
 import sys
+import databaseutils as utils
 
 restaurantes = Blueprint('restaurantes', __name__)
 
+restaurantesColumns = ["cod_restaurante", "designacao", "cod_local", "n_ementas", "n_locaisconsumo"]
 
 @restaurantes.route('/api/restaurantes', methods=['GET'])
 def get_restaurantes():
@@ -25,7 +27,7 @@ def get_restaurantes():
             cursor.close()
             connection.close()
             print("PostgreSQL connection is closed")
-    return jsonify({'message': query_result}), 200
+    return jsonify({'message': utils.beautifyFetchAll(restaurantesColumns, query_result)}), 200
 
 
 @restaurantes.route('/api/restaurantes/<cod_Restaurante>', methods=['GET'])
@@ -48,7 +50,7 @@ def get_restaurante(cod_Restaurante):
             cursor.close()
             connection.close()
             print("PostgreSQL connection is closed")
-    return jsonify({'message': query_result}), 200
+    return jsonify({'message': utils.beautifyFetchOne(restaurantesColumns, query_result)}), 200
 
 
 @restaurantes.route('/api/restaurantes', methods=['POST'])
