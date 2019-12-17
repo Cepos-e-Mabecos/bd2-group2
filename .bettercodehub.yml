@@ -4,3 +4,4 @@ languages:
 - php
 exclude:
 - ./database/.*
+- ./web/.*
