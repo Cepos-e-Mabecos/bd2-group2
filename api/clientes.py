@@ -6,7 +6,7 @@ import databaseutils as utils
 
 clientes = Blueprint("clientes", __name__)
 
-clientesColumns = ["cod_cliente", "nome", "nif"]
+clientesColumns = ["cod_cliente", "nome", "nif", "n_consumos"]
 
 @clientes.route("/api/clientes", methods=["GET"])
 def get_clientes():

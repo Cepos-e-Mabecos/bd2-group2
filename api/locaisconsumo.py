@@ -2,9 +2,11 @@ from flask import Blueprint, request, jsonify
 import psycopg2
 import json
 import sys
+import databaseutils as utils
 
 locaisconsumo = Blueprint('locaisconsumo', __name__)
 
+locaisconsumoColumns = ["cod_localconsumo", "designacao", "cod_restaurante", "n_funcionarios"]
 
 @locaisconsumo.route('/api/locaisconsumo', methods=['GET'])
 def get_locaisconsumo():
@@ -25,7 +27,7 @@ def get_locaisconsumo():
             cursor.close()
             connection.close()
             print("PostgreSQL connection is closed")
-    return jsonify({'message': query_result}), 200
+    return jsonify({'message': utils.beautifyFetchAll(locaisconsumoColumns, query_result)}), 200
 
 
 @locaisconsumo.route('/api/locaisconsumo/<cod_LocalConsumo>', methods=['GET'])
@@ -48,7 +50,7 @@ def get_localconsumo(cod_LocalConsumo):
             cursor.close()
             connection.close()
             print("PostgreSQL connection is closed")
-    return jsonify({'message': query_result}), 200
+    return jsonify({'message': utils.beautifyFetchOne(locaisconsumoColumns, query_result)}), 200
 
 
 @locaisconsumo.route('/api/locaisconsumo', methods=['POST'])

@@ -6,7 +6,7 @@ import databaseutils as utils
 
 locais = Blueprint('locais', __name__)
 
-locaisColumns = ["cod_local", "designacao"]
+locaisColumns = ["cod_local", "designacao", "n_restaurantes"]
 
 @locais.route('/api/locais', methods=['GET'])
 def get_locais():

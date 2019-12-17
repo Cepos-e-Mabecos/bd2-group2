@@ -2,9 +2,11 @@ from flask import Blueprint, request, jsonify
 import psycopg2
 import json
 import sys
+import databaseutils as utils
 
 ementas = Blueprint('ementas', __name__)
 
+ementasColumns = ["cod_ementa", "cod_tipoementa", "cod_dataementa", "cod_tiporefeicao", "cod_restaurante", "preco"]
 
 @ementas.route('/api/ementas', methods=['GET'])
 def get_ementas():
@@ -25,7 +27,7 @@ def get_ementas():
             cursor.close()
             connection.close()
             print("PostgreSQL connection is closed")
-    return jsonify({'message': query_result}), 200
+    return jsonify({'message': utils.beautifyFetchAll(ementasColumns, query_result)}), 200
 
 
 @ementas.route('/api/ementas/<cod_Ementa>', methods=['GET'])
@@ -48,7 +50,7 @@ def get_ementa(cod_Ementa):
             cursor.close()
             connection.close()
             print("PostgreSQL connection is closed")
-    return jsonify({'message': query_result}), 200
+    return jsonify({'message': utils.beautifyFetchAll(ementasColumns, query_result)}), 200
 
 
 @ementas.route('/api/ementas', methods=['POST'])
