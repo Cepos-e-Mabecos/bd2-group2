@@ -1,7 +1,6 @@
 component_depth: 1
 languages:
 - python
-- php
 exclude:
-- ./database/.*
-- ./web/.*
+- /database/.*
+- /web/.*
