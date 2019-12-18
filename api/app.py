@@ -14,7 +14,6 @@ from tiposementa import tiposementa
 from tipositens import tipositens
 from tiposrefeicao import tiposrefeicao
 
-
 app = flask.Flask(__name__)
 
 app.register_blueprint(alergias)

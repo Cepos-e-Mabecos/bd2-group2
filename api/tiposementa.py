@@ -1,119 +1,37 @@
-from flask import Blueprint, request, jsonify
-import psycopg2
+from flask import Blueprint, request
 import json
-import sys
 import databaseutils as utils
 
-tiposementa = Blueprint('tiposementa', __name__)
+tiposementa = Blueprint("tiposementa", __name__)
 
 tiposementaColumns = ["cod_tipoementa", "designacao"]
 
-@tiposementa.route('/api/tiposementa', methods=['GET'])
+
+@tiposementa.route("/api/tiposementa", methods=["GET"])
 def get_tiposementa():
-    try:
-        connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
-
-        cursor = connection.cursor()
-        cursor.execute("SELECT * FROM selecttiposementa();")
-        query_result = cursor.fetchall()
-        connection.commit()
-
-    except (Exception, psycopg2.Error) as error:
-        return jsonify({'message': error}), 400
-
-    finally:
-        # closing database connection.
-        if(connection):
-            cursor.close()
-            connection.close()
-            print("PostgreSQL connection is closed")
-    return jsonify({'message': utils.beautifyFetchAll(tiposementaColumns, query_result)}), 200
+    return utils.getAll(tiposementaColumns,
+                        f"SELECT * FROM selecttiposementa();")
 
 
-@tiposementa.route('/api/tiposementa/<cod_TipoEmenta>', methods=['GET'])
+@tiposementa.route("/api/tiposementa/<cod_TipoEmenta>", methods=["GET"])
 def get_tipoementa(cod_TipoEmenta):
-    try:
-        connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
-
-        cursor = connection.cursor()
-        cursor.execute(
-            "SELECT * FROM selecttipoementa(%s);", (cod_TipoEmenta,))
-        query_result = cursor.fetchone()
-        connection.commit()
-
-    except (Exception, psycopg2.Error) as error:
-        return jsonify({'message': error}), 400
-
-    finally:
-        # closing database connection.
-        if(connection):
-            cursor.close()
-            connection.close()
-            print("PostgreSQL connection is closed")
-    return jsonify({'message': utils.beautifyFetchOne(tiposementaColumns, query_result)}), 200
+    return utils.getOne(tiposementaColumns,
+                        f"SELECT * FROM selecttipoementa({cod_TipoEmenta});")
 
 
-@tiposementa.route('/api/tiposementa', methods=['POST'])
+@tiposementa.route("/api/tiposementa", methods=["POST"])
 def post_tipoementa():
-    try:
-        connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
-
-        cursor = connection.cursor()
-        cursor.execute("call inserttiposementa(%s);",
-                       (json.dumps(request.json),))
-        connection.commit()
-
-    except (Exception, psycopg2.Error) as error:
-        return jsonify({'message': error}), 400
-
-    finally:
-        # closing database connection.
-        if(connection):
-            cursor.close()
-            connection.close()
-            print("PostgreSQL connection is closed")
-    return jsonify({'message': request.json}), 200
+    return utils.postOne(
+        f"CALL inserttiposementa({json.dumps(request.json)});")
 
 
-@tiposementa.route('/api/tiposementa/<cod_TipoEmenta>', methods=['PUT'])
+@tiposementa.route("/api/tiposementa/<cod_TipoEmenta>", methods=["PUT"])
 def put_tipoementa(cod_TipoEmenta):
-    try:
-        connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
-
-        cursor = connection.cursor()
-        cursor.execute("call updatetiposementa(%s,%s);",
-                       (cod_TipoEmenta, json.dumps(request.json)))
-        connection.commit()
-
-    except (Exception, psycopg2.Error) as error:
-        return jsonify({'message': error}), 400
-
-    finally:
-        # closing database connection.
-        if(connection):
-            cursor.close()
-            connection.close()
-            print("PostgreSQL connection is closed")
-    return jsonify({'message': request.json}), 200
+    return utils.putOne(
+        f"CALL updatetiposementa({cod_TipoEmenta}, {json.dumps(request.json)});"
+    )
 
 
-@tiposementa.route('/api/tiposementa/<cod_TipoEmenta>', methods=['DELETE'])
+@tiposementa.route("/api/tiposementa/<cod_TipoEmenta>", methods=["DELETE"])
 def delete_tipoementa(cod_TipoEmenta):
-    try:
-        connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
-
-        cursor = connection.cursor()
-        cursor.execute("call deletetiposementa(%s);",
-                       (cod_TipoEmenta,))
-        connection.commit()
-
-    except (Exception, psycopg2.Error) as error:
-        return jsonify({'message': error}), 400
-
-    finally:
-        # closing database connection.
-        if(connection):
-            cursor.close()
-            connection.close()
-            print("PostgreSQL connection is closed")
-    return jsonify({'message': "Success"}), 200
+    return utils.deleteOne(f"CALL deletetiposementa({cod_TipoEmenta});")
