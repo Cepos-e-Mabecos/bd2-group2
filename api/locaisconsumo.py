@@ -28,7 +28,8 @@ def get_localconsumo(cod_LocalConsumo):
 @locaisconsumo.route("/api/locaisconsumo/", methods=["POST"])
 def post_localconsumo():
     return utils.postOne(
-        f"CALL insertlocaisconsumo('{json.dumps(request.json)}');")
+        locaisconsumoColumns,
+        f"SELECT * FROM insertlocaisconsumo('{json.dumps(request.json)}');")
 
 
 @locaisconsumo.route("/api/locaisconsumo/<cod_LocalConsumo>", methods=["PUT"])

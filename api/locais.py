@@ -23,7 +23,9 @@ def get_local(cod_Local):
 @locais.route("/api/locais", methods=["POST"])
 @locais.route("/api/locais/", methods=["POST"])
 def post_local():
-    return utils.postOne(f"CALL insertlocais('{json.dumps(request.json)}');")
+    return utils.postOne(
+        locaisColumns,
+        f"SELECT * FROM insertlocais('{json.dumps(request.json)}');")
 
 
 @locais.route("/api/locais/<cod_Local>", methods=["PUT"])

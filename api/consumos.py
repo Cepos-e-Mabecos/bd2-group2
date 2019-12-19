@@ -26,7 +26,9 @@ def get_consumo(cod_Consumo):
 @consumos.route("/api/consumos", methods=["POST"])
 @consumos.route("/api/consumos/", methods=["POST"])
 def post_consumo():
-    return utils.postOne(f"CALL insertconsumos('{json.dumps(request.json)}');")
+    return utils.postOne(
+        consumosColumns,
+        f"SELECT * FROM insertconsumos('{json.dumps(request.json)}');")
 
 
 @consumos.route("/api/consumos/<cod_Consumo>", methods=["PUT"])
