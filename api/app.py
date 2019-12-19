@@ -11,7 +11,7 @@ from locaisconsumo import locaisconsumo
 from locais import locais
 from restaurantes import restaurantes
 from tiposementa import tiposementa
-from tipositens import tipositens
+from tipositem import tipositem
 from tiposrefeicao import tiposrefeicao
 
 app = flask.Flask(__name__)
@@ -27,7 +27,7 @@ app.register_blueprint(locaisconsumo)
 app.register_blueprint(locais)
 app.register_blueprint(restaurantes)
 app.register_blueprint(tiposementa)
-app.register_blueprint(tipositens)
+app.register_blueprint(tipositem)
 app.register_blueprint(tiposrefeicao)
 
 CORS(app)
