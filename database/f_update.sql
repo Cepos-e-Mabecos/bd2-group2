@@ -15,7 +15,7 @@ LANGUAGE plpgsql
 AS $updateconsumos$
 BEGIN
 
-    UPDATE consumos SET (data_consumo, cod_cliente, cod_funcionario) = (SELECT dataconsumo, cod_cliente, cod_funcionario FROM JSON_POPULATE_RECORD(NULL::consumos,$2)) WHERE cod_consumo = $1;
+    UPDATE consumos SET (data_consumo, cod_cliente, cod_funcionario) = (SELECT data_consumo, cod_cliente, cod_funcionario FROM JSON_POPULATE_RECORD(NULL::consumos,$2)) WHERE cod_consumo = $1;
 
 END
 $updateconsumos$;
