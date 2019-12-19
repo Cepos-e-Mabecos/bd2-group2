@@ -10,7 +10,7 @@ itensColumns = ["cod_item", "designacao", "custo", "cod_tipoitem"]
 @itens.route("/api/itens", methods=["GET"])
 @itens.route("/api/itens/", methods=["GET"])
 def get_itens():
-    return utils.getAll(itensColumns, f"SELECT * FROM selectiten();")
+    return utils.getAll(itensColumns, f"SELECT * FROM selectitens();")
 
 
 @itens.route("/api/itens/<cod_Item>", methods=["GET"])
