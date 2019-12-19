@@ -181,6 +181,7 @@ SELECT
     cod_funcionario,
     nome,
     cod_localconsumo,
+    ativo,
     (
         SELECT count(*)
         FROM consumos
