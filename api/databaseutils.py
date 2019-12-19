@@ -17,7 +17,7 @@ def getAll(columns, query):
         connection.commit()
 
     except (Exception, psycopg2.Error) as error:
-        return jsonify({"message": error}, 400)
+        return jsonify({"message": error}), 400
 
     finally:
         if (connection):
@@ -25,7 +25,7 @@ def getAll(columns, query):
             connection.close()
             print("PostgreSQL connection is close.")
 
-    return jsonify({"message": beautifyFetchAll(columns, query_result)}, 200)
+    return jsonify({"message": beautifyFetchAll(columns, query_result)}), 200
 
 
 def getOne(columns, query):
@@ -42,7 +42,7 @@ def getOne(columns, query):
         connection.commit()
 
     except (Exception, psycopg2.Error) as error:
-        return jsonify({"message": error}, 400)
+        return jsonify({"message": error}), 400
 
     finally:
         if (connection):
@@ -50,7 +50,7 @@ def getOne(columns, query):
             connection.close()
             print("PostgreSQL connection is close.")
 
-    return jsonify({"message": beautifyFetchOne(columns, query_result)}, 200)
+    return jsonify({"message": beautifyFetchOne(columns, query_result)}), 200
 
 
 def postOne(query):
@@ -66,7 +66,7 @@ def postOne(query):
         connection.commit()
 
     except (Exception, psycopg2.Error) as error:
-        return jsonify({"message": error}, 400)
+        return jsonify({"message": error}), 400
 
     finally:
         if (connection):
@@ -74,7 +74,7 @@ def postOne(query):
             connection.close()
             print("PostgreSQL connection is close.")
 
-    return jsonify({"message": request.json}, 200)
+    return jsonify({"message": request.json}), 200
 
 
 def putOne(query):
