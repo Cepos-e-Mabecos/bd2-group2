@@ -70,7 +70,7 @@ INSERT INTO locaisconsumo
 VALUES ('tMXmBsMYbw', 'Interior', 'gMMd0MtDuw');
 
 INSERT INTO funcionarios
-VALUES ('PYYAr9K67g', 'BrenoFuncionario', TRUE, 'x-ypRN-DpQ');
+VALUES ('PYYAr9K67g', 'BrenoFuncionario', 'x-ypRN-DpQ', TRUE) ;
 
 INSERT INTO consumos
 VALUES ('tykEWk7L-A', NOW(), '_bFWsv-uFg', 'PYYAr9K67g');
@@ -101,4 +101,4 @@ INSERT INTO locaisconsumo
 VALUES ('dKX6DTgg3w', 'Interior', 'OCrWaO9X7g');
 
 INSERT INTO funcionarios
-VALUES ('9pOoz97XDQ', 'DiogoFuncionario', TRUE, 'dKX6DTgg3w');
+VALUES ('9pOoz97XDQ', 'DiogoFuncionario', 'dKX6DTgg3w', TRUE);

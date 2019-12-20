@@ -1,10 +1,20 @@
 -- View Clientes
 CREATE OR REPLACE VIEW getclientes
-AS SELECT * FROM clientes;
+AS
+SELECT
+    cod_cliente,
+    nome,
+    nif,
+    (
+        SELECT count(*)
+        FROM consumos
+        WHERE consumos.cod_cliente = clientes.cod_cliente
+    ) AS n_consumos
+FROM clientes;
 
 -- Select Clientes
 CREATE OR REPLACE FUNCTION selectclientes()
-RETURNS TABLE (cod_cliente VARCHAR(10), nome VARCHAR(256), nif VARCHAR(9))
+RETURNS TABLE (cod_cliente VARCHAR(10), nome VARCHAR(256), nif VARCHAR(9), n_consumos BIGINT)
 LANGUAGE plpgsql
 AS $selectclientes$
 BEGIN
@@ -18,7 +28,7 @@ $selectclientes$;
 
 -- Select Cliente
 CREATE OR REPLACE FUNCTION selectcliente(VARCHAR(10))
-RETURNS TABLE (cod_cliente VARCHAR(10), nome VARCHAR(256), nif VARCHAR(9))
+RETURNS TABLE (cod_cliente VARCHAR(10), nome VARCHAR(256), nif VARCHAR(9), n_consumos BIGINT)
 LANGUAGE plpgsql
 AS $selectcliente$
 BEGIN
@@ -33,11 +43,20 @@ $selectcliente$;
 
 -- View Locais
 CREATE OR REPLACE VIEW getlocais
-AS SELECT * FROM locais;
+AS
+SELECT
+    cod_local,
+    designacao,
+    (
+        SELECT count(*)
+        FROM restaurantes
+        WHERE restaurantes.cod_local = locais.cod_local
+    ) AS n_restaurantes
+FROM locais;
 
 -- Select Locais
 CREATE OR REPLACE FUNCTION selectlocais()
-RETURNS TABLE (cod_local VARCHAR(10), designacao VARCHAR(256))
+RETURNS TABLE (cod_local VARCHAR(10), designacao VARCHAR(256), n_restaurantes BIGINT)
 LANGUAGE plpgsql
 AS $selectlocais$
 BEGIN
@@ -51,7 +70,7 @@ $selectlocais$;
 
 -- Select Local
 CREATE OR REPLACE FUNCTION selectlocal(VARCHAR(10))
-RETURNS TABLE (cod_local VARCHAR(10), designacao VARCHAR(256))
+RETURNS TABLE (cod_local VARCHAR(10), designacao VARCHAR(256), n_restaurantes BIGINT)
 LANGUAGE plpgsql
 AS $selectlocal$
 BEGIN
@@ -66,11 +85,26 @@ $selectlocal$;
 
 -- View Restaurantes
 CREATE OR REPLACE VIEW getrestaurantes
-AS SELECT * FROM restaurantes;
+AS
+SELECT
+    cod_restaurante,
+    designacao,
+    cod_local,
+    (
+        SELECT count(*)
+        FROM ementas
+        WHERE ementas.cod_restaurante = restaurantes.cod_restaurante
+    ) AS n_ementas,
+    (
+        SELECT count(*)
+        FROM locaisconsumo
+        WHERE locaisconsumo.cod_restaurante = restaurantes.cod_restaurante
+    ) AS n_locaisconsumo
+FROM restaurantes;
 
 -- Select Restaurantes
 CREATE OR REPLACE FUNCTION selectrestaurantes()
-RETURNS TABLE (cod_restaurante VARCHAR(10), designacao VARCHAR(256), cod_local VARCHAR(10))
+RETURNS TABLE (cod_restaurante VARCHAR(10), designacao VARCHAR(256), cod_local VARCHAR(10), n_ementas BIGINT, n_locaisconsumo BIGINT)
 LANGUAGE plpgsql
 AS $selectrestaurantes$
 BEGIN
@@ -84,7 +118,7 @@ $selectrestaurantes$;
 
 -- Select Restaurante
 CREATE OR REPLACE FUNCTION selectrestaurante(VARCHAR(10))
-RETURNS TABLE (cod_restaurante VARCHAR(10), designacao VARCHAR(256), cod_local VARCHAR(10))
+RETURNS TABLE (cod_restaurante VARCHAR(10), designacao VARCHAR(256), cod_local VARCHAR(10), n_ementas BIGINT, n_locaisconsumo BIGINT)
 LANGUAGE plpgsql
 AS $selectrestaurante$
 BEGIN
@@ -99,11 +133,21 @@ $selectrestaurante$;
 
 -- View LocaisConsumo
 CREATE OR REPLACE VIEW getlocaisconsumo
-AS SELECT * FROM locaisconsumo;
+AS
+SELECT
+    cod_localconsumo,
+    designacao,
+    cod_restaurante,
+    (
+        SELECT count(*)
+        FROM funcionarios
+        WHERE funcionarios.cod_localconsumo = locaisconsumo.cod_localconsumo
+    ) AS n_funcionarios
+FROM locaisconsumo;
 
 -- Select LocaisConsumo
 CREATE OR REPLACE FUNCTION selectlocaisconsumo()
-RETURNS TABLE (cod_localconsumo VARCHAR(10), designacao VARCHAR(256), cod_restaurante VARCHAR(10))
+RETURNS TABLE (cod_localconsumo VARCHAR(10), designacao VARCHAR(256), cod_restaurante VARCHAR(10), n_funcionarios BIGINT)
 LANGUAGE plpgsql
 AS $selectlocaisconsumo$
 BEGIN
@@ -117,7 +161,7 @@ $selectlocaisconsumo$;
 
 -- Select LocalConsumo
 CREATE OR REPLACE FUNCTION selectlocalconsumo(VARCHAR(10))
-RETURNS TABLE (cod_localconsumo VARCHAR(10), designacao VARCHAR(256), cod_restaurante VARCHAR(10))
+RETURNS TABLE (cod_localconsumo VARCHAR(10), designacao VARCHAR(256), cod_restaurante VARCHAR(10), n_funcionarios BIGINT)
 LANGUAGE plpgsql
 AS $selectlocalconsumo$
 BEGIN
@@ -132,11 +176,22 @@ $selectlocalconsumo$;
 
 -- View Funcionarios
 CREATE OR REPLACE VIEW getfuncionarios
-AS SELECT * FROM funcionarios;
+AS
+SELECT
+    cod_funcionario,
+    nome,
+    cod_localconsumo,
+    ativo,
+    (
+        SELECT count(*)
+        FROM consumos
+        WHERE consumos.cod_funcionario = funcionarios.cod_funcionario
+    ) AS n_consumos
+FROM funcionarios;
 
 -- Select Funcionarios
 CREATE OR REPLACE FUNCTION selectfuncionarios()
-RETURNS TABLE (cod_funcionario VARCHAR(10), nome VARCHAR(256), cod_localconsumo VARCHAR(10))
+RETURNS TABLE (cod_funcionario VARCHAR(10), nome VARCHAR(256), cod_localconsumo VARCHAR(10), ativo BOOLEAN, n_consumos BIGINT)
 LANGUAGE plpgsql
 AS $selectfuncionarios$
 BEGIN
@@ -150,7 +205,7 @@ $selectfuncionarios$;
 
 -- Select Funcionario
 CREATE OR REPLACE FUNCTION selectfuncionario(VARCHAR(10))
-RETURNS TABLE (cod_funcionario VARCHAR(10), nome VARCHAR(256), cod_localconsumo VARCHAR(10))
+RETURNS TABLE (cod_funcionario VARCHAR(10), nome VARCHAR(256), cod_localconsumo VARCHAR(10), ativo BOOLEAN, n_consumos BIGINT)
 LANGUAGE plpgsql
 AS $selectfuncionario$
 BEGIN
@@ -353,7 +408,7 @@ FROM ementas;
 
 -- Select ementas
 CREATE OR REPLACE FUNCTION selectementas()
-RETURNS TABLE (cod_ementa VARCHAR(10), cod_tipoementa VARCHAR(10), cod_dataementa VARCHAR(10), cod_tiporefeicao VARCHAR(10), cod_restaurante VARCHAR(10))
+RETURNS TABLE (cod_ementa VARCHAR(10), cod_tipoementa VARCHAR(10), cod_dataementa VARCHAR(10), cod_tiporefeicao VARCHAR(10), cod_restaurante VARCHAR(10), preco MONEY)
 LANGUAGE plpgsql
 AS $selectementas$
 BEGIN
@@ -367,7 +422,7 @@ $selectementas$;
 
 -- Select ementa
 CREATE OR REPLACE FUNCTION selectementa(VARCHAR(10))
-RETURNS TABLE (cod_ementa VARCHAR(10), cod_tipoementa VARCHAR(10), cod_dataementa VARCHAR(10), cod_tiporefeicao VARCHAR(10), cod_restaurante VARCHAR(10))
+RETURNS TABLE (cod_ementa VARCHAR(10), cod_tipoementa VARCHAR(10), cod_dataementa VARCHAR(10), cod_tiporefeicao VARCHAR(10), cod_restaurante VARCHAR(10), preco MONEY)
 LANGUAGE plpgsql
 AS $selectementa$
 BEGIN
@@ -410,7 +465,7 @@ FROM consumos;
 
 -- Select Consumos
 CREATE OR REPLACE FUNCTION selectconsumos()
-RETURNS TABLE (cod_consumo VARCHAR(10), data_consumo TIMESTAMP, cod_cliente VARCHAR(10), cod_funcionario VARCHAR(10))
+RETURNS TABLE (cod_consumo VARCHAR(10), data_consumo TIMESTAMP, cod_cliente VARCHAR(10), cod_funcionario VARCHAR(10), n_ementas_consumidas BIGINT, total MONEY)
 LANGUAGE plpgsql
 AS $selectconsumos$
 BEGIN
@@ -424,7 +479,7 @@ $selectconsumos$;
 
 -- Select Consumo
 CREATE OR REPLACE FUNCTION selectconsumo(VARCHAR(10))
-RETURNS TABLE (cod_consumo VARCHAR(10), data_consumo TIMESTAMP, cod_cliente VARCHAR(10), cod_funcionario VARCHAR(10))
+RETURNS TABLE (cod_consumo VARCHAR(10), data_consumo TIMESTAMP, cod_cliente VARCHAR(10), cod_funcionario VARCHAR(10), n_ementas_consumidas BIGINT, total MONEY)
 LANGUAGE plpgsql
 AS $selectconsumo$
 BEGIN
