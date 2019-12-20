@@ -73,7 +73,7 @@ INSERT INTO funcionarios
 VALUES ('PYYAr9K67g', 'BrenoFuncionario', 'x-ypRN-DpQ', TRUE) ;
 
 INSERT INTO consumos
-VALUES ('tykEWk7L-A', NOW(), '_bFWsv-uFg', 'PYYAr9K67g');
+VALUES ('tykEWk7L-A', "Thu, 19 Dec 2019 15:49:54 GMT", '_bFWsv-uFg', 'PYYAr9K67g');
 
 INSERT INTO ementas
 VALUES ('M10ViwLFIg', 'QCA6-9vvoA', 'tPirSbDCiw', 'PBro7fErQQ', 'gMMd0MtDuw');
