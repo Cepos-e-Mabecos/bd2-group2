@@ -6,7 +6,7 @@ INSERT INTO tipositem
 VALUES ('PowJfLXyqQ', 'Solido');
 
 INSERT INTO datasementa
-VALUES ('tPirSbDCiw', NOW());
+VALUES ('tPirSbDCiw', 'Thu, 19 Dec 2019 23:20:29 GMT');
 
 INSERT INTO tiposementa
 VALUES ('H1jv3QlW8w', 'Vegetariana');
@@ -73,7 +73,7 @@ INSERT INTO funcionarios
 VALUES ('PYYAr9K67g', 'BrenoFuncionario', 'x-ypRN-DpQ', TRUE) ;
 
 INSERT INTO consumos
-VALUES ('tykEWk7L-A', NOW(), '_bFWsv-uFg', 'PYYAr9K67g');
+VALUES ('tykEWk7L-A', 'Thu, 19 Dec 2019 15:49:54 GMT', '_bFWsv-uFg', 'PYYAr9K67g');
 
 INSERT INTO ementas
 VALUES ('M10ViwLFIg', 'QCA6-9vvoA', 'tPirSbDCiw', 'PBro7fErQQ', 'gMMd0MtDuw');
@@ -102,3 +102,7 @@ VALUES ('dKX6DTgg3w', 'Interior', 'OCrWaO9X7g');
 
 INSERT INTO funcionarios
 VALUES ('9pOoz97XDQ', 'DiogoFuncionario', 'dKX6DTgg3w', TRUE);
+
+-- Alergias
+INSERT INTO alergias 
+VALUES ('qwWs2_3lkm', 'alergia ao Breno');
