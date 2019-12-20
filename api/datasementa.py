@@ -17,8 +17,9 @@ def get_datasementa():
 @datasementa.route("/api/datasementa/<cod_DataEmenta>", methods=["GET"])
 @datasementa.route("/api/datasementa/<cod_DataEmenta>/", methods=["GET"])
 def get_dataementa(cod_DataEmenta):
-    return utils.getOne(datasementaColumns,
-                        f"SELECT * FROM selectconsumo('{cod_DataEmenta}');")
+    return utils.getOne(
+        datasementaColumns,
+        f"SELECT * FROM selectdataementa('{cod_DataEmenta}');")
 
 
 @datasementa.route("/api/datasementa", methods=["POST"])
