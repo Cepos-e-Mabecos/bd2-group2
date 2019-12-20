@@ -181,6 +181,7 @@ SELECT
     cod_funcionario,
     nome,
     cod_localconsumo,
+    ativo,
     (
         SELECT count(*)
         FROM consumos
@@ -190,7 +191,7 @@ FROM funcionarios;
 
 -- Select Funcionarios
 CREATE OR REPLACE FUNCTION selectfuncionarios()
-RETURNS TABLE (cod_funcionario VARCHAR(10), nome VARCHAR(256), cod_localconsumo VARCHAR(10), n_consumos BIGINT)
+RETURNS TABLE (cod_funcionario VARCHAR(10), nome VARCHAR(256), cod_localconsumo VARCHAR(10), ativo BOOLEAN, n_consumos BIGINT)
 LANGUAGE plpgsql
 AS $selectfuncionarios$
 BEGIN
@@ -204,7 +205,7 @@ $selectfuncionarios$;
 
 -- Select Funcionario
 CREATE OR REPLACE FUNCTION selectfuncionario(VARCHAR(10))
-RETURNS TABLE (cod_funcionario VARCHAR(10), nome VARCHAR(256), cod_localconsumo VARCHAR(10), n_consumos BIGINT)
+RETURNS TABLE (cod_funcionario VARCHAR(10), nome VARCHAR(256), cod_localconsumo VARCHAR(10), ativo BOOLEAN, n_consumos BIGINT)
 LANGUAGE plpgsql
 AS $selectfuncionario$
 BEGIN

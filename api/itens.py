@@ -1,117 +1,39 @@
-from flask import Blueprint, request, jsonify
-import psycopg2
+from flask import Blueprint, request
 import json
-import sys
+import databaseutils as utils
 
-itens = Blueprint('itens', __name__)
+itens = Blueprint("itens", __name__)
+
+itensColumns = ["cod_item", "designacao", "custo", "cod_tipoitem"]
 
 
-@itens.route('/api/itens', methods=['GET'])
+@itens.route("/api/itens", methods=["GET"])
+@itens.route("/api/itens/", methods=["GET"])
 def get_itens():
-    try:
-        connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
-
-        cursor = connection.cursor()
-        cursor.execute("SELECT * FROM selectItens();")
-        query_result = cursor.fetchall()
-        connection.commit()
-
-    except (Exception, psycopg2.Error) as error:
-        return jsonify({'message': error}), 400
-
-    finally:
-        # closing database connection.
-        if(connection):
-            cursor.close()
-            connection.close()
-            print("PostgreSQL connection is closed")
-    return jsonify({'message': query_result}), 200
+    return utils.getAll(itensColumns, f"SELECT * FROM selectitens();")
 
 
-@itens.route('/api/itens/<cod_Item>', methods=['GET'])
+@itens.route("/api/itens/<cod_Item>", methods=["GET"])
+@itens.route("/api/itens/<cod_Item>/", methods=["GET"])
 def get_item(cod_Item):
-    try:
-        connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
-
-        cursor = connection.cursor()
-        cursor.execute(
-            "SELECT * FROM selectItem(%s);", (cod_Item,))
-        query_result = cursor.fetchone()
-        connection.commit()
-
-    except (Exception, psycopg2.Error) as error:
-        return jsonify({'message': error}), 400
-
-    finally:
-        # closing database connection.
-        if(connection):
-            cursor.close()
-            connection.close()
-            print("PostgreSQL connection is closed")
-    return jsonify({'message': query_result}), 200
+    return utils.getOne(itensColumns,
+                        f"SELECT * FROM selectitem('{cod_Item}');")
 
 
-@itens.route('/api/itens', methods=['POST'])
+@itens.route("/api/itens", methods=["POST"])
+@itens.route("/api/itens/", methods=["POST"])
 def post_item():
-    try:
-        connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
-
-        cursor = connection.cursor()
-        cursor.execute("call insertitens(%s);",
-                       (json.dumps(request.json),))
-        connection.commit()
-
-    except (Exception, psycopg2.Error) as error:
-        return jsonify({'message': error}), 400
-
-    finally:
-        # closing database connection.
-        if(connection):
-            cursor.close()
-            connection.close()
-            print("PostgreSQL connection is closed")
-    return jsonify({'message': request.json}), 200
+    return utils.postOne(f"CALL insertitens('{json.dumps(request.json)}');")
 
 
-@itens.route('/api/itens/<cod_Item>', methods=['PUT'])
+@itens.route("/api/itens/<cod_Item>", methods=["PUT"])
+@itens.route("/api/itens/<cod_Item>/", methods=["PUT"])
 def put_item(cod_Item):
-    try:
-        connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
-
-        cursor = connection.cursor()
-        cursor.execute("call updateitens(%s,%s);",
-                       (cod_Item, json.dumps(request.json)))
-        connection.commit()
-
-    except (Exception, psycopg2.Error) as error:
-        return jsonify({'message': error}), 400
-
-    finally:
-        # closing database connection.
-        if(connection):
-            cursor.close()
-            connection.close()
-            print("PostgreSQL connection is closed")
-    return jsonify({'message': request.json}), 200
+    return utils.putOne(
+        f"CALL updateitens('{cod_Item}', '{json.dumps(request.json)}');")
 
 
-@itens.route('/api/itens/<cod_Item>', methods=['DELETE'])
+@itens.route("/api/itens/<cod_Item>", methods=["DELETE"])
+@itens.route("/api/itens/<cod_Item>/", methods=["DELETE"])
 def delete_item(cod_Item):
-    try:
-        connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
-
-        cursor = connection.cursor()
-        cursor.execute("call deleteitens(%s);",
-                       (cod_Item,))
-        connection.commit()
-
-    except (Exception, psycopg2.Error) as error:
-        return jsonify({'message': error}), 400
-
-    finally:
-        # closing database connection.
-        if(connection):
-            cursor.close()
-            connection.close()
-            print("PostgreSQL connection is closed")
-    return jsonify({'message': "Success"}), 200
+    return utils.deleteOne(f"CALL deleteitens('{cod_Item}');")

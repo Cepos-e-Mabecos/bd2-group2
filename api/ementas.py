@@ -1,119 +1,42 @@
-from flask import Blueprint, request, jsonify
-import psycopg2
+from flask import Blueprint, request
 import json
-import sys
 import databaseutils as utils
 
-ementas = Blueprint('ementas', __name__)
+ementas = Blueprint("ementas", __name__)
 
-ementasColumns = ["cod_ementa", "cod_tipoementa", "cod_dataementa", "cod_tiporefeicao", "cod_restaurante", "preco"]
+ementasColumns = [
+    "cod_ementa", "cod_tipoementa", "cod_dataementa", "cod_tiporefeicao",
+    "cod_restaurante", "preco"
+]
 
-@ementas.route('/api/ementas', methods=['GET'])
+
+@ementas.route("/api/ementas", methods=["GET"])
+@ementas.route("/api/ementas/", methods=["GET"])
 def get_ementas():
-    try:
-        connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
-
-        cursor = connection.cursor()
-        cursor.execute("SELECT * FROM selectementas();")
-        query_result = cursor.fetchall()
-        connection.commit()
-
-    except (Exception, psycopg2.Error) as error:
-        return jsonify({'message': error}), 400
-
-    finally:
-        # closing database connection.
-        if(connection):
-            cursor.close()
-            connection.close()
-            print("PostgreSQL connection is closed")
-    return jsonify({'message': utils.beautifyFetchAll(ementasColumns, query_result)}), 200
+    return utils.getAll(ementasColumns, f"SELECT * FROM selectementas();")
 
 
-@ementas.route('/api/ementas/<cod_Ementa>', methods=['GET'])
+@ementas.route("/api/ementas/<cod_Ementa>", methods=["GET"])
+@ementas.route("/api/ementas/<cod_Ementa>/", methods=["GET"])
 def get_ementa(cod_Ementa):
-    try:
-        connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
-
-        cursor = connection.cursor()
-        cursor.execute(
-            "SELECT * FROM selectementa(%s);", (cod_Ementa,))
-        query_result = cursor.fetchone()
-        connection.commit()
-
-    except (Exception, psycopg2.Error) as error:
-        return jsonify({'message': error}), 400
-
-    finally:
-        # closing database connection.
-        if(connection):
-            cursor.close()
-            connection.close()
-            print("PostgreSQL connection is closed")
-    return jsonify({'message': utils.beautifyFetchAll(ementasColumns, query_result)}), 200
+    return utils.getOne(ementasColumns,
+                        f"SELECT * FROM selectementa('{cod_Ementa}');")
 
 
-@ementas.route('/api/ementas', methods=['POST'])
+@ementas.route("/api/ementas", methods=["POST"])
+@ementas.route("/api/ementas/", methods=["POST"])
 def post_ementa():
-    try:
-        connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
-
-        cursor = connection.cursor()
-        cursor.execute("call insertementas(%s);",
-                       (json.dumps(request.json),))
-        connection.commit()
-
-    except (Exception, psycopg2.Error) as error:
-        return jsonify({'message': error}), 400
-
-    finally:
-        # closing database connection.
-        if(connection):
-            cursor.close()
-            connection.close()
-            print("PostgreSQL connection is closed")
-    return jsonify({'message': request.json}), 200
+    return utils.postOne(f"CALL insertementas('{json.dumps(request.json)}');")
 
 
-@ementas.route('/api/ementas/<cod_Ementa>', methods=['PUT'])
+@ementas.route("/api/ementas/<cod_Ementa>", methods=["PUT"])
+@ementas.route("/api/ementas/<cod_Ementa>/", methods=["PUT"])
 def put_ementa(cod_Ementa):
-    try:
-        connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
-
-        cursor = connection.cursor()
-        cursor.execute("call updateementas(%s,%s);",
-                       (cod_Ementa, json.dumps(request.json)))
-        connection.commit()
-
-    except (Exception, psycopg2.Error) as error:
-        return jsonify({'message': error}), 400
-
-    finally:
-        # closing database connection.
-        if(connection):
-            cursor.close()
-            connection.close()
-            print("PostgreSQL connection is closed")
-    return jsonify({'message': request.json}), 200
+    return utils.putOne(
+        f"CALL updateementas('{cod_Ementa}', '{json.dumps(request.json)}');")
 
 
-@ementas.route('/api/ementas/<cod_Ementa>', methods=['DELETE'])
+@ementas.route("/api/ementas/<cod_Ementa>", methods=["DELETE"])
+@ementas.route("/api/ementas/<cod_Ementa>/", methods=["DELETE"])
 def delete_ementa(cod_Ementa):
-    try:
-        connection = psycopg2.connect(host=sys.argv[1], port=sys.argv[2], database=sys.argv[3], user=sys.argv[4], password=sys.argv[5])
-
-        cursor = connection.cursor()
-        cursor.execute("call deleteementas(%s);",
-                       (cod_Ementa,))
-        connection.commit()
-
-    except (Exception, psycopg2.Error) as error:
-        return jsonify({'message': error}), 400
-
-    finally:
-        # closing database connection.
-        if(connection):
-            cursor.close()
-            connection.close()
-            print("PostgreSQL connection is closed")
-    return jsonify({'message': "Success"}), 200
+    return utils.deleteOne(f"CALL deleteementas('{cod_Ementa}');")
