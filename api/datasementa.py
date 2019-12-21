@@ -26,7 +26,8 @@ def get_dataementa(cod_DataEmenta):
 @datasementa.route("/api/datasementa/", methods=["POST"])
 def post_dataementa():
     return utils.postOne(
-        f"CALL insertdatasementa('{json.dumps(request.json)}');")
+        datasementaColumns,
+        f"SELECT * FROM insertdatasementa('{json.dumps(request.json)}');")
 
 
 @datasementa.route("/api/datasementa/<cod_DataEmenta>", methods=["PUT"])

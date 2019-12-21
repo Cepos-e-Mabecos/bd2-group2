@@ -23,7 +23,9 @@ def get_cliente(cod_Cliente):
 @clientes.route("/api/clientes", methods=["POST"])
 @clientes.route("/api/clientes/", methods=["POST"])
 def post_cliente():
-    return utils.postOne(f"CALL insertclientes('{json.dumps(request.json)}');")
+    return utils.postOne(
+        clientesColumns,
+        f"SELECT * FROM insertclientes('{json.dumps(request.json)}');")
 
 
 @clientes.route("/api/clientes/<cod_Cliente>", methods=["PUT"])

@@ -28,7 +28,8 @@ def get_funcionario(cod_Funcionario):
 @funcionarios.route("/api/funcionarios/", methods=["POST"])
 def post_funcionario():
     return utils.postOne(
-        f"CALL insertfuncionarios('{json.dumps(request.json)}');")
+        funcionariosColumns,
+        f"SELECT * FROM insertfuncionarios('{json.dumps(request.json)}');")
 
 
 @funcionarios.route("/api/funcionarios/<cod_Funcionario>", methods=["PUT"])

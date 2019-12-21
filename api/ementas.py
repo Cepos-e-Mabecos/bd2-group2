@@ -26,7 +26,9 @@ def get_ementa(cod_Ementa):
 @ementas.route("/api/ementas", methods=["POST"])
 @ementas.route("/api/ementas/", methods=["POST"])
 def post_ementa():
-    return utils.postOne(f"CALL insertementas('{json.dumps(request.json)}');")
+    return utils.postOne(
+        ementasColumns,
+        f"SELECT * FROM insertementas('{json.dumps(request.json)}');")
 
 
 @ementas.route("/api/ementas/<cod_Ementa>", methods=["PUT"])

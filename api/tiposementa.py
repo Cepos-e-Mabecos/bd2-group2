@@ -26,7 +26,8 @@ def get_tipoementa(cod_TipoEmenta):
 @tiposementa.route("/api/tiposementa/", methods=["POST"])
 def post_tipoementa():
     return utils.postOne(
-        f"CALL inserttiposementa('{json.dumps(request.json)}');")
+        tiposementaColumns,
+        f"SELECT * FROM inserttiposementa('{json.dumps(request.json)}');")
 
 
 @tiposementa.route("/api/tiposementa/<cod_TipoEmenta>", methods=["PUT"])

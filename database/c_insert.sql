@@ -1,160 +1,234 @@
 -- Insert Clientes
-CREATE OR REPLACE PROCEDURE insertclientes(JSON)
+CREATE OR REPLACE FUNCTION insertclientes(JSON)
+RETURNS TABLE (cod_cliente VARCHAR(10), nome VARCHAR(256), nif VARCHAR(9))
 LANGUAGE plpgsql
 AS $insertclientes$
-DECLARE cod VARCHAR(10) := generate_uid(10);
-BEGIN
-    INSERT INTO clientes SELECT cod, nome, nif FROM JSON_POPULATE_RECORD(NULL::clientes, $1);
+DECLARE _cod_cliente VARCHAR(10) := generate_uid(10);
+BEGIN    
+    INSERT INTO clientes
+    SELECT _cod_cliente, JSON_POPULATE_RECORD.nome, JSON_POPULATE_RECORD.nif
+    FROM JSON_POPULATE_RECORD(NULL::clientes, $1);
+    
+    RETURN QUERY
+        SELECT *
+        FROM clientes
+        WHERE clientes.cod_cliente = _cod_cliente;
 END
 $insertclientes$;
 
 -- Insert Consumos
-CREATE OR REPLACE PROCEDURE insertconsumos(JSON)
+CREATE OR REPLACE FUNCTION insertconsumos(JSON)
+RETURNS TABLE (cod_consumo VARCHAR(10), data_consumo TIMESTAMP, cod_cliente VARCHAR(10), cod_funcionario VARCHAR(10))
 LANGUAGE plpgsql
 AS $insertconsumos$
-DECLARE cod VARCHAR(10) := generate_uid(10);
-DECLARE dataconsumo TIMESTAMP := NOW();
+DECLARE _cod_consumo VARCHAR(10) := generate_uid(10);
+DECLARE _data_consumo TIMESTAMP := NOW();
 BEGIN
-    INSERT INTO consumos SELECT cod, dataconsumo, cod_cliente, cod_funcionario FROM JSON_POPULATE_RECORD(NULL::consumos, $1);
+    INSERT INTO consumos
+    SELECT _cod_consumo, _data_consumo, JSON_POPULATE_RECORD.cod_cliente, JSON_POPULATE_RECORD.cod_funcionario
+    FROM JSON_POPULATE_RECORD(NULL::consumos, $1);
+
+    RETURN QUERY
+        SELECT *
+        FROM consumos
+        WHERE consumos.cod_consumo = _cod_consumo;
 END
 $insertconsumos$;
 
 -- Insert Locais
-CREATE OR REPLACE PROCEDURE insertlocais(JSON)
+CREATE OR REPLACE FUNCTION insertlocais(JSON)
+RETURNS TABLE (cod_local VARCHAR(10), designacao VARCHAR(256))
 LANGUAGE plpgsql
 AS $insertlocais$
-DECLARE cod VARCHAR(10) := generate_uid(10);
+DECLARE _cod_local VARCHAR(10) := generate_uid(10);
 BEGIN
-    INSERT INTO locais SELECT cod, designacao FROM JSON_POPULATE_RECORD(NULL::locais, $1);
+    INSERT INTO locais
+    SELECT _cod_local, JSON_POPULATE_RECORD.designacao
+    FROM JSON_POPULATE_RECORD(NULL::locais, $1);
+
+    RETURN QUERY
+        SELECT *
+        FROM locais
+        WHERE locais.cod_local = _cod_local;
 END
 $insertlocais$;
 
 -- Insert Restaurantes 
-CREATE OR REPLACE PROCEDURE insertrestaurantes(JSON)
+CREATE OR REPLACE FUNCTION insertrestaurantes(JSON)
+RETURNS TABLE (cod_restaurante VARCHAR(10), designacao VARCHAR(256), cod_local VARCHAR(10))
 LANGUAGE plpgsql
 AS $insertrestaurantes$
-DECLARE cod VARCHAR(10) := generate_uid(10);
+DECLARE _cod_restaurante VARCHAR(10) := generate_uid(10);
 BEGIN
-    INSERT INTO restaurantes SELECT cod, designacao, cod_local FROM JSON_POPULATE_RECORD(NULL::restaurantes, $1);
+    INSERT INTO restaurantes
+    SELECT _cod_restaurante, JSON_POPULATE_RECORD.designacao, JSON_POPULATE_RECORD.cod_local
+    FROM JSON_POPULATE_RECORD(NULL::restaurantes, $1);
+
+    RETURN QUERY
+        SELECT *
+        FROM restaurantes
+        WHERE restaurantes.cod_restaurante = _cod_restaurante;
 END
 $insertrestaurantes$;
 
 -- Insert Funcionarios 
-CREATE OR REPLACE PROCEDURE insertfuncionarios(JSON)
+CREATE OR REPLACE FUNCTION insertfuncionarios(JSON)
+RETURNS TABLE (cod_funcionario VARCHAR(10), nome VARCHAR(256), cod_localconsumo VARCHAR(10), ativo BOOLEAN)
 LANGUAGE plpgsql
 AS $insertfuncionarios$
-DECLARE cod VARCHAR(10) := generate_uid(10);
+DECLARE _cod_funcionario VARCHAR(10) := generate_uid(10);
 BEGIN
-    INSERT INTO funcionarios SELECT cod, nome, cod_localconsumo FROM JSON_POPULATE_RECORD(NULL::funcionarios, $1);
+    INSERT INTO funcionarios
+    SELECT _cod_funcionario, JSON_POPULATE_RECORD.nome, JSON_POPULATE_RECORD.cod_localconsumo
+    FROM JSON_POPULATE_RECORD(NULL::funcionarios, $1);
+
+    RETURN QUERY
+        SELECT *
+        FROM funcionarios
+        WHERE funcionarios.cod_funcionario = _cod_funcionario;
 END
 $insertfuncionarios$;
 
 -- Insert LocaisConsumo 
-CREATE OR REPLACE PROCEDURE insertlocaisconsumo(JSON)
+CREATE OR REPLACE FUNCTION insertlocaisconsumo(JSON)
+RETURNS TABLE (cod_localconsumo VARCHAR(10), designacao VARCHAR(256), cod_restaurante VARCHAR(10))
 LANGUAGE plpgsql
 AS $insertlocaisconsumo$
-DECLARE cod VARCHAR(10) := generate_uid(10);
+DECLARE _cod_localconsumo VARCHAR(10) := generate_uid(10);
 BEGIN
-    INSERT INTO locaisconsumo SELECT cod, designacao, cod_restaurante FROM JSON_POPULATE_RECORD(NULL::locaisconsumo, $1);
+    INSERT INTO locaisconsumo
+    SELECT _cod_localconsumo, JSON_POPULATE_RECORD.designacao, JSON_POPULATE_RECORD.cod_restaurante
+    FROM JSON_POPULATE_RECORD(NULL::locaisconsumo, $1);
+
+    RETURN QUERY
+        SELECT *
+        FROM locaisconsumo
+        WHERE locaisconsumo.cod_localconsumo = _cod_localconsumo;
 END
 $insertlocaisconsumo$;
 
 -- Insert TiposEmenta 
-CREATE OR REPLACE PROCEDURE inserttiposementa(JSON)
+CREATE OR REPLACE FUNCTION inserttiposementa(JSON)
+RETURNS TABLE (cod_tipoementa VARCHAR(10), designacao VARCHAR(256))
 LANGUAGE plpgsql
 AS $inserttiposementa$
-DECLARE cod VARCHAR(10) := generate_uid(10);
+DECLARE _cod_tipoementa VARCHAR(10) := generate_uid(10);
 BEGIN
-    INSERT INTO tiposementa SELECT cod, designacao FROM JSON_POPULATE_RECORD(NULL::tiposementa, $1);
+    INSERT INTO tiposementa
+    SELECT _cod_tipoementa, JSON_POPULATE_RECORD.designacao
+    FROM JSON_POPULATE_RECORD(NULL::tiposementa, $1);
+
+    RETURN QUERY
+        SELECT *
+        FROM tiposementa
+        WHERE tiposementa.cod_tipoementa = _cod_tipoementa;
 END
 $inserttiposementa$;
 
 -- Insert TiposItem 
-CREATE OR REPLACE PROCEDURE inserttipositem(JSON)
+CREATE OR REPLACE FUNCTION inserttipositem(JSON)
+RETURNS TABLE (cod_tipoitem VARCHAR(10), designacao VARCHAR(256))
 LANGUAGE plpgsql
 AS $inserttipositem$
-DECLARE cod VARCHAR(10) := generate_uid(10);
+DECLARE _cod_tipoitem VARCHAR(10) := generate_uid(10);
 BEGIN
-    INSERT INTO tipositem SELECT cod, designacao FROM JSON_POPULATE_RECORD(NULL::tipositem, $1);
+    INSERT INTO tipositem
+    SELECT _cod_tipoitem, JSON_POPULATE_RECORD.designacao
+    FROM JSON_POPULATE_RECORD(NULL::tipositem, $1);
+
+    RETURN QUERY
+        SELECT *
+        FROM tipositem
+        WHERE tipositem.cod_tipoitem = _cod_tipoitem;
 END
 $inserttipositem$;
 
 -- Insert Itens 
-CREATE OR REPLACE PROCEDURE insertitens(JSON)
+CREATE OR REPLACE FUNCTION insertitens(JSON)
+RETURNS TABLE (cod_item VARCHAR(10), designacao VARCHAR(256), custo MONEY, cod_tipoitem VARCHAR(10))
 LANGUAGE plpgsql
 AS $insertitens$
-DECLARE cod VARCHAR(10) := generate_uid(10);
+DECLARE _cod_item VARCHAR(10) := generate_uid(10);
 BEGIN
-    INSERT INTO itens SELECT cod, designacao, custo, cod_tipoitem FROM JSON_POPULATE_RECORD(NULL::itens, $1);
+    INSERT INTO itens
+    SELECT _cod_item, JSON_POPULATE_RECORD.designacao, JSON_POPULATE_RECORD.custo, JSON_POPULATE_RECORD.cod_tipoitem
+    FROM JSON_POPULATE_RECORD(NULL::itens, $1);
+
+    RETURN QUERY
+        SELECT *
+        FROM itens
+        WHERE itens.cod_item = _cod_item;
 END
 $insertitens$;
 
 -- Insert DatasEmenta 
-CREATE OR REPLACE PROCEDURE insertdatasementa(JSON)
+CREATE OR REPLACE FUNCTION insertdatasementa(JSON)
+RETURNS TABLE (cod_dataementa VARCHAR(10), data_ementa TIMESTAMP)
 LANGUAGE plpgsql
 AS $insertdatasementa$
-DECLARE cod VARCHAR(10) := generate_uid(10);
+DECLARE _cod_dataementa VARCHAR(10) := generate_uid(10);
 BEGIN
-    INSERT INTO datasementa SELECT cod, data_ementa FROM JSON_POPULATE_RECORD(NULL::datasementa, $1);
+    INSERT INTO datasementa
+    SELECT _cod_dataementa, JSON_POPULATE_RECORD.data_ementa
+    FROM JSON_POPULATE_RECORD(NULL::datasementa, $1);
+
+    RETURN QUERY
+        SELECT *
+        FROM datasementa
+        WHERE datasementa.cod_dataementa = _cod_dataementa;
 END
 $insertdatasementa$;
 
 -- Insert TiposRefeicao 
-CREATE OR REPLACE PROCEDURE inserttiposrefeicao(JSON)
+CREATE OR REPLACE FUNCTION inserttiposrefeicao(JSON)
+RETURNS TABLE (cod_tiporefeicao VARCHAR(10), designacao VARCHAR(256))
 LANGUAGE plpgsql
 AS $inserttiposrefeicao$
-DECLARE cod VARCHAR(10) := generate_uid(10);
+DECLARE _cod_tiporefeicao VARCHAR(10) := generate_uid(10);
 BEGIN
-    INSERT INTO tiposrefeicao SELECT cod, designacao FROM JSON_POPULATE_RECORD(NULL::tiposrefeicao, $1);
+    INSERT INTO tiposrefeicao
+    SELECT _cod_tiporefeicao, JSON_POPULATE_RECORD.designacao
+    FROM JSON_POPULATE_RECORD(NULL::tiposrefeicao, $1);
+
+    RETURN QUERY
+        SELECT *
+        FROM tiposrefeicao
+        WHERE tiposrefeicao.cod_tiporefeicao = _cod_tiporefeicao;
 END
 $inserttiposrefeicao$;
 
 -- Insert Ementas 
-CREATE OR REPLACE PROCEDURE insertementas(JSON)
+CREATE OR REPLACE FUNCTION insertementas(JSON)
+RETURNS TABLE (cod_ementa VARCHAR(10), cod_tipoementa VARCHAR(10), cod_dataementa VARCHAR(10), cod_tiporefeicao VARCHAR(10), cod_restaurante VARCHAR(10))
 LANGUAGE plpgsql
 AS $insertementas$
-DECLARE cod VARCHAR(10) := generate_uid(10);
+DECLARE _cod_ementa VARCHAR(10) := generate_uid(10);
 BEGIN
-    INSERT INTO ementas SELECT cod, cod_tipoementa, cod_dataementa, cod_tiporefeicao, cod_restaurante FROM JSON_POPULATE_RECORD(NULL::ementas, $1);
+    INSERT INTO ementas
+    SELECT _cod_ementa, JSON_POPULATE_RECORD.cod_tipoementa, JSON_POPULATE_RECORD.cod_dataementa, JSON_POPULATE_RECORD.cod_tiporefeicao, JSON_POPULATE_RECORD.cod_restaurante
+    FROM JSON_POPULATE_RECORD(NULL::ementas, $1);
+    
+    RETURN QUERY
+        SELECT *
+        FROM ementas
+        WHERE ementas.cod_ementa = _cod_ementa;
 END
 $insertementas$;
 
 -- Insert Alergias 
-CREATE OR REPLACE PROCEDURE insertalergias(JSON)
+CREATE OR REPLACE FUNCTION insertalergias(JSON)
+RETURNS TABLE (cod_alergia VARCHAR(10), designacao VARCHAR(256))
 LANGUAGE plpgsql
 AS $insertalergias$
-DECLARE cod VARCHAR(10) := generate_uid(10);
+DECLARE _cod_alergia VARCHAR(10) := generate_uid(10);
 BEGIN
-    INSERT INTO alergias SELECT cod, designacao FROM JSON_POPULATE_RECORD(NULL::alergias, $1);
+    INSERT INTO alergias
+    SELECT _cod_alergia, JSON_POPULATE_RECORD.designacao
+    FROM JSON_POPULATE_RECORD(NULL::alergias, $1);
+
+    RETURN QUERY
+        SELECT *
+        FROM alergias
+        WHERE alergias.cod_alergia = _cod_alergia;
 END
 $insertalergias$;
-
--- Insert EmentasItens 
-CREATE OR REPLACE PROCEDURE insertementasitens(JSON)
-LANGUAGE plpgsql
-AS $insertementasitens$
-
-BEGIN
-    INSERT INTO ementasitens SELECT cod_ementa, cod_item FROM JSON_POPULATE_RECORD(NULL::ementasitens, $1);
-END
-$insertementasitens$;
-
--- Insert ItensAlergias 
-CREATE OR REPLACE PROCEDURE insertitensalergias(JSON)
-LANGUAGE plpgsql
-AS $insertitensalergias$
-
-BEGIN
-    INSERT INTO itensalergias SELECT cod_item, cod_alergia FROM JSON_POPULATE_RECORD(NULL::itensalergias, $1);
-END
-$insertitensalergias$;
-
--- Insert ConsumosEmentas
-CREATE OR REPLACE PROCEDURE insertconsumosementas(JSON)
-LANGUAGE plpgsql
-AS $insertconsumosementas$
-
-BEGIN
-    INSERT INTO consumosementas SELECT cod_consumo, cod_ementa FROM JSON_POPULATE_RECORD(NULL::consumosementas, $1);
-END
-$insertconsumosementas$;

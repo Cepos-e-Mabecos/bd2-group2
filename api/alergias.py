@@ -23,7 +23,9 @@ def get_alergia(cod_Alergia):
 @alergias.route("/api/alergias", methods=["POST"])
 @alergias.route("/api/alergias/", methods=["POST"])
 def post_alergia():
-    return utils.postOne(f"CALL insertalergias('{json.dumps(request.json)}');")
+    return utils.postOne(
+        alergiasColumns,
+        f"SELECT * FROM insertalergias('{json.dumps(request.json)}');")
 
 
 @alergias.route("/api/alergias/<cod_Alergia>", methods=["PUT"])
