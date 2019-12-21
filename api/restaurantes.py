@@ -29,7 +29,8 @@ def get_restaurante(cod_Restaurante):
 @restaurantes.route("/api/restaurantes/", methods=["POST"])
 def post_restaurante():
     return utils.postOne(
-        f"CALL insertrestaurantes('{json.dumps(request.json)}');")
+        restaurantesColumns,
+        f"SELECT * FROM insertrestaurantes('{json.dumps(request.json)}');")
 
 
 @restaurantes.route("/api/restaurantes/<cod_Restaurante>", methods=["PUT"])

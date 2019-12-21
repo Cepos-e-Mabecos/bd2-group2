@@ -26,7 +26,8 @@ def get_tiporefeicao(cod_TipoRefeicao):
 @tiposrefeicao.route("/api/tiposrefeicao/", methods=["POST"])
 def post_tiporefeicao():
     return utils.postOne(
-        f"CALL inserttiposrefeicao('{json.dumps(request.json)}');")
+        tiposrefeicaoColumns,
+        f"SELECT * FROM inserttiposrefeicao('{json.dumps(request.json)}');")
 
 
 @tiposrefeicao.route("/api/tiposrefeicao/<cod_TipoRefeicao>", methods=["PUT"])

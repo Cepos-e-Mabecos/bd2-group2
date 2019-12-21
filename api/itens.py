@@ -23,7 +23,9 @@ def get_item(cod_Item):
 @itens.route("/api/itens", methods=["POST"])
 @itens.route("/api/itens/", methods=["POST"])
 def post_item():
-    return utils.postOne(f"CALL insertitens('{json.dumps(request.json)}');")
+    return utils.postOne(
+        itensColumns,
+        f"SELECT * FROM insertitens('{json.dumps(request.json)}');")
 
 
 @itens.route("/api/itens/<cod_Item>", methods=["PUT"])

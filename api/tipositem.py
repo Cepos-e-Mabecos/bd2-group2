@@ -24,7 +24,8 @@ def get_tipoitem(cod_TipoItem):
 @tipositem.route("/api/tipositem/", methods=["POST"])
 def post_tipoitem():
     return utils.postOne(
-        f"CALL inserttipositem('{json.dumps(request.json)}');")
+        tipositemColumns,
+        f"SELECT * FROM inserttipositem('{json.dumps(request.json)}');")
 
 
 @tipositem.route("/api/tipositem/<cod_TipoItem>", methods=["PUT"])

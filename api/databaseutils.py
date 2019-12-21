@@ -53,7 +53,7 @@ def getOne(columns, query):
     return jsonify({"message": beautifyFetchOne(columns, query_result)}), 200
 
 
-def postOne(query):
+def postOne(columns, query):
     try:
         connection = psycopg2.connect(host=sys.argv[1],
                                       port=sys.argv[2],
@@ -63,6 +63,7 @@ def postOne(query):
 
         cursor = connection.cursor()
         cursor.execute(query)
+        query_result = cursor.fetchone()
         connection.commit()
 
     except (Exception, psycopg2.Error) as error:
@@ -74,7 +75,7 @@ def postOne(query):
             connection.close()
             print("PostgreSQL connection is close.")
 
-    return jsonify({"message": request.json}), 200
+    return jsonify({"message": beautifyFetchOne(columns, query_result)}), 200
 
 
 def putOne(query):
