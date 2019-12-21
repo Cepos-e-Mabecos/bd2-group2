@@ -4,9 +4,11 @@ services:
   - docker
 
 before_script:
+  - pip install --no-cache-dir -r tests/requirements.txt
   - docker-compose up --detach --build
 
 script:
+  - pytest tests/
   - docker ps -a
 
 after_script:

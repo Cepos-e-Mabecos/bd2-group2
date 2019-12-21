@@ -1,5 +1,5 @@
 # bd2-group2
-This repository contains our practical project for the class of distributed systems
+This repository contains our practical project for the class of database
 ## Table of Contents
 - [Status](#status)
 - [Contributing](#contributing)
@@ -43,7 +43,8 @@ git push origin <topic-branch-name>
 6. [Open a Pull Request](https://help.github.com/articles/about-pull-requests/) with a clear title and description against the `master` branch.
 
 #### Code guidelines
-- Code should follow all [Google Style](https://google.github.io/styleguide/javaguide.html) guidelines.
+- Code should follow all [Google Style](https://google.github.io/styleguide/pyguide.html) guidelines.
+- Code should be formatted according to [YAPF](https://github.com/google/yapf/).
 
 ## Implementation
 ![implementation](implementation.png)

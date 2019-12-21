@@ -1,7 +1,16 @@
 component_depth: 1
 languages:
 - python
-exclude:
-- /api/databaseutils.py
-- /database/.*
-- /web/.*
+production:
+  exclude:
+    - /tests/.*
+    - /api/databaseutils.py
+    - /database/.*
+    - /web/.*
+test:
+  exclude:
+    - /api/databaseutils.py
+    - /database/.*
+    - /web/.*
+  include:
+    - /tests/.*
