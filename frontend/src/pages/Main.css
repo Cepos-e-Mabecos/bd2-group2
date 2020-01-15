@@ -1,0 +1,29 @@
+.main-container {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 50px 0;
+    text-align: center;
+}
+
+.main-container h1 {
+    text-align: center;
+    color: #df4723;
+    font-style: italic;
+}
+
+.main-container li {
+    list-style: none;
+}
+
+.main-container ul li button {
+    margin-top: 20px;
+    border: 0;
+    border-radius: 4px;
+    height: 48px;
+    font-size: 16px;
+    background: #df4723;
+    font-weight: bold;
+    color: #fff;
+    cursor: pointer;
+    width: 160px;
+}

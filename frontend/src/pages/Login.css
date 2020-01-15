@@ -14,6 +14,7 @@
 
   .login-container form h1 {
       text-align: center;
+      font-style: italic;
   }
   
   .login-container form select {
