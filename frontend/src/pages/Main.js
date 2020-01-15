@@ -19,14 +19,6 @@ export default function Main({ match, history }) {
         loadInfo();
     }, [match.params.id]);
 
-    async function handleEmentas() {
-        const response = await api.get(`/ementas`);
-
-        const aux = response.data["message"].filter(ementa => ementa.cod_restaurante === match.params.id);
-
-        console.log(aux);
-    }
-
     return (
         <div className='main-container'>
             <Link to='/' style={{ textDecoration: 'none' }}>
