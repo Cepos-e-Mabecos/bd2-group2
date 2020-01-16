@@ -5,7 +5,6 @@ import Modal from 'react-modal';
 import './Core.css';
 
 import api from '../services/api';
-import logo from '../assets/alergias.jpg';
 import dislike from '../assets/dislike.svg';
 
 const customStyles = {
@@ -19,27 +18,29 @@ const customStyles = {
     }
 };
 
-export default function Alergias({ match }) {
-    const [alergias, setAlergias] = useState([]);
+export default function Itens() {
+    const [itens, setItens] = useState([]);
     const [modalIsOpen, setIsOpen] = useState(false);
     const [state, setState] = React.useState({
+        cod_tipoitem: "iEQzDgtEMw",
+        custo: "",
         designacao: ""
     })
 
     useEffect(() => {
         async function loadInfo() {
-            const response = await api.get(`/alergias`);
+            const response = await api.get(`/itens`);
 
-            setAlergias(response.data["message"]);
+            setItens(response.data["message"]);
         }
 
         loadInfo();
     }, []);
 
     async function handleRemove(id) {
-        await api.delete(`/alergias/${id}/`);
+        await api.delete(`/itens/${id}/`);
 
-        setAlergias(alergias.filter(alergia => alergia.cod_alergia !== id));
+        setItens(itens.filter(item => item.cod_item !== id));
     }
 
     function closeModal() {
@@ -57,7 +58,7 @@ export default function Alergias({ match }) {
     async function handleSubmit(e) {
         e.preventDefault();
 
-        await api.post(`/alergias/`, state, {
+        await api.post(`/itens/`, state, {
             headers: { "Content-Type": "application/json" }
         });
 
@@ -67,21 +68,21 @@ export default function Alergias({ match }) {
     return (
         <div className='main-container'>
             <Link to="/" style={{ textDecoration: 'none' }}>
-                <h1>Alergias</h1>
+                <h1>Itens</h1>
             </Link>
-            {alergias.length > 0 ? (
+            {itens.length > 0 ? (
                 <ul>
-                    {alergias.map(alergia => (
-
-                        <li key={alergia.cod_alergia}>
-                            <img src={logo} alt={alergia} />
+                    {itens.map(item => (
+                        <li key={item.cod_item}>
                             <footer>
-                                <p><strong>Codigo: </strong> {alergia.cod_alergia}</p>
-                                <p><strong>Designacao: </strong>{alergia.designacao}</p>
+                                <p><strong>Codigo Item: </strong> {item.cod_item}</p>
+                                <p><strong>Codigo Tipo Item: </strong> {item.cod_tipoitem}</p>
+                                <p><strong>Custo: </strong> {item.custo}</p>
+                                <p><strong>Designacao: </strong>{item.designacao}</p>
                             </footer>
 
                             <div className='buttons'>
-                                <button type='button' onClick={() => handleRemove(alergia.cod_alergia)}>
+                                <button type='button' onClick={() => handleRemove(item.cod_item)}>
                                     <img src={dislike} alt='dislike' />
                                 </button>
                             </div>
@@ -114,6 +115,21 @@ export default function Alergias({ match }) {
                             />
                         </label>
 
+                        <label>
+                            Custo:
+                            <input
+                                type="text"
+                                name="custo"
+                                onChange={handleChange}
+                            />
+                        </label>
+
+                        <label>Tipo Item:  
+                            <select name="cod_tiporefeicao" onChange={handleChange} value={state.cod_tiporefeicao}>
+                                <option key="iEQzDgtEMw" value="iEQzDgtEMw">Liquido</option>
+                                <option key="PowJfLXyqQ" value="PowJfLXyqQ">Sólido</option>
+                            </select>
+                        </label>
                         <button type='submit'>Adicionar</button>
 
                     </form>

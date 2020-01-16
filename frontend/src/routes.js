@@ -6,6 +6,7 @@ import Main from './pages/Main';
 import Ementas from './pages/Ementas';
 import Funcionarios from './pages/Funcionarios';
 import Alergias from './pages/Alergias';
+import Itens from './pages/Itens';
 
 export default function Routes() {
   return (
@@ -15,6 +16,7 @@ export default function Routes() {
       <Route path='/ementas/:id' component={Ementas} />
       <Route path='/funcionarios/:id' component={Funcionarios} />
       <Route path='/alergias' component={Alergias} />
+      <Route path='/itens' component={Itens} />
     </BrowserRouter>
   );
 }
