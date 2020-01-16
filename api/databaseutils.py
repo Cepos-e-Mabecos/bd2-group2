@@ -50,7 +50,7 @@ def getOne(columns, query):
             connection.close()
             print("PostgreSQL connection is close.")
 
-    if query_result == None:
+    if query_result is None:
         return jsonify({"message": "Not Found"}), 400
 
     return jsonify({"message": beautifyFetchOne(columns, query_result)}), 200
