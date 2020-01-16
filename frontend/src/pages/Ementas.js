@@ -19,7 +19,7 @@ const customStyles = {
   }
 };
 
-export default function Ementas({ match, history }) {
+export default function Ementas({ match }) {
   const [ementas, setEmentas] = useState({});
   const [tiposEmenta, setTiposEmenta] = useState([]);
   const [tiposRefeicao, setTiposRefeicao] = useState([]);
