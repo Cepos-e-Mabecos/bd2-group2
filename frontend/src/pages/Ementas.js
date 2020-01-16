@@ -19,7 +19,7 @@ const customStyles = {
   }
 };
 
-export default function Ementas({ match }) {
+export default function Ementas({ match, history }) {
   const [ementas, setEmentas] = useState({});
   const [tiposEmenta, setTiposEmenta] = useState([]);
   const [tiposRefeicao, setTiposRefeicao] = useState([]);
@@ -27,8 +27,8 @@ export default function Ementas({ match }) {
   const [state, setState] = React.useState({
     cod_dataementa: "tPirSbDCiw",
     cod_restaurante: match.params.id,
-    cod_tipoementa: "Vegetariana",
-    cod_tiporefeicao: "Pequeno-almoco",
+    cod_tipoementa: "H1jv3QlW8w",
+    cod_tiporefeicao: "hwHmv0WTNg",
   })
 
   useEffect(() => {
@@ -81,12 +81,12 @@ export default function Ementas({ match }) {
     e.preventDefault();
 
     console.log(state);
-    await api.post(`/ementas`, state, {
-      headers: {"Content-Type": "application/json"}
+    await api.post(`/ementas/`, state, {
+      headers: { "Content-Type": "application/json" }
     });
 
-    this.props.history.push(`/ementas/${match.params.id}`);
-}
+    window.location.reload();
+  }
 
   return (
     <div className='main-container'>
@@ -126,38 +126,43 @@ export default function Ementas({ match }) {
         style={customStyles}
         contentLabel="Example Modal"
       >
-
-        <h2>Adicionar Ementa</h2>
-        <button onClick={closeModal}>close</button>
-        <form onSubmit={handleSubmit}>
-          <label>
-            Codigo Restaurante:
+        <div className="modal-container">
+          <h2>Adicionar Ementa</h2>
+          <button onClick={closeModal}>close</button>
+          <form onSubmit={handleSubmit}>
+            <label>
+              Restaurante: 
           <input
-              type="text"
-              name="cod_restaurante"
-              value={state.cod_restaurante}
-              onChange={handleChange}
-              disabled
-            />
-          </label>
+                type="text"
+                name="cod_restaurante"
+                value={state.cod_restaurante}
+                onChange={handleChange}
+                disabled
+              />
+            </label>
 
-          <select name="cod_tiporefeicao" onChange={handleChange} value={state.cod_tiporefeicao}>
-            <option key="hwHmv0WTNg" value="hwHmv0WTNg">Pequeno-almoco</option>
-            <option key="Z-RHTrpYrw" value="Z-RHTrpYrw">Almoco</option>
-            <option key="PBro7fErQQ" value="PBro7fErQQ">Jantar</option>
-            <option key="vAXxfT8m0Q" value="vAXxfT8m0Q">Outro</option>
-          </select>
+          <label>Tipo Refeição:  
+            <select name="cod_tiporefeicao" onChange={handleChange} value={state.cod_tiporefeicao}>
+              <option key="hwHmv0WTNg" value="hwHmv0WTNg">Pequeno-almoco</option>
+              <option key="Z-RHTrpYrw" value="Z-RHTrpYrw">Almoco</option>
+              <option key="PBro7fErQQ" value="PBro7fErQQ">Jantar</option>
+              <option key="vAXxfT8m0Q" value="vAXxfT8m0Q">Outro</option>
+            </select>
+            </label>
 
-          <select name="cod_tipoementa" onChange={handleChange} value={state.cod_tipoementa}>
-            <option key="H1jv3QlW8w"  value="H1jv3QlW8w">Vegetariana</option>
-            <option key="QCA6-9vvoA"  value="QCA6-9vvoA">Carne</option>
-            <option key="eP9EHVayqA"  value="eP9EHVayqA">Peixe</option>
-            <option key="Bv506M5dQA"  value="Bv506M5dQA">Dieta</option>
-            <option key="4HWoLSl28Q"  value="4HWoLSl28Q">Outro</option>
-          </select>
-          <button type='submit'>Adicionar</button>
+            <label>Tipo Ementa:  
+            <select name="cod_tipoementa" onChange={handleChange} value={state.cod_tipoementa}>
+              <option key="H1jv3QlW8w" value="H1jv3QlW8w">Vegetariana</option>
+              <option key="QCA6-9vvoA" value="QCA6-9vvoA">Carne</option>
+              <option key="eP9EHVayqA" value="eP9EHVayqA">Peixe</option>
+              <option key="Bv506M5dQA" value="Bv506M5dQA">Dieta</option>
+              <option key="4HWoLSl28Q" value="4HWoLSl28Q">Outro</option>
+            </select>
+            </label>
+            <button type='submit'>Adicionar</button>
 
-        </form>
+          </form>
+        </div>
       </Modal>
     </div>
   );
