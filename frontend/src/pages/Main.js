@@ -28,7 +28,7 @@ export default function Main({ match, history }) {
                 <li><button onClick={() => history.push(`/ementas/${match.params.id}`)}>Ementas</button></li>
                 <li><button onClick={() => history.push(`/funcionarios/${match.params.id}`)}>Funcionarios</button></li>
                 <li><button onClick={() => history.push(`/itens/${match.params.id}`)}>Itens</button></li>
-                <li><button onClick={() => history.push(`/alergias/${match.params.id}`)}>Alergias</button></li>
+                <li><button onClick={() => history.push(`/alergias`)}>Alergias</button></li>
                 <li><button onClick={() => history.push(`/consumos/${match.params.id}`)}>Consumos</button></li>
             </ul>
         </div>

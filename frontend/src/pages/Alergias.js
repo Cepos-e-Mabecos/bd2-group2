@@ -5,7 +5,7 @@ import Modal from 'react-modal';
 import './Core.css';
 
 import api from '../services/api';
-import logo from '../assets/funcionarios.png';
+import logo from '../assets/alergias.jpg';
 import dislike from '../assets/dislike.svg';
 
 const customStyles = {
@@ -19,36 +19,27 @@ const customStyles = {
     }
 };
 
-export default function Funcionarios({ match }) {
-    const [funcionarios, setFuncionarios] = useState([]);
+export default function Alergias({ match }) {
+    const [alergias, setAlergias] = useState([]);
     const [modalIsOpen, setIsOpen] = useState(false);
     const [state, setState] = React.useState({
-        nome: "tPirSbDCiw",
-        cod_localconsumo: "x-ypRN-DpQ",
+        designacao: ""
     })
 
     useEffect(() => {
-
         async function loadInfo() {
-            const response = await api.get(`/locaisconsumo`);
-            const response1 = await api.get(`/funcionarios`);
+            const response = await api.get(`/alergias`);
 
-            const aux = response.data["message"].filter(local => local.cod_restaurante === match.params.id);
-
-            const aux2 = response1.data["message"].filter(a => aux.filter(func => func.cod_localconsumo === a.cod_localconsumo).length > 0 ? 1 : 0);
-
-            setFuncionarios(aux2);
+            setAlergias(response.data["message"]);
         }
-
-
 
         loadInfo();
     }, [match.params.id]);
 
     async function handleRemove(id) {
-        await api.delete(`/funcionarios/${id}/`);
+        await api.delete(`/alergias/${id}/`);
 
-        setFuncionarios(funcionarios.filter(funcionario => funcionario.cod_funcionario !== id));
+        setAlergias(alergias.filter(alergia => alergia.cod_alergia !== id));
     }
 
     function closeModal() {
@@ -66,7 +57,7 @@ export default function Funcionarios({ match }) {
     async function handleSubmit(e) {
         e.preventDefault();
 
-        await api.post(`/funcionarios/`, state, {
+        await api.post(`/alergias/`, state, {
             headers: { "Content-Type": "application/json" }
         });
 
@@ -76,23 +67,21 @@ export default function Funcionarios({ match }) {
     return (
         <div className='main-container'>
             <Link to="/" style={{ textDecoration: 'none' }}>
-                <h1>Funcionários</h1>
+                <h1>Alergias</h1>
             </Link>
-            {funcionarios.length > 0 ? (
+            {alergias.length > 0 ? (
                 <ul>
-                    {funcionarios.map(funcionario => (
+                    {alergias.map(alergia => (
 
-                        <li key={funcionario.cod_funcionario}>
-                            <img src={logo} alt={funcionario} />
+                        <li key={alergia.cod_alergia}>
+                            <img src={logo} alt={alergia} />
                             <footer>
-                                <p><strong>Codigo: </strong> {funcionario.cod_funcionario}</p>
-                                <p><strong>Nome: </strong>{funcionario.nome}</p>
-                                <p><strong>Local Consumo: </strong>{funcionario.cod_localconsumo}</p>
-                                <p><strong>Ativo: </strong>{funcionario.ativo === true ? "Sim" : "Não"}</p>
+                                <p><strong>Codigo: </strong> {alergia.cod_alergia}</p>
+                                <p><strong>Designacao: </strong>{alergia.designacao}</p>
                             </footer>
 
                             <div className='buttons'>
-                                <button type='button' onClick={() => handleRemove(funcionario.cod_funcionario)}>
+                                <button type='button' onClick={() => handleRemove(alergia.cod_alergia)}>
                                     <img src={dislike} alt='dislike' />
                                 </button>
                             </div>
@@ -113,23 +102,16 @@ export default function Funcionarios({ match }) {
                 contentLabel="Example Modal"
             >
                 <div className="modal-container">
-                    <h2>Adicionar Ementa</h2>
+                    <h2>Adicionar Alergia</h2>
                     <button onClick={closeModal}>close</button>
                     <form onSubmit={handleSubmit}>
                         <label>
-                            Nome:
+                            Designacao:
                             <input
                                 type="text"
-                                name="nome"
+                                name="designacao"
                                 onChange={handleChange}
                             />
-                        </label>
-
-                        <label>Tipo Refeição:
-                            <select name="cod_localconsumo" onChange={handleChange} value={state.cod_localconsumo}>
-                                <option key="x-ypRN-DpQ" value="x-ypRN-DpQ">Esplanada</option>
-                                <option key="tMXmBsMYbw" value="tMXmBsMYbw">Interior</option>
-                            </select>
                         </label>
 
                         <button type='submit'>Adicionar</button>
