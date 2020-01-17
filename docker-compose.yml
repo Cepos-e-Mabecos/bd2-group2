@@ -21,8 +21,6 @@ services:
     restart: on-failure
     image: web
     container_name: web
-    volumes:
-      - ./web:/var/www/html
     depends_on:
       - api
     ports:

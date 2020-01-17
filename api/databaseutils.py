@@ -50,6 +50,9 @@ def getOne(columns, query):
             connection.close()
             print("PostgreSQL connection is close.")
 
+    if query_result is None:
+        return jsonify({"message": "Not Found"}), 400
+
     return jsonify({"message": beautifyFetchOne(columns, query_result)}), 200
 
 
@@ -98,7 +101,7 @@ def putOne(query):
             cursor.close()
             connection.close()
             print("PostgreSQL connection is closed")
-    return jsonify({"message": request.json}), 200
+    return jsonify({"message": "Success"}), 200
 
 
 def deleteOne(query):
