@@ -7,12 +7,15 @@ RETURNS TRIGGER
 LANGUAGE plpgsql
 AS $defaultcliente$
 BEGIN
+   IF OLD.cod_cliente = '0000000000' THEN
+      RETURN OLD;
+   END IF;
 
    UPDATE consumos
    SET cod_cliente = '0000000000'
    WHERE consumos.cod_cliente = OLD.cod_cliente;
 
-   RETURN OLD; 
+   RETURN NEW; 
 
 END
 $defaultcliente$;
