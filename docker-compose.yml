@@ -16,12 +16,15 @@ services:
       - database
     ports:
       - 5000:80
-  web:
-    build: ./web
-    restart: on-failure
-    image: web
+  frontend:
+    build: ./frontend
     container_name: web
+    volumes:
+      - ./frontend:/app
+      # One-way volume to use node_modules from inside image
+      - /app/node_modules
+    ports:
+      - "3000:3000"
     depends_on:
       - api
-    ports:
-      - 5080:80
+    command: npm start

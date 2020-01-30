@@ -6,11 +6,11 @@ languages:
       - /tests/.*
       - /api/databaseutils.py
       - /database/.*
-      - /web/.*
+      - /frontend/.*
   test:
     exclude:
       - /api/databaseutils.py
       - /database/.*
-      - /web/.*
+      - /frontend/.*
     include:
       - /tests/.*
